@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
+[RequireComponent(typeof(BaseMotor))]
 public class PlayerController : MonoBehaviour {
     private const float MoveSpeed = 6;
     //private const float RotationSpeed = 270;
@@ -18,9 +19,8 @@ public class PlayerController : MonoBehaviour {
         motor = GetComponent<BaseMotor>();
         motor.Initialize(MoveSpeed);
 
-        Transform headTrans = this.transform.FindChild("Head");
-        cameraObj = GameObject.Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-        cameraObj.transform.SetParent(headTrans, false);
+        cameraObj = Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+        cameraObj.transform.SetParent(motor.Head, false);
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -67,17 +67,6 @@ public class PlayerController : MonoBehaviour {
             motor.AddForce(Vector3.up * JumpForce);
         }
     }
-
-    /*private void SetRotation() {
-        Vector3 rotationVel = transform.rotation.eulerAngles;
-
-        if (Input.GetAxis("Mouse X") > 0)
-            rotationVel += Vector3.up * RotationSpeed * Time.deltaTime;
-        if (Input.GetAxis("Mouse X") < 0)
-            rotationVel += Vector3.up * -RotationSpeed * Time.deltaTime;
-
-        motor.SetRotateDestination(rotationVel);
-    }*/
 
     private void ControlCamera()
     {

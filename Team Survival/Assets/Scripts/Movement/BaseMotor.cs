@@ -11,7 +11,11 @@ public class BaseMotor : MonoBehaviour {
 
     private LayerMask terrainLayerMask;
     private bool grounded = false;
+
     public bool IsGrounded { get { return grounded; } }
+
+    public Transform Body { get; private set; }
+    public Transform Head { get; private set; }
 
     public void Initialize(float moveSpeed) {
         this.moveSpeed = moveSpeed;
@@ -25,6 +29,9 @@ public class BaseMotor : MonoBehaviour {
         addedForce = Vector3.zero;
 
         terrainLayerMask = 1 << 8; //1 << 8;
+
+        Body = transform.FindChild("Body");
+        Head = transform.FindChild("Head");
     }
 
     private void RaycastToGround() {
