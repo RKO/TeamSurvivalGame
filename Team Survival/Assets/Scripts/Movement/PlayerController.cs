@@ -2,10 +2,10 @@
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-    private const float MoveSpeed = 4;
-    private const float RotationSpeed = 270;
-    private const float CameraRotationSpeed = 100;
-    private const float JumpForce = 5;
+    private const float MoveSpeed = 6;
+    //private const float RotationSpeed = 270;
+    private const float CameraRotationSpeed = 300;
+    private const float JumpForce = 6;
 
     public GameObject cameraPrefab;
 
@@ -24,12 +24,16 @@ public class PlayerController : MonoBehaviour {
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        SmoothMouseLook mouseLook = gameObject.AddComponent<SmoothMouseLook>();
+        mouseLook.axes = SmoothMouseLook.RotationAxes.MouseX;
+        mouseLook.sensitivityX = 7;
     }
 
     // Update is called once per frame
     void Update() {
         SetMovement();
-        SetRotation();
+        //SetRotation();
         ControlCamera();
     }
 
@@ -64,7 +68,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    private void SetRotation() {
+    /*private void SetRotation() {
         Vector3 rotationVel = transform.rotation.eulerAngles;
 
         if (Input.GetAxis("Mouse X") > 0)
@@ -73,7 +77,7 @@ public class PlayerController : MonoBehaviour {
             rotationVel += Vector3.up * -RotationSpeed * Time.deltaTime;
 
         motor.SetRotateDestination(rotationVel);
-    }
+    }*/
 
     private void ControlCamera()
     {
@@ -82,5 +86,12 @@ public class PlayerController : MonoBehaviour {
         float newRotY = cameraObj.transform.localEulerAngles.x - rotationY;
         newRotY = MathUtil.ClampAngle(newRotY, -35, 35);
         cameraObj.transform.localEulerAngles = new Vector3(newRotY, 0, 0);
+    }
+
+    public void SetLookQuaternion(Quaternion q) {
+        Vector3 rot = q.eulerAngles;
+
+        Vector3 rotation = new Vector3(0, rot.y, 0);
+        motor.SetRotateDestination(rotation);
     }
 }
