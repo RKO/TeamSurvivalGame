@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         SetMovement();
-        //SetRotation();
         ControlCamera();
     }
 
@@ -60,7 +59,7 @@ public class PlayerController : MonoBehaviour {
             moveDir += (transform.right);
         }
 
-        motor.SetMoveDirection(moveDir);
+        motor.SetMoveDirection(moveDir.normalized);
 
         if (Input.GetKeyDown(KeyCode.Space) && motor.IsGrounded)
         {
