@@ -4,6 +4,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour {
     private SpawnPoint[] spawnPoints;
     private WaveConfig waveConfig;
+    private Transform unitsTrans;
 
     public bool IsRunning { get; private set; }
 
@@ -18,6 +19,9 @@ public class SpawnManager : MonoBehaviour {
         waveConfig = FindObjectOfType<WaveConfig>();
         if (waveConfig == null)
             Debug.LogWarning("No WaveConfig found.");
+
+        unitsTrans = new GameObject("Units").transform;
+        unitsTrans.SetParent(this.transform, false);
     }
 
     public void StartSpawning() {
@@ -79,7 +83,8 @@ public class SpawnManager : MonoBehaviour {
                     spawnPosition = spawnPoint.spawnBox.GetRandomPointInCollider();
                 }
 
-                Instantiate(wave.UnitPrefab, spawnPosition, spawnPoint.transform.rotation);
+                GameObject unit = Instantiate(wave.UnitPrefab, spawnPosition, spawnPoint.transform.rotation) as GameObject;
+                unit.transform.SetParent(unitsTrans, true);
             }
 
             yield return new WaitForSeconds(1);
