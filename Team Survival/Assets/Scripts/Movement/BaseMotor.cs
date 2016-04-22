@@ -92,7 +92,8 @@ public class BaseMotor : MonoBehaviour {
     }
 
     public void SetMoveDirection(Vector3 dir) {
-        moveDirection = dir;
+        //Normalize the direction, as controllers might forget it.
+        moveDirection = dir.normalized;
     }
 
     public void SetRotateDestination(Vector3 dir)

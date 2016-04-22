@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour {
             moveDir += (transform.right);
         }
 
-        motor.SetMoveDirection(moveDir.normalized);
+        motor.SetMoveDirection(moveDir);
 
         if (Input.GetKeyDown(KeyCode.Space) && motor.IsGrounded)
         {
