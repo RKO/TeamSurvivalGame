@@ -6,6 +6,10 @@ public class GoalZone : MonoBehaviour {
     {
         Debug.Log("Unit Reached the goal zone!");
         //TODO Register the death at a "UnitManager" script.
-        Destroy(other.gameObject);
+
+        //Don't destroy players. 
+        //TODO Add a way to identify "teams".
+        if(other.gameObject.GetComponent<UnitController>() != null)
+            Destroy(other.gameObject);
     }
 }
