@@ -105,6 +105,7 @@
     <Compile Include="Assets\Scripts\Movement\BaseMotor.cs" />
     <Compile Include="Assets\Scripts\Movement\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Movement\SmoothMouseLook.cs" />
+    <Compile Include="Assets\Scripts\Movement\UnitController.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\SpawnManager.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\SpawnPoint.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\Wave.cs" />
