@@ -14,10 +14,6 @@ public class UnitManager {
         }
     }
 
-    public int GetUnitCount(Team team) {
-        return _unitsByTeam[team].Count;
-    }
-
     public void AddUnit(IUnit unit)
     {
         _unitsByTeam[unit.GetTeam].Add(unit);
@@ -31,5 +27,14 @@ public class UnitManager {
     public void KillUnit(IUnit unit)
     {
         RemoveUnit(unit);
+    }
+
+    public List<IUnit> GetUnits(Team team) {
+        return _unitsByTeam[team];
+    }
+
+    public int GetUnitCount(Team team)
+    {
+        return _unitsByTeam[team].Count;
     }
 }

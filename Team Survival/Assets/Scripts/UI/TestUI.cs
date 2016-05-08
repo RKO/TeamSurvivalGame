@@ -2,16 +2,22 @@
 using UnityEngine.UI;
 
 public class TestUI : MonoBehaviour {
-    private Text _text;
-
-
-	// Use this for initialization
-	void Start () {
-        _text = GetComponentInChildren<Text>();
-    }
+    private GameManager _gameManager;
+    public Text _waveText;
+    public Text _enemiesLeftText;
 	
+    void Start () {
+        _gameManager = GameManager.Instance;
+    }
+
 	// Update is called once per frame
 	void Update () {
-        _text.text = "Enemies Left: " + GameManager.Instance.unitManager.GetUnitCount(Team.Enemies);
+        SpawnManager spawnManager = _gameManager.spawnManager;
+
+        int wave = Mathf.Min(spawnManager.CurrentWave + 1, spawnManager.WaveCount);
+
+        _waveText.text = "Wave " + wave + "/" + spawnManager.WaveCount;
+
+        _enemiesLeftText.text = "Enemies Left: " + _gameManager.unitManager.GetUnitCount(Team.Enemies);
     }
 }

@@ -8,7 +8,9 @@ public class SpawnManager : MonoBehaviour {
 
     public bool IsRunning { get; private set; }
 
-    private int currentWave = 0;
+    public int CurrentWave { get; private set; }
+
+    public int WaveCount { get { return waveConfig.waves.Count; } }
 
     // Use this for initialization
     void Start () {
@@ -48,17 +50,17 @@ public class SpawnManager : MonoBehaviour {
         }
 
         //No more waves.
-        if (currentWave >= waveConfig.waves.Count) {
+        if (CurrentWave >= waveConfig.waves.Count) {
             GameManager.Instance.DisplayGlobalMessage("The last wave has spawned!");
             IsRunning = false;
             return;
         }
 
 
-        Wave wave = waveConfig.waves[currentWave];
+        Wave wave = waveConfig.waves[CurrentWave];
         //Current wave is finished, pick the next one.
         if (wave.isDone) {
-            currentWave++;
+            CurrentWave++;
             //TODO Wait time between waves.
             return;
         }
@@ -66,7 +68,7 @@ public class SpawnManager : MonoBehaviour {
         //If the current wave has not been started, start it.
         if (!wave.isSpawning) {
             wave.isSpawning = true;
-            GameManager.Instance.DisplayGlobalMessage("Starting wave "+(currentWave+1)+"/"+ waveConfig.waves.Count);
+            GameManager.Instance.DisplayGlobalMessage("Starting wave "+(CurrentWave+1)+"/"+ waveConfig.waves.Count);
 
             StartCoroutine(SpawnSingleWave(wave));
         }
