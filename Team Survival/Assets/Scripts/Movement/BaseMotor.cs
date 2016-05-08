@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BaseMotor : MonoBehaviour {
     private Vector3 moveDirection;

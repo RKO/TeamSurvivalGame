@@ -49,7 +49,7 @@ public class SpawnManager : MonoBehaviour {
 
         //No more waves.
         if (currentWave >= waveConfig.waves.Count) {
-            GameManager.Instance.DisplayGlobalMessage("The last wave has been defeated!");
+            GameManager.Instance.DisplayGlobalMessage("The last wave has spawned!");
             IsRunning = false;
             return;
         }
