@@ -4,12 +4,13 @@
 public class GoalZone : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Unit Reached the goal zone!");
-        //TODO Register the death at a "UnitManager" script.
-
-        //Don't destroy players. 
-        //TODO Add a way to identify "teams".
-        if(other.gameObject.GetComponent<UnitController>() != null)
+        //Only destroy Enemies.
+        IUnit unit = other.gameObject.GetComponent<IUnit>();
+        if (unit != null && unit.GetTeam == Team.Enemies)
+        {
+            //TODO Remove a life from players.
+            //Death is automatically registered by BaseUnit scripts.
             Destroy(other.gameObject);
+        }
     }
 }

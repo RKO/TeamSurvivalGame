@@ -1,8 +1,7 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(BaseMotor))]
-public class PlayerController : MonoBehaviour {
+public class PlayerController : BaseUnit {
     private const float MoveSpeed = 6;
     //private const float RotationSpeed = 270;
     private const float CameraRotationSpeed = 300;
@@ -12,10 +11,14 @@ public class PlayerController : MonoBehaviour {
 
     private BaseMotor motor;
     private GameObject cameraObj;
-    
 
-	// Use this for initialization
-	void Start () {
+    public override Team GetTeam {
+        get { return Team.Players; }
+    }
+
+
+    // Use this for initialization
+    void Start () {
         motor = GetComponent<BaseMotor>();
         motor.Initialize(MoveSpeed);
 

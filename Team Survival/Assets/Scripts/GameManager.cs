@@ -1,23 +1,24 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class GameManager : MonoBehaviour {
     public static GameManager Instance { get; private set; }
 
     public SpawnManager spawnManager;
     public Transform goal;
+    public UnitManager unitManager;
 
     // Use this for initialization
     void Awake () {
         Instance = this;
+
+        spawnManager = gameObject.AddComponent<SpawnManager>();
+        unitManager = new UnitManager();
     }
 
     void Start() {
-        spawnManager = gameObject.AddComponent<SpawnManager>();
+        goal = FindObjectOfType<GoalZone>().transform;
 
         spawnManager.StartSpawning();
-
-        goal = GameObject.FindObjectOfType<GoalZone>().transform;
     }
 
     public void DisplayGlobalMessage(string message) {

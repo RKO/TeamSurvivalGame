@@ -1,13 +1,18 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(BaseMotor))]
-public class UnitController : MonoBehaviour {
+public class UnitController : BaseUnit {
     private const float MoveSpeed = 6;
     private BaseMotor _motor;
     private NavMeshPath _path;
     private Transform[] _waypoints;
     private int _waypointIndex;
     public Transform _currentWaypoint;
+
+    public override Team GetTeam
+    {
+        get { return Team.Enemies; } //TODO be able to spawn friendly and neutral units.
+    }
 
     // Use this for initialization
     void Start () {
