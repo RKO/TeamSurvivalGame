@@ -85,6 +85,9 @@ public class SpawnManager : MonoBehaviour {
 
                 GameObject unit = Instantiate(wave.UnitPrefab, spawnPosition, spawnPoint.transform.rotation) as GameObject;
                 unit.transform.SetParent(unitsTrans, true);
+
+                UnitController controller = unit.GetComponent<UnitController>();
+                controller.SetPathWaypoints(spawnPoint.waypoints);
             }
 
             yield return new WaitForSeconds(1);

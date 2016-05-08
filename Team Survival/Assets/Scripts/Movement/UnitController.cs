@@ -5,7 +5,9 @@ public class UnitController : MonoBehaviour {
     private const float MoveSpeed = 6;
     private BaseMotor _motor;
     private NavMeshPath _path;
-    private Transform _goal;
+    private Transform[] _waypoints;
+    private int _waypointIndex;
+    public Transform _currentWaypoint;
 
     // Use this for initialization
     void Start () {
@@ -13,20 +15,30 @@ public class UnitController : MonoBehaviour {
         _motor.Body.GetComponent<Renderer>().material.color = Color.red;
 
         _motor.Initialize(MoveSpeed);
+    }
 
-        _goal = GameManager.Instance.goal;
-        if (_goal == null)
-            Debug.LogError("ERROR: No Goal transform found on GameManager!");
+    public void SetPathWaypoints(Transform[] waypoints) {
+        _waypoints = waypoints;
+        _waypointIndex = 0;
     }
 	
 	// Update is called once per frame
 	void Update () {
+        CheckWaypoint();
+
+        if (_currentWaypoint == null)
+        {
+            _path = null;
+            return;
+        }
+
         if (_path == null) {
             if(_motor.IsGrounded)
-                _path = FindPath(transform.position, _goal.position);
+                _path = FindPath(transform.position, _waypoints[_waypointIndex].position);
             return;
         }
         
+        //Debug lines
         for (int i = 1; i < _path.corners.Length; i++)
         {
             Vector3 start = _path.corners[i-1];
@@ -37,6 +49,28 @@ public class UnitController : MonoBehaviour {
 
         Stear();
 	}
+
+    private void CheckWaypoint() {
+        if (_waypoints.Length == 0 || _waypointIndex >= _waypoints.Length)
+            return;
+
+        bool newPath = false;
+        if (_currentWaypoint == null)
+        {
+            _currentWaypoint = _waypoints[_waypointIndex];
+            newPath = true;
+        }
+        else if (Vector3.Distance(transform.position, _currentWaypoint.position) < 2)
+        {
+            newPath = true;
+            _waypointIndex++;
+            _currentWaypoint = _waypoints[_waypointIndex];
+        }
+
+        if (newPath) {
+            _path = FindPath(transform.position, _currentWaypoint.position);
+        }
+    }
 
     private void Stear() {
         if (_path == null)
@@ -49,11 +83,13 @@ public class UnitController : MonoBehaviour {
         }
 
         Vector3 nextPoint = _path.corners[1];
+        //When the unit gets to the point, calculate a route to the next point.
         if (Vector3.Distance(transform.position, nextPoint) < 0.25)
         {
-            _path = FindPath(nextPoint, _goal.position);
+            _path = FindPath(nextPoint, _currentWaypoint.position);
             return;
         }
+
 
         Vector3 dir = nextPoint - transform.position;
 
