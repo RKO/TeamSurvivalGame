@@ -24,6 +24,10 @@ public class UnitManager {
         _unitsByTeam[unit.GetTeam].Remove(unit);
     }
 
+    public void RemovePlayer() {
+
+    }
+
     public void KillUnit(IUnit unit)
     {
         RemoveUnit(unit);

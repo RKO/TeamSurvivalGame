@@ -12,6 +12,8 @@ public class SpawnManager : MonoBehaviour {
 
     public int WaveCount { get { return waveConfig.waves.Count; } }
 
+    public WaveConfig WaveCfg { get { return waveConfig; } }
+
     // Use this for initialization
     void Start () {
         spawnPoints = FindObjectsOfType<SpawnPoint>();
@@ -24,6 +26,8 @@ public class SpawnManager : MonoBehaviour {
 
         unitsTrans = new GameObject("Units").transform;
         unitsTrans.SetParent(this.transform, false);
+
+        this.gameObject.AddComponent<SpawnManagerNetwork>();
     }
 
     public void StartSpawning() {

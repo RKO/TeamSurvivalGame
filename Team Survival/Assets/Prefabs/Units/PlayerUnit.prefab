@@ -30,8 +30,9 @@ GameObject:
   - 54: {fileID: 5491768}
   - 114: {fileID: 11444998}
   - 114: {fileID: 11419794}
+  - 114: {fileID: 11451118}
   m_Layer: 0
-  m_Name: Player
+  m_Name: PlayerUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -180,6 +181,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae35e7c133054674985bd79c191f9689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11451118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 166
+    i1: 88
+    i2: 149
+    i3: 40
+    i4: 143
+    i5: 204
+    i6: 9
+    i7: 68
+    i8: 235
+    i9: 111
+    i10: 178
+    i11: 154
+    i12: 134
+    i13: 58
+    i14: 162
+    i15: 200
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
