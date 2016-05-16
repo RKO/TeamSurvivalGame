@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public abstract class BaseUnit : MonoBehaviour, IUnit {
+public abstract class BaseUnit : NetworkBehaviour, IUnit {
     public abstract Team GetTeam { get; }
 
     private void Awake() {

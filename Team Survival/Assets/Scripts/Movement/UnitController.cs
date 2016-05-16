@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(BaseMotor))]
 public class UnitController : BaseUnit {
@@ -28,6 +29,7 @@ public class UnitController : BaseUnit {
     }
 	
 	// Update is called once per frame
+    [ServerCallback]
 	void Update () {
         CheckWaypoint();
 

@@ -18,12 +18,27 @@ public class MyNetworkManager : NetworkManager {
 		var playerObj = (GameObject)Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 
         Player player = playerObj.GetComponent<Player>();
-        player.Initialize(playerNumber);
+
+
+        // -------------- Player Body -------------- //
+
+        //Spawn the body of the player.
+        Vector3 spawnPoint = new Vector3(0, 5, 11);
+        //TODO Get the prefab from somewhere that makes sense.
+        GameObject bodyPrefab = spawnPrefabs[0];
+
+        GameObject playerBody = Instantiate(bodyPrefab, spawnPoint, Quaternion.identity) as GameObject;
+        NetworkServer.Spawn(playerBody);
+
+        // -------------- Player -------------- //
+
+        player.Initialize(playerNumber, playerBody.GetComponent<NetworkIdentity>());
         _players.Add(playerNumber, player);
 
         //Spawn on network.
         NetworkServer.AddPlayerForConnection(conn, playerObj, playerControllerId);
-	}
+
+    }
 
     public override void OnMatchCreate(UnityEngine.Networking.Match.CreateMatchResponse resp) {
         base.OnMatchCreate(resp);

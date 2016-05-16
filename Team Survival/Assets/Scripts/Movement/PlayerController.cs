@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(BaseMotor))]
 public class PlayerController : BaseUnit {
@@ -7,18 +8,18 @@ public class PlayerController : BaseUnit {
     private const float CameraRotationSpeed = 300;
     private const float JumpForce = 6;
 
-    public GameObject cameraPrefab;
+    //public GameObject cameraPrefab;
 
     private BaseMotor motor;
     private GameObject cameraObj;
+
+    private bool _initialized = false;
 
     public override Team GetTeam {
         get { return Team.Players; }
     }
 
-
-    // Use this for initialization
-    void Start () {
+    public void Initialize (GameObject cameraPrefab) {
         motor = GetComponent<BaseMotor>();
         motor.Initialize(MoveSpeed);
 
@@ -31,12 +32,17 @@ public class PlayerController : BaseUnit {
         SmoothMouseLook mouseLook = gameObject.AddComponent<SmoothMouseLook>();
         mouseLook.axes = SmoothMouseLook.RotationAxes.MouseX;
         mouseLook.sensitivityX = 7;
+
+        _initialized = true;
     }
 
     // Update is called once per frame
     void Update() {
-        SetMovement();
-        ControlCamera();
+        if (_initialized)
+        {
+            SetMovement();
+            ControlCamera();
+        }
     }
 
     private void SetMovement() {

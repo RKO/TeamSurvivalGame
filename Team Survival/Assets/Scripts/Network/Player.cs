@@ -3,16 +3,31 @@ using UnityEngine.Networking;
 
 
 public class Player : NetworkBehaviour {
+    public GameObject CameraPrefab;
+
     public int PlayerID { get; private set; }
 
-    public void Initialize(int id) {
+    private bool _initialized;
+
+    [SyncVar]
+    private NetworkIdentity _body;
+
+    public void Initialize(int id, NetworkIdentity body) {
         PlayerID = id;
+        _body = body;
+    }
 
-        Vector3 spawnPoint = new Vector3(0, 5, 11);
-        //TODO Get the prefab from somewhere that makes sense.
-        GameObject playerPrefab = NetworkManager.singleton.spawnPrefabs[0];
+    void Update() {
+        if (_initialized)
+            return;
 
-        GameObject spawned = Instantiate(playerPrefab, spawnPoint, Quaternion.identity) as GameObject;
-        NetworkServer.Spawn(spawned);
+        _initialized = true;
+
+        Debug.LogWarning("Is local? " + isLocalPlayer);
+        if (isLocalPlayer)
+        {
+            PlayerController controller = _body.gameObject.AddComponent<PlayerController>();
+            controller.Initialize(CameraPrefab);
+        }
     }
 }

@@ -10,6 +10,7 @@ public class SpawnManagerNetwork : MonoBehaviour {
         foreach (Wave wave in waveConfig.waves)
         {
             ClientScene.RegisterPrefab(wave.UnitPrefab);
+            Debug.Log("Register "+wave.UnitPrefab.name);
         }
 	}
 }

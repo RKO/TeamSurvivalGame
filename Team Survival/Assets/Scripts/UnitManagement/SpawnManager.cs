@@ -1,16 +1,25 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class SpawnManager : MonoBehaviour {
+public class SpawnManager : NetworkBehaviour {
     private SpawnPoint[] spawnPoints;
     private WaveConfig waveConfig;
     private Transform unitsTrans;
 
     public bool IsRunning { get; private set; }
 
-    public int CurrentWave { get; private set; }
+    [SyncVar]
+    private int _currentWave;
+    public int CurrentWave { get { return _currentWave; } }
 
-    public int WaveCount { get { return waveConfig.waves.Count; } }
+    public int WaveCount {
+        get {
+            if (waveConfig == null)
+                return -1;
+            return waveConfig.waves.Count;
+        }
+    }
 
     public WaveConfig WaveCfg { get { return waveConfig; } }
 
@@ -26,8 +35,6 @@ public class SpawnManager : MonoBehaviour {
 
         unitsTrans = new GameObject("Units").transform;
         unitsTrans.SetParent(this.transform, false);
-
-        this.gameObject.AddComponent<SpawnManagerNetwork>();
     }
 
     public void StartSpawning() {
@@ -39,6 +46,7 @@ public class SpawnManager : MonoBehaviour {
     }
 	
 	// Update is called once per frame
+    [ServerCallback]
 	void Update () {
         if (IsRunning) {
             StartNextWave();
@@ -64,7 +72,7 @@ public class SpawnManager : MonoBehaviour {
         Wave wave = waveConfig.waves[CurrentWave];
         //Current wave is finished, pick the next one.
         if (wave.isDone) {
-            CurrentWave++;
+            _currentWave++;
             //TODO Wait time between waves.
             return;
         }
@@ -94,6 +102,8 @@ public class SpawnManager : MonoBehaviour {
 
                 UnitController controller = unit.GetComponent<UnitController>();
                 controller.SetPathWaypoints(spawnPoint.waypoints);
+
+                NetworkServer.Spawn(unit);
             }
 
             yield return new WaitForSeconds(1);
