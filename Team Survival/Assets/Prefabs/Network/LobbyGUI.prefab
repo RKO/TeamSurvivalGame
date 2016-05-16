@@ -57,7 +57,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 428676}
-  - 114: {fileID: 11445942}
+  - 114: {fileID: 11409986}
   m_Layer: 0
   m_Name: LobbyGUI
   m_TagString: Untagged
@@ -560,7 +560,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11445942}
+      - m_Target: {fileID: 11409986}
         m_MethodName: ActionStartHost
         m_Mode: 1
         m_Arguments:
@@ -660,6 +660,22 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11409986
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 103338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18014aeafa0db1149955252771c4375f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingPanel: {fileID: 147076}
+  loadingSpinner: {fileID: 11490094}
+  textHostName: {fileID: 11405110}
+  scrollContent: {fileID: 22413320}
+  listItemPrefab: {fileID: 162752, guid: e8dbb7145d62170479aa077dd1a926a6, type: 2}
 --- !u!114 &11410706
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -909,22 +925,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11445942
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 103338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9c71e46d640d2d4bb0229650fee1ff8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadingPanel: {fileID: 147076}
-  loadingSpinner: {fileID: 11490094}
-  textHostName: {fileID: 11405110}
-  scrollContent: {fileID: 22413320}
-  listItemPrefab: {fileID: 162752, guid: e8dbb7145d62170479aa077dd1a926a6, type: 2}
 --- !u!114 &11448904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1112,7 +1112,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11445942}
+      - m_Target: {fileID: 11409986}
         m_MethodName: ActionExitGame
         m_Mode: 1
         m_Arguments:

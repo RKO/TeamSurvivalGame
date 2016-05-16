@@ -990,7 +990,7 @@ Transform:
   - {fileID: 324191909}
   - {fileID: 308325538}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!1 &308325537
 GameObject:
   m_ObjectHideFlags: 0
@@ -3313,48 +3313,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1263984458}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &1267949772
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 412866, guid: a65895288fcc0944eb6fb29a863aa2c8, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 412866, guid: a65895288fcc0944eb6fb29a863aa2c8, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 412866, guid: a65895288fcc0944eb6fb29a863aa2c8, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 14.77
-      objectReference: {fileID: 0}
-    - target: {fileID: 412866, guid: a65895288fcc0944eb6fb29a863aa2c8, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 412866, guid: a65895288fcc0944eb6fb29a863aa2c8, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 412866, guid: a65895288fcc0944eb6fb29a863aa2c8, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 412866, guid: a65895288fcc0944eb6fb29a863aa2c8, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 412866, guid: a65895288fcc0944eb6fb29a863aa2c8, type: 2}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: a65895288fcc0944eb6fb29a863aa2c8, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1278372096
 GameObject:
   m_ObjectHideFlags: 0
@@ -4267,7 +4225,7 @@ Transform:
   - {fileID: 569323449}
   - {fileID: 1224131126}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!1 &1831588694
 GameObject:
   m_ObjectHideFlags: 0

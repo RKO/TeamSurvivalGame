@@ -2,26 +2,27 @@
 using UnityEngine.Networking;
 using System;
 using System.Reflection;
+using System.Collections.Generic;
 using UnityEngine.Networking.Types;
 
 public class MyNetworkManager : NetworkManager {
     private ulong m_networkID;
 
-    private int[] players = new int[] { -1, -1, -1, -1 };
-
+    private Dictionary<int, Player> _players = new Dictionary<int, Player>();
 
 	public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
 	{
-        int playerNumber = GetNewPlayerNumber(conn);
+        int playerNumber = GetPlayerNumber(conn);
         Debug.Log("Player joined. Assigning id: "+playerNumber);
 
-		var player = (GameObject)GameObject.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+		var playerObj = (GameObject)Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
 
-        //Set values on player script.
-        //player.GetComponent<Player>().playerColor = playerColors[playerNumber];
+        Player player = playerObj.GetComponent<Player>();
+        player.Initialize(playerNumber);
+        _players.Add(playerNumber, player);
 
         //Spawn on network.
-		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
+        NetworkServer.AddPlayerForConnection(conn, playerObj, playerControllerId);
 	}
 
     public override void OnMatchCreate(UnityEngine.Networking.Match.CreateMatchResponse resp) {
@@ -57,9 +58,8 @@ public class MyNetworkManager : NetworkManager {
 
     public override void OnServerDisconnect(NetworkConnection conn)
 	{
-        int playerNumber = FindPlayerNumber(conn);
-
-        players[playerNumber] = -1;
+        int playerNumber = GetPlayerNumber(conn);
+        _players.Remove(playerNumber);
 
         Debug.LogWarning("Player disconnected with assigned id: " + playerNumber);
 
@@ -80,7 +80,7 @@ public class MyNetworkManager : NetworkManager {
         info.SetValue(null, maxPackets);
     }
 
-    private int GetNewPlayerNumber(NetworkConnection conn)
+    private int GetPlayerNumber(NetworkConnection conn)
     {
         int connId = conn.connectionId;
 
@@ -88,35 +88,6 @@ public class MyNetworkManager : NetworkManager {
         if (connId == -1)
             connId = 0;
 
-        for (int i = 0; i < players.Length; i++)
-        {
-            if (players[i] < 0)
-            {
-                players[i] = connId;
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    private int FindPlayerNumber(NetworkConnection conn)
-    {
-        int connId = conn.connectionId;
-
-        //For some reason, the first player has id -1. So we have to check for that.
-        if (connId == -1)
-            connId = 0;
-
-
-        for (int i = 0; i < players.Length; i++)
-        {
-            if (players[i] == connId)
-            {
-                return i;
-            }
-        }
-
-        return -1;
+        return connId;
     }
 }
