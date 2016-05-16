@@ -107,7 +107,9 @@
     <Compile Include="Assets\Scripts\Movement\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Movement\SmoothMouseLook.cs" />
     <Compile Include="Assets\Scripts\Movement\UnitController.cs" />
+    <Compile Include="Assets\Scripts\Network\MyNetworkManager.cs" />
     <Compile Include="Assets\Scripts\UI\EscapeMenu.cs" />
+    <Compile Include="Assets\Scripts\UI\LobbyGUI.cs" />
     <Compile Include="Assets\Scripts\UI\TestUI.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\BaseUnit.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\GoalZone.cs" />
