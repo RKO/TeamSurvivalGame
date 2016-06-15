@@ -19,7 +19,7 @@ public class SmoothMouseLook : MonoBehaviour
     private float rotationX = 0F;
     private float rotationY = 0F;
 
-    private PlayerController motor;
+    private PlayerController playerController;
 
     private List<float> rotArrayX = new List<float>();
     private float rotAverageX = 0F;
@@ -70,9 +70,7 @@ public class SmoothMouseLook : MonoBehaviour
 
             Quaternion yQuaternion = Quaternion.AngleAxis(rotAverageY, Vector3.left);
             Quaternion xQuaternion = Quaternion.AngleAxis(rotAverageX, Vector3.up);
-
-            //transform.localRotation = originalRotation * xQuaternion * yQuaternion;
-            motor.SetLookQuaternion(originalRotation * xQuaternion * yQuaternion);
+            playerController.SetLookQuaternion(originalRotation * xQuaternion * yQuaternion);
         }
         else if (axes == RotationAxes.MouseX)
         {
@@ -95,8 +93,7 @@ public class SmoothMouseLook : MonoBehaviour
             rotAverageX = ClampAngle(rotAverageX, minimumX, maximumX);
 
             Quaternion xQuaternion = Quaternion.AngleAxis(rotAverageX, Vector3.up);
-            //transform.localRotation = originalRotation * xQuaternion;
-            motor.SetLookQuaternion(originalRotation * xQuaternion);
+            playerController.SetLookQuaternion(originalRotation * xQuaternion);
         }
         else
         {
@@ -119,16 +116,14 @@ public class SmoothMouseLook : MonoBehaviour
             rotAverageY = ClampAngle(rotAverageY, minimumY, maximumY);
 
             Quaternion yQuaternion = Quaternion.AngleAxis(rotAverageY, Vector3.left);
-
-            motor.SetLookQuaternion(originalRotation * yQuaternion);
-            //transform.localRotation = originalRotation * yQuaternion;
+            playerController.SetLookQuaternion(originalRotation * yQuaternion);
         }
     }
 
     void Start()
     {
-        motor = GetComponent<PlayerController>();
-        originalRotation = motor.transform.localRotation;
+        playerController = GetComponent<PlayerController>();
+        originalRotation = playerController.transform.localRotation;
     }
 
     public static float ClampAngle(float angle, float min, float max)

@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 
 [RequireComponent(typeof(BaseMotor))]
 public class PlayerController : BaseUnit {
-    //private const float RotationSpeed = 270;
     private const float CameraRotationSpeed = 300;
     private const float JumpForce = 6;
 
@@ -11,6 +9,7 @@ public class PlayerController : BaseUnit {
 
     private BaseMotor motor;
     private GameObject cameraObj;
+    private float rotationX = 0;
 
     private bool _initialized = false;
 
@@ -24,7 +23,6 @@ public class PlayerController : BaseUnit {
         motor = GetComponent<BaseMotor>();
 
         cameraObj = Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-        cameraObj.transform.SetParent(motor.Head, false);
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -78,17 +76,26 @@ public class PlayerController : BaseUnit {
 
     private void ControlCamera()
     {
-        float rotationY = Input.GetAxis("Mouse Y") * CameraRotationSpeed * Time.deltaTime;
+        cameraObj.transform.position = motor.Head.position;
 
+        //Calculate the y rotation (up/down)
+        float rotationY = Input.GetAxis("Mouse Y") * CameraRotationSpeed * Time.deltaTime;
         float newRotY = cameraObj.transform.localEulerAngles.x - rotationY;
         newRotY = MathUtil.ClampAngle(newRotY, -35, 35);
-        cameraObj.transform.localEulerAngles = new Vector3(newRotY, 0, 0);
+
+        //And apply it with the saved x (left/right) rotation.
+        cameraObj.transform.localEulerAngles = new Vector3(newRotY, rotationX, 0);
     }
 
     public void SetLookQuaternion(Quaternion q) {
-        Vector3 rot = q.eulerAngles;
+        //Save the rotation locally, for the players camera
+        rotationX = q.eulerAngles.y;
 
-        Vector3 rotation = new Vector3(0, rot.y, 0);
+        //And send it to the server, for the actual object rotation.
+        Vector3 rotation = new Vector3(0, rotationX, 0);
         _player.CmdSetRotateDestination(rotation);
+
+        //Apply the desired rotation immediately so the user can see it, but the server will decide if it's correct.
+        motor.transform.localRotation = q;
     }
 }

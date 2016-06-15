@@ -12,17 +12,17 @@ public class Player : NetworkBehaviour {
     private bool _initialized;
 
     [SyncVar]
-    private NetworkIdentity _body;
+    private NetworkIdentity _bodyIdentity;
     private PlayerController controller;
     private BaseMotor _motor;
 
     public void Initialize(int id, NetworkIdentity body) {
         PlayerID = id;
-        _body = body;
+        _bodyIdentity = body;
     }
 
     void Start() {
-        _motor = _body.gameObject.GetComponent<BaseMotor>();
+        _motor = _bodyIdentity.gameObject.GetComponent<BaseMotor>();
     }
 
     void Update() {
@@ -36,7 +36,7 @@ public class Player : NetworkBehaviour {
             //Debug.LogWarning("Is local? " + isLocalPlayer);
             //if (isLocalPlayer)
             {
-                controller = _body.gameObject.AddComponent<PlayerController>();
+                controller = _bodyIdentity.gameObject.AddComponent<PlayerController>();
                 controller.Initialize(CameraPrefab, this);
             }
         }
