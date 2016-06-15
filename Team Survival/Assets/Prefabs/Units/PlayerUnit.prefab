@@ -170,7 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14534816ff4ba194b8350d9c40793e85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraPrefab: {fileID: 175286, guid: f0a34faa774e7b7409429d704becb6e5, type: 2}
 --- !u!114 &11438588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -183,14 +182,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.1
+  m_SendInterval: 0.04761905
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
-  m_SyncSpin: 0
+  m_SyncSpin: 1
   m_MovementTheshold: 0.001
   m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
+  m_InterpolateRotation: 2
+  m_InterpolateMovement: 2
 --- !u!114 &11444998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -233,7 +232,7 @@ MonoBehaviour:
     i14: 162
     i15: 200
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

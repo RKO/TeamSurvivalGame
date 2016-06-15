@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class BaseMotor : MonoBehaviour {
+public class BaseMotor : NetworkBehaviour {
     private Vector3 moveDirection;
     private Vector3 eulerAngleTarget;
     private Vector3 addedForce;
 
-    private float moveSpeed;
     private Rigidbody myRigidbody;
-
     private LayerMask terrainLayerMask;
+
+    [SyncVar]
+    private float moveSpeed;
+
+    [SyncVar]
     private bool grounded = false;
 
     public bool IsGrounded { get { return grounded; } }
@@ -16,6 +20,7 @@ public class BaseMotor : MonoBehaviour {
     public Transform Body { get; private set; }
     public Transform Head { get; private set; }
 
+    [Server]
     public void Initialize(float moveSpeed) {
         this.moveSpeed = moveSpeed;
     }
@@ -61,6 +66,7 @@ public class BaseMotor : MonoBehaviour {
         grounded = false;
     }
 	
+    [ServerCallback]
 	void FixedUpdate () {
         RaycastToGround();
 
@@ -75,6 +81,7 @@ public class BaseMotor : MonoBehaviour {
 	}
 
     private void Move() {
+        
         Vector3 movement = moveDirection * Time.deltaTime * moveSpeed;
         myRigidbody.MovePosition(transform.position + movement);
     }
@@ -90,16 +97,19 @@ public class BaseMotor : MonoBehaviour {
         addedForce = Vector3.zero;
     }
 
+    [Server]
     public void SetMoveDirection(Vector3 dir) {
         //Normalize the direction, as controllers might forget it.
         moveDirection = dir.normalized;
     }
 
+    [Server]
     public void SetRotateDestination(Vector3 dir)
     {
         eulerAngleTarget = dir;
     }
 
+    [Server]
     public void AddForce(Vector3 force) {
         this.addedForce += force;
     }

@@ -3,12 +3,11 @@ using UnityEngine.Networking;
 
 [RequireComponent(typeof(BaseMotor))]
 public class PlayerController : BaseUnit {
-    private const float MoveSpeed = 6;
     //private const float RotationSpeed = 270;
     private const float CameraRotationSpeed = 300;
     private const float JumpForce = 6;
 
-    //public GameObject cameraPrefab;
+    private Player _player;
 
     private BaseMotor motor;
     private GameObject cameraObj;
@@ -19,9 +18,10 @@ public class PlayerController : BaseUnit {
         get { return Team.Players; }
     }
 
-    public void Initialize (GameObject cameraPrefab) {
+    public void Initialize (GameObject cameraPrefab, Player player) {
+        _player = player;
+
         motor = GetComponent<BaseMotor>();
-        motor.Initialize(MoveSpeed);
 
         cameraObj = Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity) as GameObject;
         cameraObj.transform.SetParent(motor.Head, false);
@@ -68,11 +68,11 @@ public class PlayerController : BaseUnit {
             moveDir += (transform.right);
         }
 
-        motor.SetMoveDirection(moveDir);
+        _player.CmdSetMoveDir(moveDir);
 
         if (Input.GetKeyDown(KeyCode.Space) && motor.IsGrounded)
         {
-            motor.AddForce(Vector3.up * JumpForce);
+            _player.CmdAddForce(Vector3.up * JumpForce);
         }
     }
 
@@ -89,6 +89,6 @@ public class PlayerController : BaseUnit {
         Vector3 rot = q.eulerAngles;
 
         Vector3 rotation = new Vector3(0, rot.y, 0);
-        motor.SetRotateDestination(rotation);
+        _player.CmdSetRotateDestination(rotation);
     }
 }

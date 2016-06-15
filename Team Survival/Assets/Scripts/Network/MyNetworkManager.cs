@@ -28,6 +28,9 @@ public class MyNetworkManager : NetworkManager {
         GameObject bodyPrefab = spawnPrefabs[0];
 
         GameObject playerBody = Instantiate(bodyPrefab, spawnPoint, Quaternion.identity) as GameObject;
+        BaseMotor motor = playerBody.GetComponent<BaseMotor>();
+        motor.Initialize(Player.MoveSpeed);
+
         NetworkServer.Spawn(playerBody);
 
         // -------------- Player -------------- //
