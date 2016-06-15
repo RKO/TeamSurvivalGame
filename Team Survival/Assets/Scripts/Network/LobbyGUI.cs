@@ -23,6 +23,9 @@ public class LobbyGUI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         networkManager = NetworkManager.singleton;
 
         listItems = new List<GameObject>();
