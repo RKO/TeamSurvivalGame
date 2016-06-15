@@ -20,7 +20,6 @@ public class BaseMotor : NetworkBehaviour {
     public Transform Body { get; private set; }
     public Transform Head { get; private set; }
 
-    [Server]
     public void Initialize(float moveSpeed) {
         this.moveSpeed = moveSpeed;
     }
