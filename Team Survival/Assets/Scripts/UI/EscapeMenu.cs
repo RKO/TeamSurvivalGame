@@ -35,6 +35,8 @@ public class EscapeMenu : MonoBehaviour {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
         }
+
+        GameManager.Instance.IsGUIOpen = _isVisible;
     }
 
     public void OnResumePressed() {

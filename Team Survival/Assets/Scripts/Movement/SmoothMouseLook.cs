@@ -33,6 +33,10 @@ public class SmoothMouseLook : MonoBehaviour
 
     void Update()
     {
+        //Don't rotate the camera, if GUI is open.
+        if (GameManager.Instance.IsGUIOpen)
+            return;
+
         if (axes == RotationAxes.MouseXAndY)
         {
             rotAverageY = 0f;

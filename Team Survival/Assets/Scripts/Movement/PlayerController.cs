@@ -78,13 +78,17 @@ public class PlayerController : BaseUnit {
     {
         cameraObj.transform.position = motor.Head.position;
 
-        //Calculate the y rotation (up/down)
-        float rotationY = Input.GetAxis("Mouse Y") * CameraRotationSpeed * Time.deltaTime;
-        float newRotY = cameraObj.transform.localEulerAngles.x - rotationY;
-        newRotY = MathUtil.ClampAngle(newRotY, -35, 35);
+        //Don't rotate the camera, if GUI is open.
+        if (!GameManager.Instance.IsGUIOpen)
+        {
+            //Calculate the y rotation (up/down)
+            float rotationY = Input.GetAxis("Mouse Y") * CameraRotationSpeed * Time.deltaTime;
+            float newRotY = cameraObj.transform.localEulerAngles.x - rotationY;
+            newRotY = MathUtil.ClampAngle(newRotY, -35, 35);
 
-        //And apply it with the saved x (left/right) rotation.
-        cameraObj.transform.localEulerAngles = new Vector3(newRotY, rotationX, 0);
+            //And apply it with the saved x (left/right) rotation.
+            cameraObj.transform.localEulerAngles = new Vector3(newRotY, rotationX, 0);
+        }
     }
 
     public void SetLookQuaternion(Quaternion q) {

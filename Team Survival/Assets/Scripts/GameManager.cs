@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
     public SpawnManager spawnManager;
     public Transform goal;
     public UnitManager unitManager;
+    public bool IsGUIOpen { get; set; }
 
     // Use this for initialization
     void Awake () {
