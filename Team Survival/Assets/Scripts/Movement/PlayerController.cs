@@ -1,13 +1,10 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(BaseMotor))]
 public class PlayerController : BaseUnit {
     private const float CameraRotationSpeed = 300;
-    private const float JumpForce = 6;
 
     private Player _player;
 
-    private BaseMotor motor;
     private GameObject cameraObj;
     private float rotationX = 0;
 
@@ -20,8 +17,6 @@ public class PlayerController : BaseUnit {
     public void Initialize (GameObject cameraPrefab, Player player) {
         _player = player;
 
-        motor = GetComponent<BaseMotor>();
-
         cameraObj = Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 
         Cursor.visible = false;
@@ -31,11 +26,12 @@ public class PlayerController : BaseUnit {
         mouseLook.axes = SmoothMouseLook.RotationAxes.MouseX;
         mouseLook.sensitivityX = 7;
 
+        GrantAbility(new AbilityJump());
+
         _initialized = true;
     }
 
-    // Update is called once per frame
-    void Update() {
+    protected override void UnitUpdate() {
         if (_initialized)
         {
             SetMovement();
@@ -68,15 +64,15 @@ public class PlayerController : BaseUnit {
 
         _player.CmdSetMoveDir(moveDir);
 
-        if (Input.GetKeyDown(KeyCode.Space) && motor.IsGrounded)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            _player.CmdAddForce(Vector3.up * JumpForce);
+            _player.CmdActivateAbility(0);
         }
     }
 
     private void ControlCamera()
     {
-        cameraObj.transform.position = motor.Head.position;
+        cameraObj.transform.position = Motor.Head.position;
 
         //Don't rotate the camera, if GUI is open.
         if (!GameManager.Instance.IsGUIOpen)
@@ -100,6 +96,6 @@ public class PlayerController : BaseUnit {
         _player.CmdSetRotateDestination(rotation);
 
         //Apply the desired rotation immediately so the user can see it, but the server will decide if it's correct.
-        motor.transform.localRotation = q;
+        Motor.transform.localRotation = q;
     }
 }

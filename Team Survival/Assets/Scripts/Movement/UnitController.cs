@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 
-[RequireComponent(typeof(BaseMotor))]
 public class UnitController : BaseUnit {
     private const float MoveSpeed = 6;
-    private BaseMotor _motor;
     private NavMeshPath _path;
     private Transform[] _waypoints;
     private int _waypointIndex;
@@ -17,10 +14,9 @@ public class UnitController : BaseUnit {
 
     // Use this for initialization
     void Start () {
-        _motor = GetComponent<BaseMotor>();
-        _motor.Body.GetComponent<Renderer>().material.color = Color.red;
+        Motor.Body.GetComponent<Renderer>().material.color = Color.red;
 
-        _motor.Initialize(MoveSpeed);
+        Motor.Initialize(MoveSpeed);
     }
 
     public void SetPathWaypoints(Transform[] waypoints) {
@@ -28,9 +24,8 @@ public class UnitController : BaseUnit {
         _waypointIndex = 0;
     }
 	
-	// Update is called once per frame
-    [ServerCallback]
-	void Update () {
+    protected override void UnitUpdate()
+    {
         CheckWaypoint();
 
         if (_currentWaypoint == null)
@@ -40,7 +35,7 @@ public class UnitController : BaseUnit {
         }
 
         if (_path == null) {
-            if(_motor.IsGrounded)
+            if(Motor.IsGrounded)
                 _path = FindPath(transform.position, _waypoints[_waypointIndex].position);
             return;
         }
@@ -81,7 +76,7 @@ public class UnitController : BaseUnit {
 
     private void Stear() {
         if (_path == null)
-            _motor.SetMoveDirection(Vector3.zero);
+            Motor.SetMoveDirection(Vector3.zero);
 
         if (_path.corners.Length <= 1)
         {
@@ -100,8 +95,8 @@ public class UnitController : BaseUnit {
 
         Vector3 dir = nextPoint - transform.position;
 
-        Debug.DrawRay(_motor.Head.position, dir, Color.cyan);
-        _motor.SetMoveDirection(dir);
+        Debug.DrawRay(Motor.Head.position, dir, Color.cyan);
+        Motor.SetMoveDirection(dir);
     }
 
     private static NavMeshPath FindPath(Vector3 startPoint, Vector3 endPoint) {

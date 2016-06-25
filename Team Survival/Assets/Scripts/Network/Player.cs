@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-
 public class Player : NetworkBehaviour {
     public const float MoveSpeed = 6;
 
@@ -55,8 +54,8 @@ public class Player : NetworkBehaviour {
     }
 
     [Command]
-    public void CmdAddForce(Vector3 force)
+    public void CmdActivateAbility(int index)
     {
-        _motor.AddForce(force);
+        controller.ActivateAbility(index);
     }
 }
