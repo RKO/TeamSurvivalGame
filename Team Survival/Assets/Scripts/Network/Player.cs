@@ -14,6 +14,7 @@ public class Player : NetworkBehaviour {
     private NetworkIdentity _bodyIdentity;
     private PlayerController controller;
     private BaseMotor _motor;
+    private AbilityList _abilities;
 
     public void Initialize(int id, NetworkIdentity body) {
         PlayerID = id;
@@ -22,6 +23,7 @@ public class Player : NetworkBehaviour {
 
     void Start() {
         _motor = _bodyIdentity.gameObject.GetComponent<BaseMotor>();
+        _abilities = _bodyIdentity.gameObject.GetComponent<AbilityList>();
     }
 
     void Update() {
@@ -37,6 +39,7 @@ public class Player : NetworkBehaviour {
             {
                 controller = _bodyIdentity.gameObject.AddComponent<PlayerController>();
                 controller.Initialize(CameraPrefab, this);
+                CmdGrantAbility();
             }
         }
     }
@@ -56,6 +59,12 @@ public class Player : NetworkBehaviour {
     [Command]
     public void CmdActivateAbility(int index)
     {
-        controller.ActivateAbility(index);
+        _abilities.ActivateAbility(index);
+    }
+
+    [Command]
+    public void CmdGrantAbility()
+    {
+        _abilities.GrantAbility(new AbilityJump(_motor));
     }
 }

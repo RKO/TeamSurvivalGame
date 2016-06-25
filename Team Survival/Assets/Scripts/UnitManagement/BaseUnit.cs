@@ -3,15 +3,17 @@ using UnityEngine.Networking;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(BaseMotor))]
+[RequireComponent(typeof(AbilityList))]
 public abstract class BaseUnit : NetworkBehaviour, IUnit {
 
     public BaseMotor Motor;
-    protected List<BaseAbility> abilities = new List<BaseAbility>();
+    public AbilityList Abilities;
 
     public abstract Team GetTeam { get; }
 
     private void Awake() {
         Motor = GetComponent<BaseMotor>();
+        Abilities = GetComponent<AbilityList>();
         GameManager.Instance.unitManager.AddUnit(this);
         UnitOnAwake();
     }
@@ -22,27 +24,7 @@ public abstract class BaseUnit : NetworkBehaviour, IUnit {
     }
 
     private void Update() {
-        UpdateAbilities();
         UnitUpdate();
-    }
-
-    private void UpdateAbilities() {
-        for (int i = 0; i < abilities.Count; i++)
-        {
-            abilities[i].Update();
-        }
-    }
-
-    public void GrantAbility(BaseAbility newAbility) {
-        abilities.Add(newAbility);
-    }
-
-    public void ActivateAbility(int abilityIndex) {
-        abilities[abilityIndex].Activate();
-    }
-
-    public void RemoveAbility(BaseAbility toRemove) {
-        abilities.Remove(toRemove);
     }
 
     protected virtual void UnitUpdate() { }

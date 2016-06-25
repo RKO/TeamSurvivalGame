@@ -2,11 +2,14 @@
 
 public abstract class BaseAbility {
 
-    protected BaseUnit _caster;
+    public abstract string Name { get; }
+
+    protected BaseMotor _caster;
     protected float _cooldown;
     protected float _cooldownCounter;
+    public float CooldownPercent { get; private set; }
 
-    public BaseAbility(BaseUnit caster, float cooldown) {
+    public BaseAbility(BaseMotor caster, float cooldown) {
         _caster = caster;
         _cooldown = cooldown;
     }
@@ -18,6 +21,8 @@ public abstract class BaseAbility {
             _cooldownCounter = 0;
 
         AbilityUpdate();
+
+        CooldownPercent = _cooldownCounter / _cooldown;
     }
 
     public void Activate() {

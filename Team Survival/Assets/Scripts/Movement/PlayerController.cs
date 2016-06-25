@@ -26,8 +26,6 @@ public class PlayerController : BaseUnit {
         mouseLook.axes = SmoothMouseLook.RotationAxes.MouseX;
         mouseLook.sensitivityX = 7;
 
-        GrantAbility(new AbilityJump(this));
-
         _initialized = true;
     }
 
@@ -68,6 +66,22 @@ public class PlayerController : BaseUnit {
         {
             _player.CmdActivateAbility(0);
         }
+    }
+
+    void OnGUI() {
+        if (!_initialized)
+            return;
+
+        const int size = 50;
+
+        int count = 0;
+        foreach (var state in Abilities._abilityStates)
+        {
+            GUI.Button(new Rect(100 + count * size, 50, size*2, size), state.name+": "+state.cooldownPercent);
+            count++;
+        }
+
+        
     }
 
     private void ControlCamera()

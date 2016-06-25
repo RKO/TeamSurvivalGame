@@ -5,21 +5,23 @@ public class AbilityJump : BaseAbility
     private const float Cooldown = 0.5f;
     private const float JumpForce = 6;
 
-    public AbilityJump(BaseUnit caster) : base(caster, Cooldown) { }
+    public override string Name { get { return "Jump"; } }
+
+    public AbilityJump(BaseMotor caster) : base(caster, Cooldown) { }
 
     protected override bool CanActivate()
     {
-        return _caster.Motor.IsGrounded;
+        return _caster.IsGrounded;
     }
 
     protected override void DoActivate()
     {
-        _caster.Motor.AddForce(Vector3.up * JumpForce);
+        _caster.AddForce(Vector3.up * JumpForce);
     }
 
     protected override void CalculateCooldown()
     {
-        if (_cooldownCounter > 0 && _caster.Motor.IsGrounded)
+        if (_cooldownCounter > 0 && _caster.IsGrounded)
         {
             _cooldownCounter -= Time.deltaTime;
         }

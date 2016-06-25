@@ -144,6 +144,14 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 22413320, guid: 75901d53085a9384c8f3050441982ef3, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 22413320, guid: 75901d53085a9384c8f3050441982ef3, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 75901d53085a9384c8f3050441982ef3, type: 2}
   m_IsPrefabParent: 0
