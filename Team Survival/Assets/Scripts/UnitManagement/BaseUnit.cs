@@ -38,7 +38,7 @@ public abstract class BaseUnit : NetworkBehaviour, IUnit {
     }
 
     public void ActivateAbility(int abilityIndex) {
-        abilities[abilityIndex].Activate(this);
+        abilities[abilityIndex].Activate();
     }
 
     public void RemoveAbility(BaseAbility toRemove) {

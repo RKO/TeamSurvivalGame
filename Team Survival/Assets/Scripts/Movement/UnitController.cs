@@ -26,6 +26,10 @@ public class UnitController : BaseUnit {
 	
     protected override void UnitUpdate()
     {
+        //Only update on server
+        if (!isServer)
+            return;
+
         CheckWaypoint();
 
         if (_currentWaypoint == null)

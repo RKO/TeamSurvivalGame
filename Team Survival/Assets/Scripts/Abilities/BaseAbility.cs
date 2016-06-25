@@ -2,33 +2,40 @@
 
 public abstract class BaseAbility {
 
+    protected BaseUnit _caster;
     protected float _cooldown;
     protected float _cooldownCounter;
 
-    public BaseAbility(float cooldown) {
+    public BaseAbility(BaseUnit caster, float cooldown) {
+        _caster = caster;
         _cooldown = cooldown;
     }
 
     public void Update() {
-        if (_cooldownCounter > 0)
-        {
-            _cooldownCounter -= Time.deltaTime;
-            if (_cooldownCounter < 0)
-                _cooldownCounter = 0;
-        }
+        CalculateCooldown();
+
+        if (_cooldownCounter < 0)
+            _cooldownCounter = 0;
 
         AbilityUpdate();
     }
 
-    public void Activate(BaseUnit caster) {
-        if (_cooldownCounter == 0 && CanActivate(caster))
+    public void Activate() {
+        if (_cooldownCounter == 0 && CanActivate())
         {
-            DoActivate(caster);
+            DoActivate();
             _cooldownCounter = _cooldown;
         }
     }
 
-    protected abstract void DoActivate(BaseUnit caster);
+    protected virtual void CalculateCooldown() {
+        if (_cooldownCounter > 0)
+        {
+            _cooldownCounter -= Time.deltaTime;
+        }
+    }
+
+    protected abstract void DoActivate();
     protected virtual void AbilityUpdate() { }
-    protected virtual bool CanActivate(BaseUnit caster) { return true; }
+    protected virtual bool CanActivate() { return true; }
 }

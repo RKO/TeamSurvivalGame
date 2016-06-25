@@ -26,7 +26,7 @@ public class PlayerController : BaseUnit {
         mouseLook.axes = SmoothMouseLook.RotationAxes.MouseX;
         mouseLook.sensitivityX = 7;
 
-        GrantAbility(new AbilityJump());
+        GrantAbility(new AbilityJump(this));
 
         _initialized = true;
     }
@@ -64,7 +64,7 @@ public class PlayerController : BaseUnit {
 
         _player.CmdSetMoveDir(moveDir);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
         {
             _player.CmdActivateAbility(0);
         }
