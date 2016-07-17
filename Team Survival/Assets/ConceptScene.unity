@@ -122,7 +122,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 426400, guid: 096000cfc28911f4084af8b72057fd46, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 11472038, guid: 096000cfc28911f4084af8b72057fd46, type: 2}
       propertyPath: m_AssetId.i0
@@ -3181,7 +3181,7 @@ Prefab:
     - target: {fileID: 11469412, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
       propertyPath: waves.Array.data[0].UnitPrefab
       value: 
-      objectReference: {fileID: 130026, guid: 31f9359c7aa9ced41b47bbe2e80f43f3, type: 2}
+      objectReference: {fileID: 130026, guid: 31fc61e49b6dafb4aa68dd0f079bf56e, type: 2}
     - target: {fileID: 11469412, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
       propertyPath: waves.Array.data[0].UnitCount
       value: 10
@@ -4651,7 +4651,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 472450, guid: af6b00efc98ba6947aa0ed95aeda10b9, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 467490, guid: af6b00efc98ba6947aa0ed95aeda10b9, type: 2}
       propertyPath: m_RootOrder
