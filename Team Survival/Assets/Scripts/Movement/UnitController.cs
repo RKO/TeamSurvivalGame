@@ -14,7 +14,7 @@ public class UnitController : BaseUnit {
 
     // Use this for initialization
     void Start () {
-        Motor.Body.GetComponent<Renderer>().material.color = Color.red;
+        //Motor.Body.GetComponent<Renderer>().material.color = Color.red;
 
         Motor.Initialize(MoveSpeed);
     }
@@ -98,9 +98,14 @@ public class UnitController : BaseUnit {
 
 
         Vector3 dir = nextPoint - transform.position;
-
-        Debug.DrawRay(Motor.Head.position, dir, Color.cyan);
         Motor.SetMoveDirection(dir);
+
+        Quaternion rotation = Quaternion.LookRotation(dir);
+        Vector3 rotDir = rotation.eulerAngles;
+
+        //TODO Smooth rotation instead of instant.
+
+        Motor.SetRotateDestination(new Vector3(0, rotDir.y, 0));
     }
 
     private static NavMeshPath FindPath(Vector3 startPoint, Vector3 endPoint) {
