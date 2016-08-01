@@ -34,22 +34,22 @@ public class UnitController : BaseUnit {
         if (_currentWaypoint == null)
         {
             _path = null;
-            return;
         }
 
-        if (_path == null && _waypointIndex < _waypoints.Length) {
-            if(Motor.IsGrounded)
+        if (_path == null) {
+            if(Motor.IsGrounded && _waypointIndex < _waypoints.Length)
                 _path = FindPath(transform.position, _waypoints[_waypointIndex].position);
-            return;
         }
-        
-        //Debug lines
-        for (int i = 1; i < _path.corners.Length; i++)
-        {
-            Vector3 start = _path.corners[i-1];
-            Vector3 end = _path.corners[i];
 
-            Debug.DrawLine(start, end, Color.yellow);
+        if (_path != null) {
+            //Debug lines
+            for (int i = 1; i < _path.corners.Length; i++)
+            {
+                Vector3 start = _path.corners[i - 1];
+                Vector3 end = _path.corners[i];
+
+                Debug.DrawLine(start, end, Color.yellow);
+            }
         }
 
         Stear();
@@ -67,9 +67,15 @@ public class UnitController : BaseUnit {
         }
         else if (Vector3.Distance(transform.position, _currentWaypoint.position) < 2)
         {
-            newPath = true;
             _waypointIndex++;
-            _currentWaypoint = _waypoints[_waypointIndex];
+            if (_waypointIndex < _waypoints.Length)
+            {
+                _currentWaypoint = _waypoints[_waypointIndex];
+                newPath = true;
+            }
+            else {
+                _path = null;
+            }
         }
 
         if (newPath) {
@@ -79,7 +85,10 @@ public class UnitController : BaseUnit {
 
     private void Stear() {
         if (_path == null)
+        {
             Motor.SetMoveDirection(Vector3.zero);
+            return;
+        }
 
         if (_path.corners.Length <= 1)
         {
