@@ -113,6 +113,7 @@
     <Compile Include="Assets\Scripts\Network\LobbyGUI.cs" />
     <Compile Include="Assets\Scripts\Network\MyNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Network\Player.cs" />
+    <Compile Include="Assets\Scripts\Network\Synchronization\UnitShell.cs" />
     <Compile Include="Assets\Scripts\UI\EscapeMenu.cs" />
     <Compile Include="Assets\Scripts\UI\TestUI.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\BaseUnit.cs" />

@@ -3181,7 +3181,7 @@ Prefab:
     - target: {fileID: 11469412, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
       propertyPath: waves.Array.data[0].UnitPrefab
       value: 
-      objectReference: {fileID: 130026, guid: 31fc61e49b6dafb4aa68dd0f079bf56e, type: 2}
+      objectReference: {fileID: 198110, guid: d8003d2509c719841b7e05e48cd77883, type: 2}
     - target: {fileID: 11469412, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
       propertyPath: waves.Array.data[0].UnitCount
       value: 10
@@ -3202,6 +3202,10 @@ Prefab:
       propertyPath: waves.Array.data[2].UnitPrefab
       value: 
       objectReference: {fileID: 130026, guid: 0a1f6fc8b66f6ae4a9ec6e7e9d18883a, type: 2}
+    - target: {fileID: 11469412, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
+      propertyPath: waves.Array.data[0].PrefabToLoad
+      value: Spawnable/TestModel
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
   m_IsPrefabParent: 0

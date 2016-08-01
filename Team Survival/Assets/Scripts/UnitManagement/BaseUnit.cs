@@ -1,19 +1,20 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
-using System.Collections.Generic;
 
-[RequireComponent(typeof(BaseMotor))]
-[RequireComponent(typeof(AbilityList))]
-public abstract class BaseUnit : NetworkBehaviour, IUnit {
+public abstract class BaseUnit : MonoBehaviour, IUnit {
 
     public BaseMotor Motor;
     public AbilityList Abilities;
+    public bool IsOnServer;
 
     public abstract Team GetTeam { get; }
 
+    public void Initialize(BaseMotor motor, AbilityList abilities, bool isOnServer) {
+        Motor = motor;
+        Abilities = abilities;
+        IsOnServer = isOnServer;
+    }
+
     private void Awake() {
-        Motor = GetComponent<BaseMotor>();
-        Abilities = GetComponent<AbilityList>();
         GameManager.Instance.unitManager.AddUnit(this);
         UnitOnAwake();
     }

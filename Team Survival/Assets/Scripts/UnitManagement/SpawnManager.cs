@@ -100,8 +100,11 @@ public class SpawnManager : NetworkBehaviour {
                 GameObject unit = Instantiate(wave.UnitPrefab, spawnPosition, spawnPoint.transform.rotation) as GameObject;
                 unit.transform.SetParent(unitsTrans, true);
 
-                UnitController controller = unit.GetComponent<UnitController>();
-                controller.SetPathWaypoints(spawnPoint.waypoints);
+                UnitShell shell = unit.GetComponent<UnitShell>();
+                shell.UnitPrefabToLoad = wave.PrefabToLoad;
+
+                //TODO Hardcoded way of giving orders...
+                shell.waypoints = spawnPoint.waypoints;
 
                 NetworkServer.Spawn(unit);
             }

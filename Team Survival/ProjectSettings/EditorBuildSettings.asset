@@ -9,3 +9,5 @@ EditorBuildSettings:
     path: Assets/ConnectionScene.unity
   - enabled: 1
     path: Assets/ConceptScene.unity
+  - enabled: 1
+    path: Assets/NetworkTestScene.unity

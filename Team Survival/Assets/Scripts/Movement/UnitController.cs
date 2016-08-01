@@ -15,7 +15,6 @@ public class UnitController : BaseUnit {
     // Use this for initialization
     void Start () {
         //Motor.Body.GetComponent<Renderer>().material.color = Color.red;
-
         Motor.Initialize(MoveSpeed);
     }
 
@@ -27,7 +26,7 @@ public class UnitController : BaseUnit {
     protected override void UnitUpdate()
     {
         //Only update on server
-        if (!isServer)
+        if (!IsOnServer)
             return;
 
         CheckWaypoint();
@@ -38,7 +37,7 @@ public class UnitController : BaseUnit {
             return;
         }
 
-        if (_path == null) {
+        if (_path == null && _waypointIndex < _waypoints.Length) {
             if(Motor.IsGrounded)
                 _path = FindPath(transform.position, _waypoints[_waypointIndex].position);
             return;

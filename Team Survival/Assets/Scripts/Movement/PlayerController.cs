@@ -17,6 +17,9 @@ public class PlayerController : BaseUnit {
     public void Initialize (GameObject cameraPrefab, Player player) {
         _player = player;
 
+        Motor = GetComponent<BaseMotor>();
+        Abilities = GetComponent<AbilityList>();
+
         cameraObj = Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 
         Cursor.visible = false;
