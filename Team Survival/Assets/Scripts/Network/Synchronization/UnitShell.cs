@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 
 [RequireComponent(typeof(BaseMotor))]
 [RequireComponent(typeof(AbilityList))]
+[RequireComponent(typeof(AnimationSync))]
 public class UnitShell : NetworkBehaviour {
 
     [SyncVar]
@@ -16,7 +17,7 @@ public class UnitShell : NetworkBehaviour {
         model.transform.SetParent(this.transform, false);
 
         BaseUnit unit = model.GetComponent<BaseUnit>();
-        unit.Initialize(GetComponent<BaseMotor>(), GetComponent<AbilityList>(), this.isServer);
+        unit.Initialize(GetComponent<BaseMotor>(), GetComponent<AbilityList>(), GetComponent<AnimationSync>(), this.isServer);
 
         //TODO Hardcoded way of giving orders...
         if (unit is UnitController)

@@ -2,15 +2,17 @@
 
 public abstract class BaseUnit : MonoBehaviour, IUnit {
 
-    public BaseMotor Motor;
-    public AbilityList Abilities;
+    protected BaseMotor Motor;
+    protected AbilityList Abilities;
+    protected AnimationSync Animations;
     public bool IsOnServer;
 
     public abstract Team GetTeam { get; }
 
-    public void Initialize(BaseMotor motor, AbilityList abilities, bool isOnServer) {
+    public void Initialize(BaseMotor motor, AbilityList abilities, AnimationSync animations, bool isOnServer) {
         Motor = motor;
         Abilities = abilities;
+        Animations = animations;
         IsOnServer = isOnServer;
     }
 

@@ -6,6 +6,7 @@ public class UnitController : BaseUnit {
     private Transform[] _waypoints;
     private int _waypointIndex;
     public Transform _currentWaypoint;
+    public Animation _animator;
 
     public override Team GetTeam
     {
@@ -16,6 +17,8 @@ public class UnitController : BaseUnit {
     void Start () {
         //Motor.Body.GetComponent<Renderer>().material.color = Color.red;
         Motor.Initialize(MoveSpeed);
+
+        _animator = GetComponentInChildren<Animation>();
     }
 
     public void SetPathWaypoints(Transform[] waypoints) {
@@ -26,9 +29,24 @@ public class UnitController : BaseUnit {
     protected override void UnitUpdate()
     {
         //Only update on server
-        if (!IsOnServer)
-            return;
+        if (IsOnServer)
+            ServerSideUpdate();
 
+        ClientSideUpdate();
+	}
+
+    private void ClientSideUpdate() {
+        //TODO Keep current state and only set clip and call play when it changes.
+
+        if (Animations.CurrentAnimation == AnimationSync.UnitAnimation.Running)
+            _animator.clip = _animator.GetClip("run");
+        else
+            _animator.clip = _animator.GetClip("idle");
+
+        _animator.Play();
+    }
+
+    private void ServerSideUpdate() {
         CheckWaypoint();
 
         if (_currentWaypoint == null)
@@ -36,12 +54,14 @@ public class UnitController : BaseUnit {
             _path = null;
         }
 
-        if (_path == null) {
-            if(Motor.IsGrounded && _waypointIndex < _waypoints.Length)
+        if (_path == null)
+        {
+            if (Motor.IsGrounded && _waypointIndex < _waypoints.Length)
                 _path = FindPath(transform.position, _waypoints[_waypointIndex].position);
         }
 
-        if (_path != null) {
+        if (_path != null)
+        {
             //Debug lines
             for (int i = 1; i < _path.corners.Length; i++)
             {
@@ -53,7 +73,7 @@ public class UnitController : BaseUnit {
         }
 
         Stear();
-	}
+    }
 
     private void CheckWaypoint() {
         if (_waypoints.Length == 0 || _waypointIndex >= _waypoints.Length)
@@ -87,6 +107,7 @@ public class UnitController : BaseUnit {
         if (_path == null)
         {
             Motor.SetMoveDirection(Vector3.zero);
+            Animations.CurrentAnimation = AnimationSync.UnitAnimation.Idle;
             return;
         }
 
@@ -107,6 +128,7 @@ public class UnitController : BaseUnit {
 
         Vector3 dir = nextPoint - transform.position;
         Motor.SetMoveDirection(dir);
+        Animations.CurrentAnimation = AnimationSync.UnitAnimation.Running;
 
         Quaternion rotation = Quaternion.LookRotation(dir);
         Vector3 rotDir = rotation.eulerAngles;
