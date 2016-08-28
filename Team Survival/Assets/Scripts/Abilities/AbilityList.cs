@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System;
 
 public class AbilityList : NetworkBehaviour {
-    public enum AbilitySlot { None, Jump, Attack1, Attack2 }
 
     private List<BaseAbility> _abilities;
     public SyncListAbilityState _abilityStates;

@@ -28,8 +28,8 @@ public class Player : NetworkBehaviour {
 
 
         if (isServer) {
-            _abilities.GrantAbility(new AbilityJump(_motor), AbilityList.AbilitySlot.Jump);
-            _abilities.GrantAbility(new AbilityBasicAttack(_motor), AbilityList.AbilitySlot.Attack1);
+            _abilities.GrantAbility(new AbilityJump(_motor), AbilitySlot.Jump);
+            _abilities.GrantAbility(new AbilityBasicAttack(_motor), AbilitySlot.Attack1);
         }
     }
 
@@ -69,24 +69,30 @@ public class Player : NetworkBehaviour {
     }
 
     [Command]
-    public void CmdActivateAbilitySlot(AbilityList.AbilitySlot slot)
+    public void CmdActivateAbilitySlot(AbilitySlot slot)
     {
         _abilities.ActivateAbility(slot);
     }
 
-    private void GrantAbility(Type type, AbilityList.AbilitySlot slot = AbilityList.AbilitySlot.None) {
+    /// <summary>
+    /// The server should really be the one to grant abilities, but this makes it possible from the client.
+    /// </summary>
+    public void GrantAbility(Type type, AbilitySlot slot = AbilitySlot.None) {
         CmdGrantAbility(type.FullName, (int)slot);
     }
 
     [Command]
-    public void CmdGrantAbility(string abilityType, int slotInt)
+    /// <summary>
+    /// The server should really be the one to grant abilities, but this makes it possible from the client.
+    /// </summary>
+    private void CmdGrantAbility(string abilityType, int slotInt)
     {
         Type type = Type.GetType(abilityType);
         System.Object instance = Activator.CreateInstance(type, new object[] { _motor });
 
         if (instance is BaseAbility)
         {
-            AbilityList.AbilitySlot slot = (AbilityList.AbilitySlot)slotInt;
+            AbilitySlot slot = (AbilitySlot)slotInt;
             _abilities.GrantAbility(instance as BaseAbility, slot);
         }
         else {

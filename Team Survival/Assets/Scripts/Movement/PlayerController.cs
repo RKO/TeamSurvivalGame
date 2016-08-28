@@ -67,12 +67,12 @@ public class PlayerController : BaseUnit {
 
         if (Input.GetKey(KeyCode.Space))
         {
-            _player.CmdActivateAbilitySlot(AbilityList.AbilitySlot.Jump);
+            _player.CmdActivateAbilitySlot(AbilitySlot.Jump);
         }
 
         if (Input.GetMouseButtonDown(0))
         {
-            _player.CmdActivateAbilitySlot(AbilityList.AbilitySlot.Attack1);
+            _player.CmdActivateAbilitySlot(AbilitySlot.Attack1);
         }
     }
 
