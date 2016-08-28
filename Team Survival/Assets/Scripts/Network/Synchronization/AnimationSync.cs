@@ -1,5 +1,4 @@
 ﻿using UnityEngine.Networking;
-using System.Collections;
 
 public class AnimationSync : NetworkBehaviour {
 
