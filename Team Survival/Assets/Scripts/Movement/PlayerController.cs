@@ -67,7 +67,12 @@ public class PlayerController : BaseUnit {
 
         if (Input.GetKey(KeyCode.Space))
         {
-            _player.CmdActivateAbility(0);
+            _player.CmdActivateAbilitySlot(AbilityList.AbilitySlot.Jump);
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            _player.CmdActivateAbilitySlot(AbilityList.AbilitySlot.Attack1);
         }
     }
 
@@ -80,7 +85,10 @@ public class PlayerController : BaseUnit {
         int count = 0;
         foreach (var state in Abilities._abilityStates)
         {
-            GUI.Button(new Rect(100 + count * size, 50, size*2, size), state.name+": "+state.cooldownPercent);
+            int x = 100 + (count * size * 2);
+            int y = Screen.height - 10 - size;
+
+            GUI.Button(new Rect(x, y, size*2, size), state.name+": "+state.cooldownPercent);
             count++;
         }
 

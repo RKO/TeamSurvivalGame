@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class Player : NetworkBehaviour {
@@ -24,6 +25,12 @@ public class Player : NetworkBehaviour {
     void Start() {
         _motor = _bodyIdentity.gameObject.GetComponent<BaseMotor>();
         _abilities = _bodyIdentity.gameObject.GetComponent<AbilityList>();
+
+
+        if (isServer) {
+            _abilities.GrantAbility(new AbilityJump(_motor), AbilityList.AbilitySlot.Jump);
+            _abilities.GrantAbility(new AbilityBasicAttack(_motor), AbilityList.AbilitySlot.Attack1);
+        }
     }
 
     void Update() {
@@ -34,13 +41,12 @@ public class Player : NetworkBehaviour {
         {
             _initialized = true;
 
-            //Debug.LogWarning("Is local? " + isLocalPlayer);
-            //if (isLocalPlayer)
-            {
-                controller = _bodyIdentity.gameObject.AddComponent<PlayerController>();
-                controller.Initialize(CameraPrefab, this);
-                CmdGrantAbility();
-            }
+            controller = _bodyIdentity.gameObject.AddComponent<PlayerController>();
+            controller.Initialize(CameraPrefab, this);
+
+            //If it should ever be needed, that the client can tell the server to grant an ability, this is the way to do it.
+            //GrantAbility(typeof(AbilityJump), AbilityList.AbilitySlot.Jump);
+            //GrantAbility(typeof(AbilityBasicAttack), AbilityList.AbilitySlot.Attack1);
         }
     }
 
@@ -57,14 +63,34 @@ public class Player : NetworkBehaviour {
     }
 
     [Command]
-    public void CmdActivateAbility(int index)
+    public void CmdActivateAbilityIndex(int index)
     {
         _abilities.ActivateAbility(index);
     }
 
     [Command]
-    public void CmdGrantAbility()
+    public void CmdActivateAbilitySlot(AbilityList.AbilitySlot slot)
     {
-        _abilities.GrantAbility(new AbilityJump(_motor));
+        _abilities.ActivateAbility(slot);
+    }
+
+    private void GrantAbility(Type type, AbilityList.AbilitySlot slot = AbilityList.AbilitySlot.None) {
+        CmdGrantAbility(type.FullName, (int)slot);
+    }
+
+    [Command]
+    public void CmdGrantAbility(string abilityType, int slotInt)
+    {
+        Type type = Type.GetType(abilityType);
+        System.Object instance = Activator.CreateInstance(type, new object[] { _motor });
+
+        if (instance is BaseAbility)
+        {
+            AbilityList.AbilitySlot slot = (AbilityList.AbilitySlot)slotInt;
+            _abilities.GrantAbility(instance as BaseAbility, slot);
+        }
+        else {
+            Debug.LogError("Type \""+abilityType+"\" can't be assigned as a BaseAbility object. Aborting CmdGrantAbility");
+        }
     }
 }
