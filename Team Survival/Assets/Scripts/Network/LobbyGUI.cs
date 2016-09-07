@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Networking.Match;
 using System.Collections.Generic;
+using System;
 
 public class LobbyGUI : MonoBehaviour {
     private string[] NoNames = new string[] { "Nemo", "Nullface", "The Void", "Empty Space", "Vaccume", "Wasted Space" };
@@ -41,7 +42,7 @@ public class LobbyGUI : MonoBehaviour {
 	void Update ()
     {
         if (networkManager.matchMaker != null && matchListTimer >= MatchListInterval) {
-            networkManager.matchMaker.ListMatches(0, 20, "", OnMatchList);
+            networkManager.matchMaker.ListMatches(0, 20, "", false, 0, 0, OnMatchList);
             matchListTimer = 0;
         }
 
@@ -58,25 +59,25 @@ public class LobbyGUI : MonoBehaviour {
 
         if (hostName.Length == 0)
         {
-            int i = Random.Range(0, NoNames.Length);
-            hostName = NoNames[i] +" " + Random.Range(0, 10000);
+            int i = UnityEngine.Random.Range(0, NoNames.Length);
+            hostName = NoNames[i] +" " + UnityEngine.Random.Range(0, 10000);
         }
 
-        networkManager.matchMaker.CreateMatch(hostName, networkManager.matchSize, true, "", networkManager.OnMatchCreate);
+        networkManager.matchMaker.CreateMatch(hostName, networkManager.matchSize, true, "", "", "", 0, 0, networkManager.OnMatchCreate);
     }
 
-    private void OnMatchList(ListMatchResponse response)
+    private void OnMatchList(bool success, string extendedInfo, List<MatchInfoSnapshot> response)
     {
-        networkManager.OnMatchList(response);
+        networkManager.OnMatchList(success, extendedInfo, response);
 
-        int largest = Mathf.Max(response.matches.Count, listItems.Count);
+        int largest = Mathf.Max(response.Count, listItems.Count);
 
         int activeItems = 0;
         for (int i=0; i< largest; i++)
         {
-            if (response.matches.Count > i)
+            if (response.Count > i)
             {
-                MatchDesc item = response.matches[i];
+                MatchInfoSnapshot item = response[i];
 
                 if (listItems.Count <= i)
                     listItems.Add(MakeListItem(i));
@@ -104,7 +105,7 @@ public class LobbyGUI : MonoBehaviour {
         return item;
     }
 
-    private void SetListItemValues(MatchDesc item, int itemNumber) {
+    private void SetListItemValues(MatchInfoSnapshot item, int itemNumber) {
         GameObject listItem = listItems[itemNumber];
         listItem.SetActive(true);
 
@@ -117,21 +118,21 @@ public class LobbyGUI : MonoBehaviour {
         });
     }
 
-    private void JoinMatch(MatchDesc match) {
-        networkManager.matchMaker.JoinMatch(match.networkId, "", OnMatchJoined);
+    private void JoinMatch(MatchInfoSnapshot match) {
+        networkManager.matchMaker.JoinMatch(match.networkId, "", "", "", 0, 0, OnMatchJoined);
         loadingPanel.SetActive(true);
     }
 
-    private void OnMatchJoined(JoinMatchResponse response)
+    private void OnMatchJoined(bool success, string extendedInfo, MatchInfo responseData)
     {
         //If it is a success, just keep it running.
-        if (!response.success)
+        if (!success)
         {
             loadingPanel.SetActive(false);
-            Debug.LogWarning("Can't join match. " + response.extendedInfo);
+            Debug.LogWarning("Can't join match. " + extendedInfo);
         }
 
-        networkManager.OnMatchJoined(response);
+        networkManager.OnMatchJoined(success, extendedInfo, responseData);
     }
 
     public void ActionExitGame()

@@ -40,32 +40,33 @@ public class MyNetworkManager : NetworkManager {
 
         //Spawn on network.
         NetworkServer.AddPlayerForConnection(conn, playerObj, playerControllerId);
-
     }
 
-    public override void OnMatchCreate(UnityEngine.Networking.Match.CreateMatchResponse resp) {
-        base.OnMatchCreate(resp);
+   public override void OnMatchCreate(bool success, string extendedInfo, UnityEngine.Networking.Match.MatchInfo resp) {
+        base.OnMatchCreate(success, extendedInfo, resp);
 
-        if (!resp.success) {
-            Debug.LogError("Failed to create Match -> "+resp.extendedInfo);
+        if (!success) {
+            Debug.LogError("Failed to create Match -> "+extendedInfo);
         }
 
         m_networkID = (ulong)resp.networkId;
     }
 
     public void DestroyMatch(ulong id) {
-        this.matchMaker.DestroyMatch((NetworkID)id, OnDestroyMatch);
+        this.matchMaker.DestroyMatch((NetworkID)id, 0, OnDestroyMatch);
     }
 
     public override void OnStopHost()
     {
         base.OnStopHost();
-        this.matchMaker.DestroyMatch((NetworkID)m_networkID, OnDestroyMatch);
+        this.matchMaker.DestroyMatch((NetworkID)m_networkID, 0, OnDestroyMatch);
     }
 
-    public void OnDestroyMatch(UnityEngine.Networking.Match.BasicResponse response)
+    public override void OnDestroyMatch(bool success, string extendedInfo)
     {
-        if (response.success)
+        base.OnDestroyMatch(success, extendedInfo);
+
+        if (success)
         {
             Debug.Log("The match has been destroyed");
         }
