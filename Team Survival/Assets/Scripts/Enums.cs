@@ -11,3 +11,7 @@ public enum AbilitySlot {
     Attack1,
     Attack2
 }
+
+public enum UnitAnimation { Idle, Walking, Running }
+
+public enum UnitTriggerAnimation { Jump, Attack1, Attack2 }

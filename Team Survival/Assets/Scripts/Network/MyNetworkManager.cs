@@ -29,6 +29,11 @@ public class MyNetworkManager : NetworkManager {
 
         GameObject playerBody = Instantiate(bodyPrefab, spawnPoint, Quaternion.identity) as GameObject;
         BaseMotor motor = playerBody.GetComponent<BaseMotor>();
+
+        UnitShell shell = playerBody.GetComponent<UnitShell>();
+        //TODO Load abilities from this too?
+        shell.UnitPrefabToLoad = "Spawnable/Characters/WarriorPrincess";
+        
         motor.Initialize(Player.MoveSpeed);
 
         NetworkServer.Spawn(playerBody);

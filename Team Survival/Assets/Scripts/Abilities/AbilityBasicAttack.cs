@@ -6,10 +6,10 @@ public class AbilityBasicAttack : BaseAbility
 
     public override string Name { get { return "Attack"; } }
 
-    public AbilityBasicAttack(BaseMotor caster) : base(caster, Cooldown) { }
+    public AbilityBasicAttack(BaseMotor caster, AnimationSync animSync) : base(caster, animSync, Cooldown) { }
 
     protected override void DoActivate()
     {
-        
+        _animSync.RpcTriggerAnimation(UnitTriggerAnimation.Attack1);
     }
 }

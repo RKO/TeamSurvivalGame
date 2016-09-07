@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class UnitController : BaseUnit {
     private const float MoveSpeed = 6;
@@ -38,7 +39,7 @@ public class UnitController : BaseUnit {
     private void ClientSideUpdate() {
         //TODO Keep current state and only set clip and call play when it changes.
 
-        if (Animations.CurrentAnimation == AnimationSync.UnitAnimation.Running)
+        if (Animations.CurrentAnimation == UnitAnimation.Running)
             _animator.clip = _animator.GetClip("run");
         else
             _animator.clip = _animator.GetClip("idle");
@@ -107,7 +108,7 @@ public class UnitController : BaseUnit {
         if (_path == null)
         {
             Motor.SetMoveDirection(Vector3.zero);
-            Animations.CurrentAnimation = AnimationSync.UnitAnimation.Idle;
+            Animations.CurrentAnimation = UnitAnimation.Idle;
             return;
         }
 
@@ -128,7 +129,7 @@ public class UnitController : BaseUnit {
 
         Vector3 dir = nextPoint - transform.position;
         Motor.SetMoveDirection(dir);
-        Animations.CurrentAnimation = AnimationSync.UnitAnimation.Running;
+        Animations.CurrentAnimation = UnitAnimation.Running;
 
         Quaternion rotation = Quaternion.LookRotation(dir);
         Vector3 rotDir = rotation.eulerAngles;

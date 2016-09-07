@@ -16,6 +16,7 @@ public class Player : NetworkBehaviour {
     private PlayerController controller;
     private BaseMotor _motor;
     private AbilityList _abilities;
+    private AnimationSync _animationSync;
 
     public void Initialize(int id, NetworkIdentity body) {
         PlayerID = id;
@@ -25,11 +26,12 @@ public class Player : NetworkBehaviour {
     void Start() {
         _motor = _bodyIdentity.gameObject.GetComponent<BaseMotor>();
         _abilities = _bodyIdentity.gameObject.GetComponent<AbilityList>();
+        _animationSync = _bodyIdentity.gameObject.GetComponent<AnimationSync>();
 
 
         if (isServer) {
-            _abilities.GrantAbility(new AbilityJump(_motor), AbilitySlot.Jump);
-            _abilities.GrantAbility(new AbilityBasicAttack(_motor), AbilitySlot.Attack1);
+            _abilities.GrantAbility(new AbilityJump(_motor, _animationSync), AbilitySlot.Jump);
+            _abilities.GrantAbility(new AbilityBasicAttack(_motor, _animationSync), AbilitySlot.Attack1);
         }
     }
 
@@ -54,6 +56,10 @@ public class Player : NetworkBehaviour {
     public void CmdSetMoveDir(Vector3 moveDir)
     {
         _motor.SetMoveDirection(moveDir);
+        if (moveDir != Vector3.zero)
+            _animationSync.CurrentAnimation = UnitAnimation.Running;
+        else
+            _animationSync.CurrentAnimation = UnitAnimation.Idle;
     }
 
     [Command]

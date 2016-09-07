@@ -5,12 +5,14 @@ public abstract class BaseAbility {
     public abstract string Name { get; }
 
     protected BaseMotor _caster;
+    protected AnimationSync _animSync;
     protected float _cooldown;
     protected float _cooldownCounter;
     public float CooldownPercent { get; private set; }
 
-    public BaseAbility(BaseMotor caster, float cooldown) {
+    public BaseAbility(BaseMotor caster, AnimationSync animSync, float cooldown) {
         _caster = caster;
+        _animSync = animSync;
         _cooldown = cooldown;
     }
 

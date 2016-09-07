@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PlayerController : BaseUnit {
     private const float CameraRotationSpeed = 300;
@@ -17,8 +18,10 @@ public class PlayerController : BaseUnit {
     public void Initialize (GameObject cameraPrefab, Player player) {
         _player = player;
 
+        //The PlayerController needs to find the components by itself, as it does not receive them through the Initialize method.
         Motor = GetComponent<BaseMotor>();
         Abilities = GetComponent<AbilityList>();
+        Animations = GetComponent<AnimationSync>();
 
         cameraObj = Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 
@@ -91,8 +94,6 @@ public class PlayerController : BaseUnit {
             GUI.Button(new Rect(x, y, size*2, size), state.name+": "+state.cooldownPercent);
             count++;
         }
-
-        
     }
 
     private void ControlCamera()

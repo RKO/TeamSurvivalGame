@@ -13,16 +13,26 @@ public class UnitShell : NetworkBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        if (string.IsNullOrEmpty(UnitPrefabToLoad))
+        {
+            Debug.LogWarning(this.GetType().ToString()+" on object \""+gameObject.name+"\" can't load model because no prefab path is set.");
+            return;
+        }
+
         GameObject model = Instantiate(Resources.Load(UnitPrefabToLoad)) as GameObject;
         model.transform.SetParent(this.transform, false);
 
+        //Only for non-player units. 
         BaseUnit unit = model.GetComponent<BaseUnit>();
-        unit.Initialize(GetComponent<BaseMotor>(), GetComponent<AbilityList>(), GetComponent<AnimationSync>(), this.isServer);
-
-        //TODO Hardcoded way of giving orders...
-        if (unit is UnitController)
+        if (unit != null)
         {
-            (unit as UnitController).SetPathWaypoints(waypoints);
+            unit.Initialize(GetComponent<BaseMotor>(), GetComponent<AbilityList>(), GetComponent<AnimationSync>(), this.isServer);
+
+            //TODO Hardcoded way of giving orders...
+            if (unit is UnitController)
+            {
+                (unit as UnitController).SetPathWaypoints(waypoints);
+            }
         }
     }
 }

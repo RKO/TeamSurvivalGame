@@ -7,7 +7,7 @@ public class AbilityJump : BaseAbility
 
     public override string Name { get { return "Jump"; } }
 
-    public AbilityJump(BaseMotor caster) : base(caster, Cooldown) { }
+    public AbilityJump(BaseMotor caster, AnimationSync animSync) : base(caster, animSync, Cooldown) { }
 
     protected override bool CanActivate()
     {
@@ -17,6 +17,7 @@ public class AbilityJump : BaseAbility
     protected override void DoActivate()
     {
         _caster.AddForce(Vector3.up * JumpForce);
+        _animSync.RpcTriggerAnimation(UnitTriggerAnimation.Jump);
     }
 
     protected override void CalculateCooldown()

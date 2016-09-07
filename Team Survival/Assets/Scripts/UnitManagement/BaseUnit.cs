@@ -2,9 +2,9 @@
 
 public abstract class BaseUnit : MonoBehaviour, IUnit {
 
-    protected BaseMotor Motor;
-    protected AbilityList Abilities;
-    protected AnimationSync Animations;
+    public BaseMotor Motor { get; protected set; }
+    public AbilityList Abilities { get; protected set; }
+    public AnimationSync Animations { get; protected set; }
     public bool IsOnServer;
 
     public abstract Team GetTeam { get; }
