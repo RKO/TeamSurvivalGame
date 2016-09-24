@@ -14,6 +14,12 @@ public class UnitController : BaseUnit {
         get { return Team.Enemies; } //TODO be able to spawn friendly and neutral units.
     }
 
+    public string UnitName; //Set from prefab. For now...
+    public override string Name
+    {
+        get { return UnitName; }
+    }
+
     // Use this for initialization
     void Start () {
         //Motor.Body.GetComponent<Renderer>().material.color = Color.red;

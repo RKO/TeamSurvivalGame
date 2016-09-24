@@ -9,6 +9,8 @@ public class Player : NetworkBehaviour {
 
     public int PlayerID { get; private set; }
 
+    public string PlayerName { get; set; }
+
     private bool _initialized;
 
     [SyncVar]
