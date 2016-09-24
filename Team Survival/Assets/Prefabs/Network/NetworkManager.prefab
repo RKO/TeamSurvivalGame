@@ -26,6 +26,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -53,10 +54,8 @@ MonoBehaviour:
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
   m_OfflineScene: ConnectionScene
-  m_OnlineScene: NetworkTestScene
+  m_OnlineScene: ConceptScene
   m_SpawnPrefabs:
-  - {fileID: 130026, guid: 0a1f6fc8b66f6ae4a9ec6e7e9d18883a, type: 2}
-  - {fileID: 130026, guid: 31f9359c7aa9ced41b47bbe2e80f43f3, type: 2}
   - {fileID: 198110, guid: d8003d2509c719841b7e05e48cd77883, type: 2}
   m_CustomConfig: 1
   m_MaxConnections: 4
@@ -79,6 +78,7 @@ MonoBehaviour:
     m_MaxSentMessageQueueSize: 128
     m_IsAcksLong: 0
     m_UsePlatformSpecificProtocols: 0
+    m_WebSocketReceiveBufferMaxSize: 0
     m_Channels: []
   m_GlobalConfig:
     m_ThreadAwakeTimeout: 1
@@ -91,12 +91,14 @@ MonoBehaviour:
   m_UseSimulator: 0
   m_SimulatedLatency: 1
   m_PacketLossPercentage: 0
+  m_MaxBufferedPackets: 16
+  m_AllowFragmentation: 1
   m_MatchHost: mm.unet.unity3d.com
   m_MatchPort: 443
-  isNetworkActive: 0
-  matchMaker: {fileID: 0}
   matchName: default
   matchSize: 4
+  isNetworkActive: 0
+  matchMaker: {fileID: 0}
 --- !u!114 &11478850
 MonoBehaviour:
   m_ObjectHideFlags: 1
