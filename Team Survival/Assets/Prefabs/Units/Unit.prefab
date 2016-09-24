@@ -17,7 +17,7 @@ GameObject:
   - 114: {fileID: 11432628}
   - 114: {fileID: 11402926}
   - 114: {fileID: 114000010268316802}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Unit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,7 +32,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 468726}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,7 +49,7 @@ GameObject:
   - 4: {fileID: 479952}
   - 33: {fileID: 3363026}
   - 23: {fileID: 2341496}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
