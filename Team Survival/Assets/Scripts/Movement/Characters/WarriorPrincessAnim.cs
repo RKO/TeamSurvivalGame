@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class WarriorProncessAnim : MonoBehaviour
+public class WarriorPrincessAnim : MonoBehaviour
 {
     private const int WeaponState = 8; //1h weapon + shield = 8
 
