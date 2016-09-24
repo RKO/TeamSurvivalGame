@@ -15,6 +15,8 @@ public class PlayerController : BaseUnit {
         get { return Team.Players; }
     }
 
+    public override string Name { get { return _player.name; } }
+
     public void Initialize (GameObject cameraPrefab, Player player) {
         _player = player;
 
