@@ -275,6 +275,7 @@ GameObject:
   - 4: {fileID: 420570}
   - 95: {fileID: 9569134}
   - 114: {fileID: 114000010339162578}
+  - 114: {fileID: 114000010603202448}
   m_Layer: 0
   m_Name: WarriorPrincess
   m_TagString: Untagged
@@ -4768,3 +4769,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ae61351202984a4182795a81669bcd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114000010603202448
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 121886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14534816ff4ba194b8350d9c40793e85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsOnServer: 0
+  MaxHealth: 200

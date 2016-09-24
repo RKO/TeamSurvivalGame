@@ -164,6 +164,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitPrefabToLoad: 
   waypoints: []
+  MaxHealth: 0
+  Health: 0
 --- !u!114 &11479056
 MonoBehaviour:
   m_ObjectHideFlags: 1

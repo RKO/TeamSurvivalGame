@@ -11,6 +11,8 @@ public abstract class BaseUnit : MonoBehaviour, IUnit {
 
     public abstract string Name { get; }
 
+    public int MaxHealth;
+
     public void Initialize(BaseMotor motor, AbilityList abilities, AnimationSync animations, bool isOnServer) {
         Motor = motor;
         Abilities = abilities;

@@ -45,8 +45,8 @@ public class Player : NetworkBehaviour {
         {
             _initialized = true;
 
-            controller = _bodyIdentity.gameObject.AddComponent<PlayerController>();
-            controller.Initialize(CameraPrefab, this);
+            controller = _bodyIdentity.gameObject.GetComponentInChildren<PlayerController>();
+            controller.PlayerInitialize(CameraPrefab, this);
 
             //If it should ever be needed, that the client can tell the server to grant an ability, this is the way to do it.
             //GrantAbility(typeof(AbilityJump), AbilityList.AbilitySlot.Jump);

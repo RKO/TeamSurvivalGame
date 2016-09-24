@@ -7524,7 +7524,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 168216}
-  m_LocalRotation: {x: -0.66138184, y: -0.321861, z: -0.36608955, w: 0.570051}
+  m_LocalRotation: {x: -0.6613818, y: -0.32186097, z: -0.36608952, w: 0.57005095}
   m_LocalPosition: {x: -0.14345437, y: 0.008685013, z: -0.044942744}
   m_LocalScale: {x: 0.9999999, y: 1, z: 0.99999994}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10110,7 +10110,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 122746}
-  m_LocalRotation: {x: -0.66138196, y: -0.32186094, z: -0.3660895, w: 0.57005095}
+  m_LocalRotation: {x: -0.6613819, y: -0.3218609, z: -0.36608946, w: 0.5700509}
   m_LocalPosition: {x: -0.26663175, y: 0.008685023, z: -0.044942595}
   m_LocalScale: {x: 0.99999964, y: 0.9999999, z: 0.99999976}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10303,6 +10303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsOnServer: 0
+  MaxHealth: 20
   _currentWaypoint: {fileID: 0}
   _animator: {fileID: 0}
   UnitName: Goblin

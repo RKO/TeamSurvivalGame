@@ -24,15 +24,36 @@ public class UnitShell : NetworkBehaviour {
 
         //Only for non-player units. 
         BaseUnit unit = model.GetComponent<BaseUnit>();
-        if (unit != null)
+        if (unit == null)
         {
-            unit.Initialize(GetComponent<BaseMotor>(), GetComponent<AbilityList>(), GetComponent<AnimationSync>(), this.isServer);
+            Debug.LogError("No BaseUnit component on spawned model \""+ UnitPrefabToLoad + "\"!");
+            return;
+        }
 
-            //TODO Hardcoded way of giving orders...
-            if (unit is UnitController)
-            {
-                (unit as UnitController).SetPathWaypoints(waypoints);
-            }
+        unit.Initialize(GetComponent<BaseMotor>(), GetComponent<AbilityList>(), GetComponent<AnimationSync>(), this.isServer);
+
+        if (this.isServer) {
+            ServerSideSetup(unit);
         }
     }
+
+    private void ServerSideSetup(BaseUnit unit) {
+        //TODO Hardcoded way of giving orders to Units
+        if (unit is UnitController)
+        {
+            (unit as UnitController).SetPathWaypoints(waypoints);
+        }
+
+        //Initialize health from the model.
+        Health = MaxHealth = unit.MaxHealth;
+    }
+
+    #region Stats
+    [SyncVar]
+    public int MaxHealth;
+
+    [SyncVar]
+    public int Health;
+
+    #endregion
 }

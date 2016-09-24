@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerController : BaseUnit {
     private const float CameraRotationSpeed = 300;
@@ -15,15 +14,12 @@ public class PlayerController : BaseUnit {
         get { return Team.Players; }
     }
 
-    public override string Name { get { return _player.name; } }
+    private string _name = "Player";
+    public override string Name { get { return _name; } }
 
-    public void Initialize (GameObject cameraPrefab, Player player) {
+    public void PlayerInitialize (GameObject cameraPrefab, Player player) {
         _player = player;
-
-        //The PlayerController needs to find the components by itself, as it does not receive them through the Initialize method.
-        Motor = GetComponent<BaseMotor>();
-        Abilities = GetComponent<AbilityList>();
-        Animations = GetComponent<AnimationSync>();
+        _name = player.PlayerName;
 
         cameraObj = Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 
