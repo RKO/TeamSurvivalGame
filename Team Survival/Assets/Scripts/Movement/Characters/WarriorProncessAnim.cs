@@ -49,6 +49,9 @@ public class WarriorProncessAnim : MonoBehaviour
 
     private void OnAnimationTriggered(UnitTriggerAnimation triggerAnim)
     {
-        _animator.SetTrigger("Use");
+        if(triggerAnim == UnitTriggerAnimation.Jump)
+            _animator.SetTrigger("Jump");
+        else
+            _animator.SetTrigger("Use");
     }
 }
