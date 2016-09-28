@@ -89,7 +89,11 @@ public class PlayerController : BaseUnit {
             int x = 100 + (count * size * 2);
             int y = Screen.height - 10 - size;
 
-            GUI.Button(new Rect(x, y, size*2, size), state.name+": "+state.cooldownPercent);
+            GUI.enabled = state.canActivate;
+            {
+                GUI.Button(new Rect(x, y, size * 2, size), state.name + ": " + state.cooldownPercent);
+                GUI.enabled = true;
+            }
             count++;
         }
     }

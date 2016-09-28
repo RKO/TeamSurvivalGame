@@ -31,6 +31,8 @@ public class AbilityList : NetworkBehaviour {
             AbilityState abs = new AbilityState();
             abs.cooldownPercent = ability.CooldownPercent;
             abs.name = ability.Name;
+            abs.isActive = ability.IsActive;
+            abs.canActivate = ability.CanActivate;
             _abilityStates[i] = abs;
         }
     }
@@ -82,5 +84,7 @@ public class AbilityList : NetworkBehaviour {
     public struct AbilityState {
         public string name;
         public float cooldownPercent;
+        public bool isActive;
+        public bool canActivate;
     }
 }

@@ -8,30 +8,48 @@ public abstract class BaseAbility {
     protected AnimationSync _animSync;
     protected float _cooldown;
     protected float _cooldownCounter;
+    protected float _duration;
+    protected float _durationCounter;
+
     public float CooldownPercent { get; private set; }
 
-    public BaseAbility(BaseMotor caster, AnimationSync animSync, float cooldown) {
+    public bool IsActive { get { return _duration > 0 && _durationCounter < _duration; } }
+
+    public bool CanActivate { get { return _cooldownCounter == 0 && !IsActive && CheckCanActivate(); } }
+
+    public BaseAbility(BaseMotor caster, AnimationSync animSync, float cooldown, float duration = 0) {
         _caster = caster;
         _animSync = animSync;
         _cooldown = cooldown;
+        _duration = duration;
+
+        //Just default to 0, in case there is no cooldown.
+        CooldownPercent = 0;
     }
 
     public void Update() {
-        CalculateCooldown();
+        if (IsActive)
+        {
+            AbilityUpdate();
+            _durationCounter += Time.deltaTime;
+        }
+        else {
+            CalculateCooldown();
 
-        if (_cooldownCounter < 0)
-            _cooldownCounter = 0;
+            if (_cooldownCounter < 0)
+                _cooldownCounter = 0;
+        }
 
-        AbilityUpdate();
-
-        CooldownPercent = _cooldownCounter / _cooldown;
+        if(_cooldown > 0)
+            CooldownPercent = _cooldownCounter / _cooldown;
     }
 
     public void Activate() {
-        if (_cooldownCounter == 0 && CanActivate())
+        if (CanActivate)
         {
             DoActivate();
             _cooldownCounter = _cooldown;
+            _durationCounter = 0;
         }
     }
 
@@ -42,7 +60,9 @@ public abstract class BaseAbility {
         }
     }
 
+    
     protected abstract void DoActivate();
     protected virtual void AbilityUpdate() { }
-    protected virtual bool CanActivate() { return true; }
+    protected virtual bool CheckCanActivate() { return true; }
+
 }

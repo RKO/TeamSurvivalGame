@@ -9,7 +9,7 @@ public class AbilityJump : BaseAbility
 
     public AbilityJump(BaseMotor caster, AnimationSync animSync) : base(caster, animSync, Cooldown) { }
 
-    protected override bool CanActivate()
+    protected override bool CheckCanActivate()
     {
         return _caster.IsGrounded;
     }
