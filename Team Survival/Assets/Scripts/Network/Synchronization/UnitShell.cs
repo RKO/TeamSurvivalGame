@@ -95,8 +95,6 @@ public class UnitShell : NetworkBehaviour {
         rigidBody.detectCollisions = false;
         rigidBody.constraints = RigidbodyConstraints.FreezeAll;
 
-        Debug.Log("RPC Reached a client!");
-
         GetComponent<Collider>().enabled = false;
     }
 
