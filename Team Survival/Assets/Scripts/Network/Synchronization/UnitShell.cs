@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(BaseMotor))]
@@ -11,8 +12,11 @@ public class UnitShell : NetworkBehaviour {
 
     public Transform[] waypoints;
 
-	// Use this for initialization
-	void Start () {
+    private BaseUnit _unit;
+    public BaseUnit ChildUnit{ get { return _unit; } }
+
+    // Use this for initialization
+    void Start () {
         if (string.IsNullOrEmpty(UnitPrefabToLoad))
         {
             Debug.LogWarning(this.GetType().ToString()+" on object \""+gameObject.name+"\" can't load model because no prefab path is set.");
@@ -23,20 +27,21 @@ public class UnitShell : NetworkBehaviour {
         model.transform.SetParent(this.transform, false);
 
         //Only for non-player units. 
-        BaseUnit unit = model.GetComponent<BaseUnit>();
-        if (unit == null)
+        _unit = model.GetComponent<BaseUnit>();
+        if (_unit == null)
         {
             Debug.LogError("No BaseUnit component on spawned model \""+ UnitPrefabToLoad + "\"!");
             return;
         }
 
-        unit.Initialize(GetComponent<BaseMotor>(), GetComponent<AbilityList>(), GetComponent<AnimationSync>(), this.isServer);
+        _unit.Initialize(this, GetComponent<BaseMotor>(), GetComponent<AbilityList>(), GetComponent<AnimationSync>(), this.isServer);
 
         if (this.isServer) {
-            ServerSideSetup(unit);
+            ServerSideSetup(_unit);
         }
     }
 
+    [Server]
     private void ServerSideSetup(BaseUnit unit) {
         //TODO Hardcoded way of giving orders to Units
         if (unit is UnitController)
@@ -48,12 +53,61 @@ public class UnitShell : NetworkBehaviour {
         Health = MaxHealth = unit.MaxHealth;
     }
 
+    [ServerCallback]
+    void Update() {
+        if (AliveState == LifeState.Alive && Health <= 0) {
+            Kill();
+        }
+    }
+
     #region Stats
     [SyncVar]
     public int MaxHealth;
 
     [SyncVar]
-    public int Health;
+    public float Health;
+
+    [SyncVar]
+    public LifeState AliveState;
 
     #endregion
+
+    [Server]
+    public void DealDamage(float damage) {
+        if (AliveState == LifeState.Alive)
+        {
+            Health -= damage;
+            if (Health < 0)
+                Health = 0;
+        }
+    }
+
+    [Server]
+    private void Kill() {
+        AliveState = LifeState.Dying;
+        RpcOnKill();
+        StartCoroutine(Die());
+    }
+
+    [ClientRpc]
+    private void RpcOnKill() {
+        Rigidbody rigidBody = GetComponent<Rigidbody>();
+        rigidBody.detectCollisions = false;
+        rigidBody.constraints = RigidbodyConstraints.FreezeAll;
+
+        Debug.Log("RPC Reached a client!");
+
+        GetComponent<Collider>().enabled = false;
+    }
+
+    [Server]
+    private IEnumerator Die() {
+        yield return new WaitForSeconds(2);
+
+        AliveState = LifeState.Dead;
+
+        yield return new WaitForSeconds(10);
+
+        NetworkServer.Destroy(this.gameObject);
+    }
 }

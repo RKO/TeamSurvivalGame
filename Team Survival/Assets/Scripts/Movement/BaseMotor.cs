@@ -6,7 +6,7 @@ public class BaseMotor : NetworkBehaviour {
     private Vector3 eulerAngleTarget;
     private Vector3 addedForce;
 
-    private Rigidbody myRigidbody;
+    public Rigidbody myRigidbody;
     private LayerMask terrainLayerMask;
 
     [SyncVar]

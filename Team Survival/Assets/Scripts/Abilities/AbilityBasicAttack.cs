@@ -21,9 +21,9 @@ public class AbilityBasicAttack : BaseAbility
         foreach (var hit in hits)
         {
             Debug.DrawLine(_caster.transform.position + Vector3.up, hit.collider.transform.position + Vector3.up, Color.yellow);
-            
 
-            BaseUnit unit = hit.transform.gameObject.GetComponentInChildren<BaseUnit>();
+
+            UnitShell unit = hit.transform.gameObject.GetComponentInChildren<UnitShell>();
             if (unit != null)
             {
                 DoHitOnTarget(unit);
@@ -34,8 +34,12 @@ public class AbilityBasicAttack : BaseAbility
         }
     }
 
-    private void DoHitOnTarget(BaseUnit target) {
-        if(target.GetTeam == Team.Enemies)
-            Debug.Log("Hit: " + target.Name);
+    private void DoHitOnTarget(UnitShell target) {
+        if (target.ChildUnit.GetTeam == Team.Enemies)
+        {
+            Debug.Log("Hit: " + target.ChildUnit.Name);
+            target.DealDamage(100);
+        }
+
     }
 }

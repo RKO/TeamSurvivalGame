@@ -12,6 +12,8 @@ public enum AbilitySlot {
     Attack2
 }
 
-public enum UnitAnimation { Idle, Walking, Running }
+public enum LifeState { Alive, Dying, Dead }
+
+public enum UnitAnimation { Idle, Walking, Running, Dying, Dead }
 
 public enum UnitTriggerAnimation { Jump, Attack1, Attack2 }

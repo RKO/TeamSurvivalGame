@@ -2,6 +2,7 @@
 
 public abstract class BaseUnit : MonoBehaviour, IUnit {
 
+    public UnitShell Shell { get; protected set; }
     public BaseMotor Motor { get; protected set; }
     public AbilityList Abilities { get; protected set; }
     public AnimationSync Animations { get; protected set; }
@@ -13,7 +14,8 @@ public abstract class BaseUnit : MonoBehaviour, IUnit {
 
     public int MaxHealth;
 
-    public void Initialize(BaseMotor motor, AbilityList abilities, AnimationSync animations, bool isOnServer) {
+    public void Initialize(UnitShell shell, BaseMotor motor, AbilityList abilities, AnimationSync animations, bool isOnServer) {
+        Shell = shell;
         Motor = motor;
         Abilities = abilities;
         Animations = animations;

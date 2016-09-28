@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class UnitController : BaseUnit {
     private const float MoveSpeed = 6;
@@ -26,6 +25,8 @@ public class UnitController : BaseUnit {
         Motor.Initialize(MoveSpeed);
 
         _animator = GetComponentInChildren<Animation>();
+
+        _animator.clip = _animator.GetClip("idle");
     }
 
     public void SetPathWaypoints(Transform[] waypoints) {
@@ -43,17 +44,40 @@ public class UnitController : BaseUnit {
 	}
 
     private void ClientSideUpdate() {
-        //TODO Keep current state and only set clip and call play when it changes.
-
-        if (Animations.CurrentAnimation == UnitAnimation.Running)
-            _animator.clip = _animator.GetClip("run");
-        else
-            _animator.clip = _animator.GetClip("idle");
-
-        _animator.Play();
+        switch (Animations.CurrentAnimation)
+        {
+            case UnitAnimation.Walking:
+            case UnitAnimation.Running:
+                _animator.Play("run");
+                break;
+            case UnitAnimation.Dying:
+            case UnitAnimation.Dead:
+                _animator.wrapMode = WrapMode.ClampForever;
+                _animator.Play("death");
+                break;
+            //Should fall through down to default.
+            case UnitAnimation.Idle:
+            default:
+                _animator.Play("idle");
+                break;
+        }
     }
 
     private void ServerSideUpdate() {
+        if (Shell.AliveState != LifeState.Alive)
+        {
+            _path = null;
+            Motor.SetMoveDirection(Vector3.zero);
+            Motor.SetRotateDestination(Vector3.zero);
+
+            if(Shell.AliveState == LifeState.Dying)
+                Animations.CurrentAnimation = UnitAnimation.Dying;
+            else if(Shell.AliveState == LifeState.Dead)
+                Animations.CurrentAnimation = UnitAnimation.Dead;
+
+            return;
+        }
+
         CheckWaypoint();
 
         if (_currentWaypoint == null)
