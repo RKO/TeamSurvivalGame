@@ -47,6 +47,8 @@ public class UnitController : BaseUnit {
         switch (Animations.CurrentAnimation)
         {
             case UnitAnimation.Walking:
+                _animator.Play("walk");
+                break;
             case UnitAnimation.Running:
                 _animator.Play("run");
                 break;
@@ -57,6 +59,8 @@ public class UnitController : BaseUnit {
                 break;
             //Should fall through down to default.
             case UnitAnimation.Idle:
+                _animator.Play("combat_idle");
+                break;
             default:
                 _animator.Play("idle");
                 break;
