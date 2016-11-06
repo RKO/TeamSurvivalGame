@@ -9,6 +9,4 @@ public class Wave {
     public bool isSpawning;
 
     public GameObject UnitPrefab;
-
-    public string PrefabToLoad;
 }

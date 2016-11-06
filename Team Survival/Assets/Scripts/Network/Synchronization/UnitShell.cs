@@ -6,9 +6,6 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(AbilityList))]
 public class UnitShell : NetworkBehaviour {
 
-    [SyncVar]
-    public string UnitPrefabToLoad;
-
     public Transform[] waypoints;
 
     private BaseUnit _unit;
@@ -16,28 +13,8 @@ public class UnitShell : NetworkBehaviour {
 
     // Use this for initialization
     void Start() {
-        /*if (string.IsNullOrEmpty(UnitPrefabToLoad))
-        {
-            Debug.LogWarning(this.GetType().ToString()+" on object \""+gameObject.name+"\" can't load model because no prefab path is set.");
-            return;
-        }*/
 
-        if (!string.IsNullOrEmpty(UnitPrefabToLoad)) {
-            GameObject model = Instantiate(Resources.Load(UnitPrefabToLoad)) as GameObject;
-            model.transform.SetParent(this.transform, false);
-
-            //Only for non-player units. 
-            _unit = model.GetComponent<BaseUnit>();
-        }
-        else {
-            _unit = GetComponentInChildren<BaseUnit>();
-        }
-        if (_unit == null)
-        {
-            Debug.LogError("No BaseUnit component on spawned model \""+ UnitPrefabToLoad + "\"!");
-            return;
-        }
-
+        _unit = GetComponentInChildren<BaseUnit>();
         _unit.Initialize(this, GetComponent<BaseMotor>(), GetComponent<AbilityList>(), this.isServer);
 
         if (this.isServer) {

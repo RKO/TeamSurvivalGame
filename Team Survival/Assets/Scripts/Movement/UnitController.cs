@@ -21,7 +21,6 @@ public class UnitController : BaseUnit {
 
     // Use this for initialization
     void Start () {
-        //Motor.Body.GetComponent<Renderer>().material.color = Color.red;
         Motor.Initialize(MoveSpeed);
 
         _animator = GetComponentInChildren<Animation>();

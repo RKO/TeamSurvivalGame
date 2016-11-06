@@ -101,7 +101,6 @@ public class SpawnManager : NetworkBehaviour {
                 unit.transform.SetParent(unitsTrans, true);
 
                 UnitShell shell = unit.GetComponent<UnitShell>();
-                shell.UnitPrefabToLoad = wave.PrefabToLoad;
 
                 //TODO Hardcoded way of giving orders...
                 shell.waypoints = spawnPoint.waypoints;

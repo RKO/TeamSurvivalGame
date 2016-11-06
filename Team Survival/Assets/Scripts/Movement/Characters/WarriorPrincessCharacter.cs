@@ -5,9 +5,6 @@ public class WarriorPrincessCharacter : BaseUnit
 {
     private const int WeaponState = 8; //1h weapon + shield = 8
 
-    //private Animator _animator;
-    //private AnimationSync _animSync;
-
     public override Team GetTeam
     {
         get { return Team.Players; }
@@ -20,15 +17,10 @@ public class WarriorPrincessCharacter : BaseUnit
 
     // Use this for initialization
     void Start () {
-        //UnitAnimator = GetComponent<Animator>();
         UnitAnimator.SetInteger("WeaponState", WeaponState);
 
         UnitAnimator.SetBool("NonCombat", false);
         UnitAnimator.SetBool("Idling", true);
-
-        //_animSync = GetComponentInParent<AnimationSync>();
-
-        //_animSync.SubscribeTriggerAnimation(OnAnimationTriggered);
     }
 
     // Update is called once per frame
@@ -36,8 +28,6 @@ public class WarriorPrincessCharacter : BaseUnit
 
         bool idle = false;
         bool combat = true;
-
-        //UnitAnimation CurrentAnimation = _animSync.CurrentAnimation;
 
         switch (CurrentAnimation)
         {
