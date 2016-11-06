@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿
+using UnityEngine.Networking;
 
 public class WarriorPrincessCharacter : BaseUnit
 {
@@ -13,7 +13,7 @@ public class WarriorPrincessCharacter : BaseUnit
     private string _name = "Player";
     public override string Name { get { return _name; } }
 
-    public Dictionary<UnitTriggerAnimation, string> AnimationMap = new Dictionary<UnitTriggerAnimation, string>();
+    private NetworkAnimator netAnim;
 
     // Use this for initialization
     void Start () {
@@ -21,6 +21,8 @@ public class WarriorPrincessCharacter : BaseUnit
 
         UnitAnimator.SetBool("NonCombat", false);
         UnitAnimator.SetBool("Idling", true);
+
+        netAnim = GetComponent<NetworkAnimator>();
     }
 
     // Update is called once per frame
@@ -51,8 +53,13 @@ public class WarriorPrincessCharacter : BaseUnit
     public override void TriggerAnimation(UnitTriggerAnimation triggerAnim)
     {
         if (triggerAnim == UnitTriggerAnimation.Jump)
-            UnitAnimator.SetTrigger("Jump");
-        else
-            UnitAnimator.SetTrigger("Use");
+        {
+            //UnitAnimator.SetTrigger("Jump");
+            netAnim.SetTrigger("Jump");
+        }
+        else {
+            //UnitAnimator.SetTrigger("Use");
+            netAnim.SetTrigger("Use");
+        }
     }
 }
