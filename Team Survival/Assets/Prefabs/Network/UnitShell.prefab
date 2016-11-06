@@ -8,7 +8,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 474800}
-  - 111: {fileID: 11132050}
   m_Layer: 9
   m_Name: Body
   m_TagString: Untagged
@@ -102,32 +101,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.5, z: 1}
   m_Center: {x: 0, y: 0.78, z: 0}
---- !u!111 &11132050
-Animation:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 131902}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400036, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  m_Animations:
-  - {fileID: 7400016, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400018, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400020, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400022, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400024, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400026, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400028, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400030, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400032, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400034, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400036, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400056, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 1
 --- !u!114 &11404142
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -166,6 +139,7 @@ MonoBehaviour:
   waypoints: []
   MaxHealth: 0
   Health: 0
+  AliveState: 0
 --- !u!114 &11479056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -209,6 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae35e7c133054674985bd79c191f9689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myRigidbody: {fileID: 0}
 --- !u!114 &11486856
 MonoBehaviour:
   m_ObjectHideFlags: 1

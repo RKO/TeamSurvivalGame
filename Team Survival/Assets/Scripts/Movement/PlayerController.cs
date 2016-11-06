@@ -1,25 +1,22 @@
 ﻿using UnityEngine;
 
-public class PlayerController : BaseUnit {
+public class PlayerController : MonoBehaviour {
     private const float CameraRotationSpeed = 300;
 
     private Player _player;
+    private BaseMotor _motor;
+    private AbilityList _abilities;
 
     private GameObject cameraObj;
     private float rotationX = 0;
 
     private bool _initialized = false;
 
-    public override Team GetTeam {
-        get { return Team.Players; }
-    }
-
-    private string _name = "Player";
-    public override string Name { get { return _name; } }
-
     public void PlayerInitialize (GameObject cameraPrefab, Player player) {
         _player = player;
-        _name = player.PlayerName;
+
+        _motor = GetComponent<BaseMotor>();
+        _abilities = GetComponent<AbilityList>();
 
         cameraObj = Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 
@@ -33,7 +30,7 @@ public class PlayerController : BaseUnit {
         _initialized = true;
     }
 
-    protected override void UnitUpdate() {
+    private void Update() {
         if (_initialized)
         {
             SetMovement();
@@ -84,7 +81,7 @@ public class PlayerController : BaseUnit {
         const int size = 50;
 
         int count = 0;
-        foreach (var state in Abilities._abilityStates)
+        foreach (var state in _abilities._abilityStates)
         {
             int x = 100 + (count * size * 2);
             int y = Screen.height - 10 - size;
@@ -100,7 +97,7 @@ public class PlayerController : BaseUnit {
 
     private void ControlCamera()
     {
-        cameraObj.transform.position = Motor.Head.position;
+        cameraObj.transform.position = _motor.Head.position;
 
         //Don't rotate the camera, if GUI is open.
         if (!GameManager.Instance.IsGUIOpen)
@@ -124,6 +121,6 @@ public class PlayerController : BaseUnit {
         _player.CmdSetRotateDestination(rotation);
 
         //Apply the desired rotation immediately so the user can see it, but the server will decide if it's correct.
-        Motor.transform.localRotation = q;
+        _motor.transform.localRotation = q;
     }
 }

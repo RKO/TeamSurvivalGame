@@ -44,7 +44,7 @@ public class UnitController : BaseUnit {
 	}
 
     private void ClientSideUpdate() {
-        switch (Animations.CurrentAnimation)
+        switch (CurrentAnimation)
         {
             case UnitAnimation.Walking:
                 _animator.Play("walk");
@@ -75,9 +75,9 @@ public class UnitController : BaseUnit {
             Motor.SetRotateDestination(Vector3.zero);
 
             if(Shell.AliveState == LifeState.Dying)
-                Animations.CurrentAnimation = UnitAnimation.Dying;
+                CurrentAnimation = UnitAnimation.Dying;
             else if(Shell.AliveState == LifeState.Dead)
-                Animations.CurrentAnimation = UnitAnimation.Dead;
+                CurrentAnimation = UnitAnimation.Dead;
 
             return;
         }
@@ -142,7 +142,7 @@ public class UnitController : BaseUnit {
         if (_path == null)
         {
             Motor.SetMoveDirection(Vector3.zero);
-            Animations.CurrentAnimation = UnitAnimation.Idle;
+            CurrentAnimation = UnitAnimation.Idle;
             return;
         }
 
@@ -163,7 +163,7 @@ public class UnitController : BaseUnit {
 
         Vector3 dir = nextPoint - transform.position;
         Motor.SetMoveDirection(dir);
-        Animations.CurrentAnimation = UnitAnimation.Running;
+        CurrentAnimation = UnitAnimation.Running;
 
         Quaternion rotation = Quaternion.LookRotation(dir);
         Vector3 rotDir = rotation.eulerAngles;

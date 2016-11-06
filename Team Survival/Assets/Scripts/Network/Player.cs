@@ -14,26 +14,24 @@ public class Player : NetworkBehaviour {
     private bool _initialized;
 
     [SyncVar]
-    private NetworkIdentity _bodyIdentity;
     private PlayerController controller;
     private BaseMotor _motor;
     private AbilityList _abilities;
-    private AnimationSync _animationSync;
+    private BaseUnit _unit;
 
-    public void Initialize(int id, NetworkIdentity body) {
+    public void Initialize(int id) {
         PlayerID = id;
-        _bodyIdentity = body;
     }
 
     void Start() {
-        _motor = _bodyIdentity.gameObject.GetComponent<BaseMotor>();
-        _abilities = _bodyIdentity.gameObject.GetComponent<AbilityList>();
-        _animationSync = _bodyIdentity.gameObject.GetComponent<AnimationSync>();
-
+        _motor = gameObject.GetComponent<BaseMotor>();
+        _abilities = gameObject.GetComponent<AbilityList>();
+        _unit = gameObject.GetComponent<BaseUnit>();
 
         if (isServer) {
-            _abilities.GrantAbility(new AbilityJump(_motor, _animationSync), AbilitySlot.Jump);
-            _abilities.GrantAbility(new AbilityBasicAttack(_motor, _animationSync), AbilitySlot.Attack1);
+            
+            _abilities.GrantAbility(new AbilityJump(_motor, _unit), AbilitySlot.Jump);
+            _abilities.GrantAbility(new AbilityBasicAttack(_motor, _unit), AbilitySlot.Attack1);
         }
     }
 
@@ -45,7 +43,7 @@ public class Player : NetworkBehaviour {
         {
             _initialized = true;
 
-            controller = _bodyIdentity.gameObject.GetComponentInChildren<PlayerController>();
+            controller = gameObject.GetComponentInChildren<PlayerController>();
             controller.PlayerInitialize(CameraPrefab, this);
 
             //If it should ever be needed, that the client can tell the server to grant an ability, this is the way to do it.
@@ -58,10 +56,13 @@ public class Player : NetworkBehaviour {
     public void CmdSetMoveDir(Vector3 moveDir)
     {
         _motor.SetMoveDirection(moveDir);
-        if (moveDir != Vector3.zero)
-            _animationSync.CurrentAnimation = UnitAnimation.Running;
-        else
-            _animationSync.CurrentAnimation = UnitAnimation.Idle;
+        if (_unit != null)
+        {
+            if (moveDir != Vector3.zero)
+                _unit.CurrentAnimation = UnitAnimation.Running;
+            else
+                _unit.CurrentAnimation = UnitAnimation.Idle;
+        }
     }
 
     [Command]

@@ -4,7 +4,6 @@ using UnityEngine.Networking;
 
 [RequireComponent(typeof(BaseMotor))]
 [RequireComponent(typeof(AbilityList))]
-[RequireComponent(typeof(AnimationSync))]
 public class UnitShell : NetworkBehaviour {
 
     [SyncVar]
@@ -16,25 +15,30 @@ public class UnitShell : NetworkBehaviour {
     public BaseUnit ChildUnit{ get { return _unit; } }
 
     // Use this for initialization
-    void Start () {
-        if (string.IsNullOrEmpty(UnitPrefabToLoad))
+    void Start() {
+        /*if (string.IsNullOrEmpty(UnitPrefabToLoad))
         {
             Debug.LogWarning(this.GetType().ToString()+" on object \""+gameObject.name+"\" can't load model because no prefab path is set.");
             return;
+        }*/
+
+        if (!string.IsNullOrEmpty(UnitPrefabToLoad)) {
+            GameObject model = Instantiate(Resources.Load(UnitPrefabToLoad)) as GameObject;
+            model.transform.SetParent(this.transform, false);
+
+            //Only for non-player units. 
+            _unit = model.GetComponent<BaseUnit>();
         }
-
-        GameObject model = Instantiate(Resources.Load(UnitPrefabToLoad)) as GameObject;
-        model.transform.SetParent(this.transform, false);
-
-        //Only for non-player units. 
-        _unit = model.GetComponent<BaseUnit>();
+        else {
+            _unit = GetComponentInChildren<BaseUnit>();
+        }
         if (_unit == null)
         {
             Debug.LogError("No BaseUnit component on spawned model \""+ UnitPrefabToLoad + "\"!");
             return;
         }
 
-        _unit.Initialize(this, GetComponent<BaseMotor>(), GetComponent<AbilityList>(), GetComponent<AnimationSync>(), this.isServer);
+        _unit.Initialize(this, GetComponent<BaseMotor>(), GetComponent<AbilityList>(), this.isServer);
 
         if (this.isServer) {
             ServerSideSetup(_unit);

@@ -5,7 +5,7 @@ public abstract class BaseAbility {
     public abstract string Name { get; }
 
     protected BaseMotor _caster;
-    protected AnimationSync _animSync;
+    protected BaseUnit _unit;
     protected float _cooldown;
     protected float _cooldownCounter;
     protected float _duration;
@@ -17,9 +17,9 @@ public abstract class BaseAbility {
 
     public bool CanActivate { get { return _cooldownCounter == 0 && !IsActive && CheckCanActivate(); } }
 
-    public BaseAbility(BaseMotor caster, AnimationSync animSync, float cooldown, float duration = 0) {
+    public BaseAbility(BaseMotor caster, BaseUnit unit, float cooldown, float duration = 0) {
         _caster = caster;
-        _animSync = animSync;
+        _unit = unit;
         _cooldown = cooldown;
         _duration = duration;
 

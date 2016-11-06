@@ -13,13 +13,13 @@ public class AbilityBasicAttack : BaseAbility
 
     public override string Name { get { return "Attack"; } }
 
-    public AbilityBasicAttack(BaseMotor caster, AnimationSync animSync) : base(caster, animSync, Cooldown, Duration) {
+    public AbilityBasicAttack(BaseMotor caster, BaseUnit unit) : base(caster, unit, Cooldown, Duration) {
         _hitTable = new Dictionary<Transform, UnitShell>();
     }
 
     protected override void DoActivate()
     {
-        _animSync.RpcTriggerAnimation(UnitTriggerAnimation.Attack1);
+        _unit.TriggerAnimation(UnitTriggerAnimation.Attack1);
         _hitTable.Clear();
     }
 

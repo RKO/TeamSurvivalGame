@@ -15,32 +15,33 @@ public class MyNetworkManager : NetworkManager {
         int playerNumber = GetPlayerNumber(conn);
         Debug.Log("Player joined. Assigning id: "+playerNumber);
 
-		var playerObj = (GameObject)Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        //Spawn the body of the player.
+        Vector3 spawnPoint = new Vector3(0, 5, 11);
+        var playerObj = (GameObject)Instantiate(playerPrefab, spawnPoint, Quaternion.identity);
 
         Player player = playerObj.GetComponent<Player>();
 
 
         // -------------- Player Body -------------- //
 
-        //Spawn the body of the player.
-        Vector3 spawnPoint = new Vector3(0, 5, 11);
+        
         //TODO Get the prefab from somewhere that makes sense.
-        GameObject bodyPrefab = spawnPrefabs[0];
+        //GameObject bodyPrefab = spawnPrefabs[0];
 
-        GameObject playerBody = Instantiate(bodyPrefab, spawnPoint, Quaternion.identity) as GameObject;
-        BaseMotor motor = playerBody.GetComponent<BaseMotor>();
+        //GameObject playerBody = Instantiate(bodyPrefab, spawnPoint, Quaternion.identity) as GameObject;
+        BaseMotor motor = playerObj.GetComponent<BaseMotor>();
 
-        UnitShell shell = playerBody.GetComponent<UnitShell>();
+        //UnitShell shell = playerObj.GetComponent<UnitShell>();
         //TODO Load abilities from this too?
-        shell.UnitPrefabToLoad = "Spawnable/Characters/WarriorPrincess";
+        //shell.UnitPrefabToLoad = "Spawnable/Characters/WarriorPrincess";
         
         motor.Initialize(Player.MoveSpeed);
 
-        NetworkServer.Spawn(playerBody);
+        //NetworkServer.Spawn(playerBody);
 
         // -------------- Player -------------- //
 
-        player.Initialize(playerNumber, playerBody.GetComponent<NetworkIdentity>());
+        player.Initialize(playerNumber);
         _players.Add(playerNumber, player);
 
         //Spawn on network.
