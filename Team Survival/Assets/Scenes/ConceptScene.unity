@@ -3256,10 +3256,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1827556147}
     m_Modifications:
-    - target: {fileID: 11469412, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
-      propertyPath: waves.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 440240, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3291,34 +3287,6 @@ Prefab:
     - target: {fileID: 440240, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 11469412, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
-      propertyPath: waves.Array.data[0].UnitPrefab
-      value: 
-      objectReference: {fileID: 198110, guid: d8003d2509c719841b7e05e48cd77883, type: 2}
-    - target: {fileID: 11469412, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
-      propertyPath: waves.Array.data[0].UnitCount
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 11469412, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
-      propertyPath: waves.Array.data[1].UnitCount
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11469412, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
-      propertyPath: waves.Array.data[1].UnitPrefab
-      value: 
-      objectReference: {fileID: 130026, guid: 0a1f6fc8b66f6ae4a9ec6e7e9d18883a, type: 2}
-    - target: {fileID: 11469412, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
-      propertyPath: waves.Array.data[2].UnitCount
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 11469412, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
-      propertyPath: waves.Array.data[2].UnitPrefab
-      value: 
-      objectReference: {fileID: 130026, guid: 0a1f6fc8b66f6ae4a9ec6e7e9d18883a, type: 2}
-    - target: {fileID: 11469412, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
-      propertyPath: waves.Array.data[0].PrefabToLoad
-      value: Spawnable/Goblin_Level1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}

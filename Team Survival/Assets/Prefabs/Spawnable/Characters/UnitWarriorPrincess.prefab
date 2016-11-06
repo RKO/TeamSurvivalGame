@@ -20,6 +20,7 @@ GameObject:
   - 114: {fileID: 114000012787741800}
   - 114: {fileID: 114000011345926920}
   - 114: {fileID: 114000013807639538}
+  - 114: {fileID: 114000013720784762}
   m_Layer: 9
   m_Name: UnitWarriorPrincess
   m_TagString: Untagged
@@ -3679,8 +3680,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14534816ff4ba194b8350d9c40793e85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114000013720784762
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 198110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae61351202984a4182795a81669bcd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   IsOnServer: 0
   MaxHealth: 100
+  CurrentAnimation: 0
 --- !u!114 &114000013807639538
 MonoBehaviour:
   m_ObjectHideFlags: 1
