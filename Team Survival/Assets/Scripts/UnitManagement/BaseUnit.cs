@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(AnimationSync))]
+[RequireComponent(typeof(BaseMotor))]
+[RequireComponent(typeof(AbilityList))]
 public abstract class BaseUnit : MonoBehaviour, IUnit {
 
     public UnitShell Shell { get; protected set; }
