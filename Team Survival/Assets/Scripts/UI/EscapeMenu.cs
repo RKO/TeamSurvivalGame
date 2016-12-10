@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class EscapeMenu : MonoBehaviour {
     public GameObject _menu;
@@ -21,6 +20,9 @@ public class EscapeMenu : MonoBehaviour {
 	}
 
     private void SetMenuVisible(bool visible) {
+        if (GameManager.Instance == null)
+            return;
+
         _isVisible = visible;
         _menu.SetActive(_isVisible);
         _background.SetActive(_isVisible);

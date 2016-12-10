@@ -3,20 +3,24 @@ using UnityEngine.UI;
 
 public class TestUI : MonoBehaviour {
     private GameManager _gameManager;
+    private SpawnManager _spawnManager;
     public Text _waveText;
     public Text _enemiesLeftText;
-	
-    void Start () {
-        _gameManager = GameManager.Instance;
-    }
 
 	// Update is called once per frame
 	void Update () {
-        SpawnManager spawnManager = _gameManager.spawnManager;
+        if (GameManager.Instance == null)
+            return;
 
-        int wave = Mathf.Min(spawnManager.CurrentWave + 1, spawnManager.WaveCount);
+        if (_spawnManager == null)
+        {
+            _gameManager = GameManager.Instance;
+            _spawnManager = _gameManager.spawnManager;
+        }
 
-        _waveText.text = "Wave " + wave + "/" + spawnManager.WaveCount;
+        int wave = Mathf.Min(_spawnManager.CurrentWave + 1, _spawnManager.WaveCount);
+
+        _waveText.text = "Wave " + wave + "/" + _spawnManager.WaveCount;
 
         _enemiesLeftText.text = "Enemies Left: " + _gameManager.unitManager.GetUnitCount(Team.Enemies);
     }
