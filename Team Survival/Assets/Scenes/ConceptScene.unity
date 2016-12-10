@@ -3306,7 +3306,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11469412, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
       propertyPath: waves.Array.data[0].UnitCount
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 11469412, guid: 861d763f7b88d714aa822b97f5bfc3b7, type: 2}
       propertyPath: waves.Array.data[0].UnitPrefab
