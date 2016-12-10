@@ -59,9 +59,9 @@ public class Player : NetworkBehaviour {
         if (_unit != null)
         {
             if (moveDir != Vector3.zero)
-                _unit.CurrentAnimation = UnitAnimation.Running;
+                _unit.SetNewAnimation(UnitAnimation.Running);
             else
-                _unit.CurrentAnimation = UnitAnimation.Idle;
+                _unit.SetNewAnimation(UnitAnimation.Idle);
         }
     }
 

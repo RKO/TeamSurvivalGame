@@ -1,5 +1,4 @@
-﻿
-using UnityEngine.Networking;
+﻿using UnityEngine.Networking;
 
 public class WarriorPrincessCharacter : BaseUnit
 {
@@ -15,6 +14,8 @@ public class WarriorPrincessCharacter : BaseUnit
 
     private NetworkAnimator netAnim;
 
+    private UnitAnimation _currentAnimation;
+
     // Use this for initialization
     void Start () {
         UnitAnimator.SetInteger("WeaponState", WeaponState);
@@ -22,18 +23,20 @@ public class WarriorPrincessCharacter : BaseUnit
         UnitAnimator.SetBool("NonCombat", false);
         UnitAnimator.SetBool("Idling", true);
 
+        SetNewAnimation(UnitAnimation.Idle);
+
         netAnim = GetComponent<NetworkAnimator>();
     }
 
-    // Update is called once per frame
-    void Update () {
-        if (!IsOnServer)
+
+    public override void SetNewAnimation(UnitAnimation newAnimation) {
+        if (newAnimation == _currentAnimation)
             return;
 
         bool idle = false;
         bool combat = true;
 
-        switch (CurrentAnimation)
+        switch (newAnimation)
         {
             case UnitAnimation.Idle:
                 idle = true;
@@ -50,6 +53,8 @@ public class WarriorPrincessCharacter : BaseUnit
 
         UnitAnimator.SetBool("NonCombat", !combat);
         UnitAnimator.SetBool("Idling", idle);
+
+        _currentAnimation = newAnimation;
     }
 
     public override void TriggerAnimation(UnitTriggerAnimation triggerAnim)

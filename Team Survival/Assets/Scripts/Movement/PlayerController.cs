@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour {
 
     private bool _initialized = false;
 
+    private Vector3 _moveDir = Vector3.zero;
+
     public void PlayerInitialize (GameObject cameraPrefab, Player player) {
         _player = player;
 
@@ -39,29 +41,33 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void SetMovement() {
-        Vector3 moveDir = Vector3.zero;
+        Vector3 newDir = Vector3.zero;
 
         if (Input.GetKey(KeyCode.W))
         {
-            moveDir += transform.forward;
+            newDir += transform.forward;
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            moveDir += (transform.forward * -1);
+            newDir += (transform.forward * -1);
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            moveDir += (transform.right * -1);
+            newDir += (transform.right * -1);
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            moveDir += (transform.right);
+            newDir += (transform.right);
         }
 
-        _player.CmdSetMoveDir(moveDir);
+        if (newDir != _moveDir)
+        {
+            _player.CmdSetMoveDir(newDir);
+            _moveDir = newDir;
+        }
 
         if (Input.GetKey(KeyCode.Space))
         {

@@ -11,6 +11,8 @@ public class UnitShell : NetworkBehaviour {
     private BaseUnit _unit;
     public BaseUnit ChildUnit{ get { return _unit; } }
 
+    public LifeState AliveState { get; private set; }
+
     // Use this for initialization
     void Start() {
 
@@ -48,9 +50,6 @@ public class UnitShell : NetworkBehaviour {
     [SyncVar]
     public float Health;
 
-    [SyncVar]
-    public LifeState AliveState;
-
     #endregion
 
     [Server]
@@ -66,6 +65,7 @@ public class UnitShell : NetworkBehaviour {
     [Server]
     private void Kill() {
         AliveState = LifeState.Dying;
+        _unit.UnitOnKill();
         RpcOnKill();
         StartCoroutine(Die());
     }
@@ -84,6 +84,7 @@ public class UnitShell : NetworkBehaviour {
         yield return new WaitForSeconds(2);
 
         AliveState = LifeState.Dead;
+        _unit.UnitOnDeath();
 
         yield return new WaitForSeconds(10);
 

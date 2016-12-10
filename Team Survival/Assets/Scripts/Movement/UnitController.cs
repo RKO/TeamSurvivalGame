@@ -7,6 +7,8 @@ public class UnitController : BaseUnit {
     private int _waypointIndex;
     public Transform _currentWaypoint;
 
+    private int _speed = 0;
+
     public override Team GetTeam
     {
         get { return Team.Enemies; } //TODO be able to spawn friendly and neutral units.
@@ -20,6 +22,7 @@ public class UnitController : BaseUnit {
 
     void Start () {
         Motor.Initialize(MoveSpeed);
+        UnitAnimator.SetInteger("Speed", 0);
     }
 
     public void SetPathWaypoints(Transform[] waypoints) {
@@ -36,22 +39,7 @@ public class UnitController : BaseUnit {
 
     private void ServerSideUpdate() {
         if (Shell.AliveState != LifeState.Alive)
-        {
-            _path = null;
-            Motor.SetMoveDirection(Vector3.zero);
-            Motor.SetRotateDestination(Vector3.zero);
-
-            if (Shell.AliveState == LifeState.Dying)
-            {
-                UnitAnimator.SetBool("Dying", true);
-            }
-            else if (Shell.AliveState == LifeState.Dead)
-            {
-                UnitAnimator.SetBool("Dead", true);
-            }
-
             return;
-        }
 
         CheckWaypoint();
 
@@ -66,7 +54,7 @@ public class UnitController : BaseUnit {
                 _path = FindPath(transform.position, _waypoints[_waypointIndex].position);
         }
 
-        if (_path != null)
+        /*if (_path != null)
         {
             //Debug lines
             for (int i = 1; i < _path.corners.Length; i++)
@@ -76,7 +64,7 @@ public class UnitController : BaseUnit {
 
                 Debug.DrawLine(start, end, Color.yellow);
             }
-        }
+        }*/
 
         Stear();
     }
@@ -114,7 +102,7 @@ public class UnitController : BaseUnit {
         {
             Motor.SetMoveDirection(Vector3.zero);
             //Idle
-            UnitAnimator.SetInteger("Speed", 0);
+            SetMovementSpeed(0);
             return;
         }
 
@@ -136,13 +124,34 @@ public class UnitController : BaseUnit {
         Vector3 dir = nextPoint - transform.position;
         Motor.SetMoveDirection(dir);
         //Running
-        UnitAnimator.SetInteger("Speed", 2);
+        SetMovementSpeed(2);
 
         Quaternion rotation = Quaternion.LookRotation(dir);
         Vector3 rotDir = rotation.eulerAngles;
 
         //TODO Smooth rotation instead of instant.
         Motor.SetRotateDestination(new Vector3(0, rotDir.y, 0));
+    }
+
+    private void SetMovementSpeed(int newValue) {
+        if (_speed == newValue)
+            return;
+
+        _speed = newValue;
+        UnitAnimator.SetInteger("Speed", _speed);
+    }
+
+    public override void UnitOnKill()
+    {
+        UnitAnimator.SetBool("Dying", true);
+    }
+
+    public override void UnitOnDeath() {
+        UnitAnimator.SetBool("Dead", true);
+
+        _path = null;
+        Motor.SetMoveDirection(Vector3.zero);
+        Motor.SetRotateDestination(Vector3.zero);
     }
 
     private static NavMeshPath FindPath(Vector3 startPoint, Vector3 endPoint) {
