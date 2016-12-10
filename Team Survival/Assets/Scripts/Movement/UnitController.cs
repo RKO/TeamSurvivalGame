@@ -6,7 +6,6 @@ public class UnitController : BaseUnit {
     private Transform[] _waypoints;
     private int _waypointIndex;
     public Transform _currentWaypoint;
-    public Animation _animator;
 
     public override Team GetTeam
     {
@@ -19,13 +18,8 @@ public class UnitController : BaseUnit {
         get { return UnitName; }
     }
 
-    // Use this for initialization
     void Start () {
         Motor.Initialize(MoveSpeed);
-
-        _animator = GetComponentInChildren<Animation>();
-
-        _animator.clip = _animator.GetClip("idle");
     }
 
     public void SetPathWaypoints(Transform[] waypoints) {
@@ -38,33 +32,7 @@ public class UnitController : BaseUnit {
         //Only update on server
         if (IsOnServer)
             ServerSideUpdate();
-
-        ClientSideUpdate();
 	}
-
-    private void ClientSideUpdate() {
-        switch (CurrentAnimation)
-        {
-            case UnitAnimation.Walking:
-                _animator.Play("walk");
-                break;
-            case UnitAnimation.Running:
-                _animator.Play("run");
-                break;
-            case UnitAnimation.Dying:
-            case UnitAnimation.Dead:
-                _animator.wrapMode = WrapMode.ClampForever;
-                _animator.Play("death");
-                break;
-            //Should fall through down to default.
-            case UnitAnimation.Idle:
-                _animator.Play("combat_idle");
-                break;
-            default:
-                _animator.Play("idle");
-                break;
-        }
-    }
 
     private void ServerSideUpdate() {
         if (Shell.AliveState != LifeState.Alive)
@@ -73,10 +41,14 @@ public class UnitController : BaseUnit {
             Motor.SetMoveDirection(Vector3.zero);
             Motor.SetRotateDestination(Vector3.zero);
 
-            if(Shell.AliveState == LifeState.Dying)
-                CurrentAnimation = UnitAnimation.Dying;
-            else if(Shell.AliveState == LifeState.Dead)
-                CurrentAnimation = UnitAnimation.Dead;
+            if (Shell.AliveState == LifeState.Dying)
+            {
+                UnitAnimator.SetBool("Dying", true);
+            }
+            else if (Shell.AliveState == LifeState.Dead)
+            {
+                UnitAnimator.SetBool("Dead", true);
+            }
 
             return;
         }
@@ -141,7 +113,8 @@ public class UnitController : BaseUnit {
         if (_path == null)
         {
             Motor.SetMoveDirection(Vector3.zero);
-            CurrentAnimation = UnitAnimation.Idle;
+            //Idle
+            UnitAnimator.SetInteger("Speed", 0);
             return;
         }
 
@@ -162,13 +135,13 @@ public class UnitController : BaseUnit {
 
         Vector3 dir = nextPoint - transform.position;
         Motor.SetMoveDirection(dir);
-        CurrentAnimation = UnitAnimation.Running;
+        //Running
+        UnitAnimator.SetInteger("Speed", 2);
 
         Quaternion rotation = Quaternion.LookRotation(dir);
         Vector3 rotDir = rotation.eulerAngles;
 
         //TODO Smooth rotation instead of instant.
-
         Motor.SetRotateDestination(new Vector3(0, rotDir.y, 0));
     }
 

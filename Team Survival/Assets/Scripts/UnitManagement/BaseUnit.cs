@@ -14,6 +14,7 @@ public abstract class BaseUnit : MonoBehaviour, IUnit {
 
     public int MaxHealth;
 
+    //TODO Expand so this is the interface, and all animators use same format.
     public UnitAnimation CurrentAnimation = UnitAnimation.Idle;
 
     public void Initialize(UnitShell shell, BaseMotor motor, AbilityList abilities, bool isOnServer) {

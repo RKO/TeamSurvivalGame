@@ -1865,7 +1865,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011733122358}
-  - 111: {fileID: 111000014208277584}
   m_Layer: 0
   m_Name: GOBLIN
   m_TagString: Untagged
@@ -5298,6 +5297,8 @@ GameObject:
   - 114: {fileID: 114000013538479610}
   - 114: {fileID: 114000010155149880}
   - 114: {fileID: 114000011886017930}
+  - 95: {fileID: 95000010112460518}
+  - 114: {fileID: 114000014030704032}
   m_Layer: 9
   m_Name: Goblin_Level1
   m_TagString: Untagged
@@ -7696,7 +7697,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010171538766}
-  m_LocalRotation: {x: -0.66138184, y: -0.321861, z: -0.36608955, w: 0.570051}
+  m_LocalRotation: {x: -0.6613818, y: -0.32186097, z: -0.36608952, w: 0.57005095}
   m_LocalPosition: {x: -0.14345437, y: 0.008685013, z: -0.044942744}
   m_LocalScale: {x: 0.9999999, y: 1, z: 0.99999994}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8406,7 +8407,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010826507902}
-  m_LocalRotation: {x: -0.66138196, y: -0.32186094, z: -0.3660895, w: 0.57005095}
+  m_LocalRotation: {x: -0.6613819, y: -0.3218609, z: -0.36608946, w: 0.5700509}
   m_LocalPosition: {x: -0.26663175, y: 0.008685023, z: -0.044942595}
   m_LocalScale: {x: 0.99999964, y: 0.9999999, z: 0.99999976}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10375,32 +10376,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.5, z: 1}
   m_Center: {x: 0, y: 0.78, z: 0}
---- !u!111 &111000014208277584
-Animation:
+--- !u!95 &95000010112460518
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000011252866378}
+  m_GameObject: {fileID: 1000014233229192}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400028, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  m_Animations:
-  - {fileID: 7400016, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400018, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400020, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400022, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400024, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400026, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400028, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400030, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400032, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400034, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400036, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  - {fileID: 7400056, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 1
+  m_Avatar: {fileID: 9000000, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
+  m_Controller: {fileID: 9100000, guid: 6c28c1971df8bcc45871bfb510a1e7ed, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114000010155149880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10412,7 +10404,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be0769c58a22a754ba8a1edbfb094686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitPrefabToLoad: 
   waypoints: []
   MaxHealth: 0
   Health: 0
@@ -10432,7 +10423,6 @@ MonoBehaviour:
   MaxHealth: 20
   CurrentAnimation: 0
   _currentWaypoint: {fileID: 0}
-  _animator: {fileID: 0}
   UnitName: 
 --- !u!114 &114000012039324014
 MonoBehaviour:
@@ -10497,6 +10487,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec496bf6c7105a343a7a7bd1858bde16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114000014030704032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000014233229192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1590678366, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 95000010112460518}
+  m_ParameterSendBits: 7
+  param0: 
+  param1: 
+  param2: 
+  param3: 
+  param4: 
+  param5: 
 --- !u!114 &114000014222714234
 MonoBehaviour:
   m_ObjectHideFlags: 1
