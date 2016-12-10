@@ -11,20 +11,12 @@ public class AbilityJump : BaseAbility
 
     protected override bool CheckCanActivate()
     {
-        return _caster.IsGrounded;
+        return _caster.CalculateIsGrounded();
     }
 
     protected override void DoActivate()
     {
         _caster.AddForce(Vector3.up * JumpForce);
         _unit.TriggerAnimation(UnitTriggerAnimation.Jump);
-    }
-
-    protected override void CalculateCooldown()
-    {
-        if (_cooldownCounter > 0 && _caster.IsGrounded)
-        {
-            _cooldownCounter -= Time.deltaTime;
-        }
     }
 }

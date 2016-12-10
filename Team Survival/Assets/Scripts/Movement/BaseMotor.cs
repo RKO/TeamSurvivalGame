@@ -9,13 +9,11 @@ public class BaseMotor : NetworkBehaviour {
     public Rigidbody myRigidbody;
     private LayerMask terrainLayerMask;
 
+    private bool _cachedIsGrounded = false;
+    private bool _hasIsGroundedCache = false;
+
     [SyncVar]
     private float moveSpeed;
-
-    [SyncVar]
-    private bool grounded = false;
-
-    public bool IsGrounded { get { return grounded; } }
 
     public Transform Body { get; private set; }
     public Transform Head { get; private set; }
@@ -37,38 +35,44 @@ public class BaseMotor : NetworkBehaviour {
         Head = transform.FindChild("Head");
     }
 
-    private void RaycastToGround() {
-        Ray[] rays = new Ray[5];
+    private static Vector3 RayUp = Vector3.up * 0.25f;
+    private static Vector3 RayDown = Vector3.down;
+    private const float RayLength = 1.0f;
 
-        const float rayLength = 1.0f;
+    public bool CalculateIsGrounded() {
+        if (_hasIsGroundedCache)
+            return _cachedIsGrounded;
 
-        Vector3 pos = transform.position + Vector3.up * 0.25f;
-        rays[0] = new Ray(pos, Vector3.down);
-        rays[1] = new Ray(pos - transform.right * 0.25f + transform.forward * 0.25f, Vector3.down);
-        rays[2] = new Ray(pos + transform.right * 0.25f + transform.forward * 0.25f, Vector3.down);
-        rays[3] = new Ray(pos - transform.right * 0.25f - transform.forward * 0.25f, Vector3.down);
-        rays[4] = new Ray(pos + transform.right * 0.25f - transform.forward * 0.25f, Vector3.down);
+        Vector3 pos = transform.position + RayUp;
+        Vector3 right = transform.right * 0.25f;
+        Vector3 forward = transform.forward * 0.25f;
 
-        for (int i = 0; i < rays.Length; i++)
-        {
-            Ray ray = rays[i];
+        bool grounded = CastRay(new Ray(pos - right + forward, RayDown));
+        if(!grounded)
+            grounded = CastRay(new Ray(pos + right + forward, RayDown));
+        if (!grounded)
+            grounded = CastRay(new Ray(pos - right - forward, RayDown));
+        if (!grounded)
+            grounded = CastRay(new Ray(pos + right - forward, RayDown));
 
-            Debug.DrawRay(ray.origin, ray.direction, Color.blue);
+        _cachedIsGrounded = grounded;
+        _hasIsGroundedCache = true;
 
-            if (Physics.Raycast(ray, rayLength, terrainLayerMask)) //terrainLayerMask
-            {
-                grounded = true;
-                return;
-            }
-        }
+        return grounded;
+    }
 
-        grounded = false;
+    private void LateUpdate() {
+        //Reset cached values.
+        _cachedIsGrounded = false;
+        _hasIsGroundedCache = false;
+    }
+
+    private bool CastRay(Ray ray) {
+        return Physics.Raycast(ray, RayLength, terrainLayerMask);
     }
 	
     [ServerCallback]
 	void FixedUpdate () {
-        RaycastToGround();
-
         if (moveDirection != Vector3.zero)// || addedForce != Vector3.zero)
             Move();
 

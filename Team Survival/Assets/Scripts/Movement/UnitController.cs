@@ -50,7 +50,7 @@ public class UnitController : BaseUnit {
 
         if (_path == null)
         {
-            if (Motor.IsGrounded && _waypointIndex < _waypoints.Length)
+            if (_waypointIndex < _waypoints.Length && Motor.CalculateIsGrounded())
                 _path = FindPath(transform.position, _waypoints[_waypointIndex].position);
         }
 
