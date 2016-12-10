@@ -27,6 +27,8 @@ public class WarriorPrincessCharacter : BaseUnit
 
     // Update is called once per frame
     void Update () {
+        if (!IsOnServer)
+            return;
 
         bool idle = false;
         bool combat = true;
