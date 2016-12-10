@@ -2,12 +2,16 @@
 using UnityEngine.Networking;
 
 public class BaseMotor : NetworkBehaviour {
+    private static LayerMask TerrainLayerMask = 1 << 8;
+    private static Vector3 RayUp = Vector3.up * 0.25f;
+    private static Vector3 RayDown = Vector3.down;
+    private const float RayLength = 1.0f;
+
     private Vector3 moveDirection;
-    private Vector3 eulerAngleTarget;
+    private Quaternion rotationTarget;
     private Vector3 addedForce;
 
     public Rigidbody myRigidbody;
-    private LayerMask terrainLayerMask;
 
     private bool _cachedIsGrounded = false;
     private bool _hasIsGroundedCache = false;
@@ -25,19 +29,13 @@ public class BaseMotor : NetworkBehaviour {
 	// Use this for initialization
 	void Start () {
         myRigidbody = GetComponent<Rigidbody>();
-        moveDirection = Vector3.zero;
-        eulerAngleTarget = transform.rotation.eulerAngles;
-        addedForce = Vector3.zero;
-
-        terrainLayerMask = 1 << 8; //1 << 8;
+        moveDirection = MathUtil.VectorZero;
+        rotationTarget = Quaternion.Euler(transform.rotation.eulerAngles);
+        addedForce = MathUtil.VectorZero;
 
         Body = transform.FindChild("Body");
         Head = transform.FindChild("Head");
     }
-
-    private static Vector3 RayUp = Vector3.up * 0.25f;
-    private static Vector3 RayDown = Vector3.down;
-    private const float RayLength = 1.0f;
 
     public bool CalculateIsGrounded() {
         if (_hasIsGroundedCache)
@@ -68,48 +66,50 @@ public class BaseMotor : NetworkBehaviour {
     }
 
     private bool CastRay(Ray ray) {
-        return Physics.Raycast(ray, RayLength, terrainLayerMask);
+        return Physics.Raycast(ray, RayLength, TerrainLayerMask);
     }
 	
     [ServerCallback]
-	void FixedUpdate () {
-        if (moveDirection != Vector3.zero)// || addedForce != Vector3.zero)
+	void Update () {
+        if (moveDirection != MathUtil.VectorZero)// || addedForce != Vector3.zero)
             Move();
 
-        if(eulerAngleTarget != Vector3.zero)
+        if(rotationTarget != MathUtil.QuatIdentity && rotationTarget != transform.rotation)
             Rotate();
 
-        if (addedForce != Vector3.zero)
+        if (addedForce != MathUtil.VectorZero)
             ProcessForces();
 	}
 
+    private Vector3 _movement;
     private void Move() {
         
-        Vector3 movement = moveDirection * Time.deltaTime * moveSpeed;
-        myRigidbody.MovePosition(transform.position + movement);
+        _movement = moveDirection * Time.deltaTime;
+        myRigidbody.MovePosition(transform.position + _movement);
     }
 
     private void Rotate() {
-        Quaternion deltaRotation = Quaternion.Euler(eulerAngleTarget);
-        myRigidbody.MoveRotation(deltaRotation);
+        //Currently instant rotation.
+        myRigidbody.MoveRotation(rotationTarget);
     }
 
     private void ProcessForces()
     {
         myRigidbody.AddForce(addedForce, ForceMode.Impulse);
-        addedForce = Vector3.zero;
+        addedForce = MathUtil.VectorZero;
     }
 
     [Server]
     public void SetMoveDirection(Vector3 dir) {
-        //Normalize the direction, as controllers might forget it.
-        moveDirection = dir.normalized;
+        //Normalize the direction, as controllers might forget it. 
+        //And apply speed, as it is used every frame, but dir is not changed very often.
+        moveDirection = dir.normalized * moveSpeed;
     }
 
     [Server]
     public void SetRotateDestination(Vector3 dir)
     {
-        eulerAngleTarget = dir;
+        rotationTarget = Quaternion.Euler(dir);
     }
 
     [Server]

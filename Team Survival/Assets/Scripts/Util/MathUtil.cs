@@ -2,6 +2,9 @@
 
 public class MathUtil {
 
+    public readonly static Vector3 VectorZero = Vector3.zero;
+    public readonly static Quaternion QuatIdentity = Quaternion.identity;
+
     public static float ClampAngle(float angle, float min, float max)
     {
 
