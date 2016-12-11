@@ -3630,7 +3630,7 @@ Animator:
   m_GameObject: {fileID: 198110}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 6db04bc21c5245d428bf2464b5cc5376, type: 3}
-  m_Controller: {fileID: 9100000, guid: 9f8eb855b693b644e945fed05bfcc090, type: 2}
+  m_Controller: {fileID: 9100000, guid: 764dc11be4840ca44b442d41a0c08320, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3693,7 +3693,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsOnServer: 0
   MaxHealth: 100
-  CurrentAnimation: 0
 --- !u!114 &114000013807639538
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3705,11 +3704,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be0769c58a22a754ba8a1edbfb094686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitPrefabToLoad: 
   waypoints: []
   MaxHealth: 0
   Health: 0
-  AliveState: 0
 --- !u!137 &137000010076581220
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

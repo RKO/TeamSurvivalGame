@@ -2,9 +2,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(BaseMotor))]
-[RequireComponent(typeof(AbilityList))]
-[RequireComponent(typeof(AnimationSync))]
+[RequireComponent(typeof(BaseUnit))]
 public class UnitShell : NetworkBehaviour {
 
     public Transform[] waypoints;
@@ -13,16 +11,12 @@ public class UnitShell : NetworkBehaviour {
     
     public BaseUnit ChildUnit{ get { return _unit; } }
 
-    public AnimationSync AnimationSync { get; private set; }
-
     public LifeState AliveState { get; private set; }
 
     // Use this for initialization
     void Start() {
-
         _unit = GetComponentInChildren<BaseUnit>();
-        _unit.Initialize(this, GetComponent<BaseMotor>(), GetComponent<AbilityList>(), this.isServer);
-        AnimationSync = GetComponent<AnimationSync>();
+        _unit.Initialize(this, this.isServer);
 
         if (this.isServer) {
             ServerSideSetup(_unit);

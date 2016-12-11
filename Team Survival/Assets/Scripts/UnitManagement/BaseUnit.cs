@@ -8,7 +8,7 @@ public abstract class BaseUnit : MonoBehaviour, IUnit {
     public UnitShell Shell { get; protected set; }
     public BaseMotor Motor { get; protected set; }
     public AbilityList Abilities { get; protected set; }
-    public Animator UnitAnimator { get; protected set; }
+    private AnimationSync _animationSync;
     public bool IsOnServer;
 
     public abstract Team GetTeam { get; }
@@ -17,13 +17,11 @@ public abstract class BaseUnit : MonoBehaviour, IUnit {
 
     public int MaxHealth;
 
-    public void Initialize(UnitShell shell, BaseMotor motor, AbilityList abilities, bool isOnServer) {
+    public void Initialize(UnitShell shell, bool isOnServer) {
         Shell = shell;
-        Motor = motor;
-        Abilities = abilities;
-        IsOnServer = isOnServer;
-
-        UnitAnimator = GetComponent<Animator>();
+        Motor = GetComponent<BaseMotor>();
+        Abilities = GetComponent<AbilityList>();
+        _animationSync = GetComponent<AnimationSync>();
     }
 
     private void Awake() {
@@ -40,6 +38,16 @@ public abstract class BaseUnit : MonoBehaviour, IUnit {
         UnitUpdate();
     }
 
+    public void SetNewAnimation(UnitAnimation newAnimation)
+    {
+        _animationSync.SetNewAnimation(newAnimation);
+    }
+
+    public void TriggerAnimation(UnitTriggerAnimation triggerAnim)
+    {
+        _animationSync.TriggerAnimation(triggerAnim);
+    }
+
     protected virtual void UnitUpdate() { }
 
     protected virtual void UnitOnAwake() { }
@@ -49,8 +57,4 @@ public abstract class BaseUnit : MonoBehaviour, IUnit {
     public virtual void UnitOnKill() { }
 
     public virtual void UnitOnDeath() { }
-
-    public virtual void SetNewAnimation(UnitAnimation newAnimation) { }
-
-    public virtual void TriggerAnimation(UnitTriggerAnimation triggerAnim) { }
 }

@@ -3,13 +3,17 @@ using UnityEngine;
 
 public class AnimationSync : NetworkBehaviour {
     private Animation _animation;
+    private Animator _unitAnimator;
 
     [SyncVar]
     private UnitAnimation _currentAnimation = UnitAnimation.Idle;
 
     private void Start() {
         _animation = GetComponentInChildren<Animation>();
-        ApplyAnimation(_currentAnimation);
+        _unitAnimator = GetComponent<Animator>();
+
+        if (_animation != null)
+            ApplyAnimation(_currentAnimation);
     }
 
     [Server]
@@ -19,7 +23,11 @@ public class AnimationSync : NetworkBehaviour {
             return;
 
         _currentAnimation = newAnimation;
-        RpcSetNewAnimation(newAnimation);
+
+        if (_animation != null)
+            RpcSetNewAnimation(newAnimation);
+        else
+            ApplyMechanim(newAnimation);
     }
 
     [ClientRpc]
@@ -49,5 +57,36 @@ public class AnimationSync : NetworkBehaviour {
         }
 
         _currentAnimation = newAnimation;
+    }
+
+    private void ApplyMechanim(UnitAnimation newAnimation)
+    {
+        switch (newAnimation)
+        {
+            case UnitAnimation.Idle:
+                _unitAnimator.SetInteger("Speed", 0);
+                break;
+            case UnitAnimation.Walking:
+                _unitAnimator.SetInteger("Speed", 1);
+                break;
+            case UnitAnimation.Running:
+                _unitAnimator.SetInteger("Speed", 2);
+                break;
+            default:
+                break;
+        }
+
+        _currentAnimation = newAnimation;
+    }
+
+    public void TriggerAnimation(UnitTriggerAnimation triggerAnim)
+    {
+        if (triggerAnim == UnitTriggerAnimation.Jump)
+        {
+            _unitAnimator.SetTrigger("Jump");
+        }
+        else {
+            _unitAnimator.SetTrigger("Attack");
+        }
     }
 }

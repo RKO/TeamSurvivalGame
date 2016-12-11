@@ -24,7 +24,7 @@ public class UnitController : BaseUnit {
         Motor.Initialize(MoveSpeed);
 
         if(IsOnServer)
-            Shell.AnimationSync.SetNewAnimation(UnitAnimation.Idle);
+            SetNewAnimation(UnitAnimation.Idle);
     }
 
     public void SetPathWaypoints(Transform[] waypoints) {
@@ -105,7 +105,7 @@ public class UnitController : BaseUnit {
         {
             Motor.SetMoveDirection(Vector3.zero);
             //Idle
-            Shell.AnimationSync.SetNewAnimation(UnitAnimation.Idle);
+            SetNewAnimation(UnitAnimation.Idle);
             return;
         }
 
@@ -127,7 +127,7 @@ public class UnitController : BaseUnit {
         Vector3 dir = nextPoint - transform.position;
         Motor.SetMoveDirection(dir);
         //Running
-        Shell.AnimationSync.SetNewAnimation(UnitAnimation.Running);
+        SetNewAnimation(UnitAnimation.Running);
 
         Quaternion rotation = Quaternion.LookRotation(dir);
         Vector3 rotDir = rotation.eulerAngles;
@@ -138,13 +138,11 @@ public class UnitController : BaseUnit {
 
     public override void UnitOnKill()
     {
-        //UnitAnimator.SetBool("Dying", true);
-        Shell.AnimationSync.SetNewAnimation(UnitAnimation.Dying);
+        SetNewAnimation(UnitAnimation.Dying);
     }
 
     public override void UnitOnDeath() {
-        //UnitAnimator.SetBool("Dead", true);
-        Shell.AnimationSync.SetNewAnimation(UnitAnimation.Dead);
+        SetNewAnimation(UnitAnimation.Dead);
 
         _path = null;
         Motor.SetMoveDirection(Vector3.zero);
