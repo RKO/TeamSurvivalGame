@@ -17,8 +17,9 @@ public abstract class BaseUnit : MonoBehaviour, IUnit {
 
     public int MaxHealth;
 
-    public void Initialize(UnitShell shell, bool isOnServer) {
+    public void Initialize(UnitShell shell) {
         Shell = shell;
+        IsOnServer = Shell.isServer;
         Motor = GetComponent<BaseMotor>();
         Abilities = GetComponent<AbilityList>();
         _animationSync = GetComponent<AnimationSync>();

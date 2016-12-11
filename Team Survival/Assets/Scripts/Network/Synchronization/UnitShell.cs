@@ -16,7 +16,7 @@ public class UnitShell : NetworkBehaviour {
     // Use this for initialization
     void Start() {
         _unit = GetComponentInChildren<BaseUnit>();
-        _unit.Initialize(this, this.isServer);
+        _unit.Initialize(this);
 
         if (this.isServer) {
             ServerSideSetup(_unit);
