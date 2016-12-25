@@ -1,4 +1,9 @@
 ﻿
+using UnityEngine;
+
+[RequireComponent(typeof(AnimationSync))]
+[RequireComponent(typeof(BaseMotor))]
+[RequireComponent(typeof(AbilityList))]
 public class WarriorPrincessCharacter : BaseUnit
 {
     public override Team GetTeam

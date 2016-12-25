@@ -4,6 +4,7 @@ using UnityEngine;
 public class AnimationSync : NetworkBehaviour {
     private Animation _animation;
     private Animator _unitAnimator;
+    private NetworkAnimator _netAnimator;
 
     [SyncVar]
     private UnitAnimation _currentAnimation = UnitAnimation.Idle;
@@ -11,6 +12,7 @@ public class AnimationSync : NetworkBehaviour {
     private void Start() {
         _animation = GetComponentInChildren<Animation>();
         _unitAnimator = GetComponent<Animator>();
+        _netAnimator = GetComponent<NetworkAnimator>();
 
         if (_animation != null)
             ApplyAnimation(_currentAnimation);
@@ -83,10 +85,10 @@ public class AnimationSync : NetworkBehaviour {
     {
         if (triggerAnim == UnitTriggerAnimation.Jump)
         {
-            _unitAnimator.SetTrigger("Jump");
+            _netAnimator.SetTrigger("Jump");
         }
         else {
-            _unitAnimator.SetTrigger("Attack");
+            _netAnimator.SetTrigger("Attack");
         }
     }
 }
