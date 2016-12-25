@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : NetworkBehaviour {
     public static GameManager Instance { get; private set; }
 
     public SpawnManager spawnManager;
@@ -16,7 +17,7 @@ public class GameManager : MonoBehaviour {
         unitManager = new UnitManager();
     }
 
-    void Start() {
+    public override void OnStartServer() {
         goal = FindObjectOfType<GoalZone>().transform;
 
         spawnManager.StartSpawning();

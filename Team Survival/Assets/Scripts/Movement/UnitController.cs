@@ -7,7 +7,7 @@ public class UnitController : BaseUnit {
     private int _waypointIndex;
     public Transform _currentWaypoint;
 
-    private int _speed = 0;
+    private AnimationSync _animationSync;
 
     public override Team GetTeam
     {
@@ -20,9 +20,11 @@ public class UnitController : BaseUnit {
         get { return UnitName; }
     }
 
-    void Start () {
+    private void Start () {
         Motor.Initialize(MoveSpeed);
-        UnitAnimator.SetInteger("Speed", 0);
+
+        if(IsOnServer)
+            SetNewAnimation(UnitAnimation.Idle);
     }
 
     public void SetPathWaypoints(Transform[] waypoints) {
@@ -97,12 +99,13 @@ public class UnitController : BaseUnit {
         }
     }
 
+    //Only called on server.
     private void Stear() {
         if (_path == null)
         {
             Motor.SetMoveDirection(Vector3.zero);
             //Idle
-            SetMovementSpeed(0);
+            SetNewAnimation(UnitAnimation.Idle);
             return;
         }
 
@@ -124,7 +127,7 @@ public class UnitController : BaseUnit {
         Vector3 dir = nextPoint - transform.position;
         Motor.SetMoveDirection(dir);
         //Running
-        SetMovementSpeed(2);
+        SetNewAnimation(UnitAnimation.Running);
 
         Quaternion rotation = Quaternion.LookRotation(dir);
         Vector3 rotDir = rotation.eulerAngles;
@@ -133,21 +136,13 @@ public class UnitController : BaseUnit {
         Motor.SetRotateDestination(new Vector3(0, rotDir.y, 0));
     }
 
-    private void SetMovementSpeed(int newValue) {
-        if (_speed == newValue)
-            return;
-
-        _speed = newValue;
-        UnitAnimator.SetInteger("Speed", _speed);
-    }
-
     public override void UnitOnKill()
     {
-        UnitAnimator.SetBool("Dying", true);
+        SetNewAnimation(UnitAnimation.Dying);
     }
 
     public override void UnitOnDeath() {
-        UnitAnimator.SetBool("Dead", true);
+        SetNewAnimation(UnitAnimation.Dead);
 
         _path = null;
         Motor.SetMoveDirection(Vector3.zero);

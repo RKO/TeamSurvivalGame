@@ -2,22 +2,21 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(BaseMotor))]
-[RequireComponent(typeof(AbilityList))]
+[RequireComponent(typeof(BaseUnit))]
 public class UnitShell : NetworkBehaviour {
 
     public Transform[] waypoints;
-
+    
     private BaseUnit _unit;
+    
     public BaseUnit ChildUnit{ get { return _unit; } }
 
     public LifeState AliveState { get; private set; }
 
     // Use this for initialization
     void Start() {
-
         _unit = GetComponentInChildren<BaseUnit>();
-        _unit.Initialize(this, GetComponent<BaseMotor>(), GetComponent<AbilityList>(), this.isServer);
+        _unit.Initialize(this);
 
         if (this.isServer) {
             ServerSideSetup(_unit);

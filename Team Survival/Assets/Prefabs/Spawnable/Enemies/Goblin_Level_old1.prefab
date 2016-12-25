@@ -1865,6 +1865,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000011733122358}
+  - 111: {fileID: 111000013232823504}
   m_Layer: 0
   m_Name: GOBLIN
   m_TagString: Untagged
@@ -5297,8 +5298,7 @@ GameObject:
   - 114: {fileID: 114000013538479610}
   - 114: {fileID: 114000010155149880}
   - 114: {fileID: 114000011886017930}
-  - 95: {fileID: 95000010112460518}
-  - 114: {fileID: 114000014030704032}
+  - 114: {fileID: 114000013498701028}
   m_Layer: 9
   m_Name: Goblin_Level1
   m_TagString: Untagged
@@ -10376,23 +10376,32 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.5, z: 1}
   m_Center: {x: 0, y: 0.78, z: 0}
---- !u!95 &95000010112460518
-Animator:
-  serializedVersion: 3
+--- !u!111 &111000013232823504
+Animation:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000014233229192}
+  m_GameObject: {fileID: 1000011252866378}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
-  m_Controller: {fileID: 9100000, guid: 6c28c1971df8bcc45871bfb510a1e7ed, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400028, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
+  m_Animations:
+  - {fileID: 7400016, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
+  - {fileID: 7400018, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
+  - {fileID: 7400020, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
+  - {fileID: 7400022, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
+  - {fileID: 7400024, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
+  - {fileID: 7400026, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
+  - {fileID: 7400028, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
+  - {fileID: 7400030, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
+  - {fileID: 7400032, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
+  - {fileID: 7400034, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
+  - {fileID: 7400036, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
+  - {fileID: 7400056, guid: 2de911d45fd8d124c90453569b0194ca, type: 3}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 1
 --- !u!114 &114000010155149880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10407,7 +10416,6 @@ MonoBehaviour:
   waypoints: []
   MaxHealth: 0
   Health: 0
-  AliveState: 0
 --- !u!114 &114000011886017930
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10421,7 +10429,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsOnServer: 0
   MaxHealth: 20
-  CurrentAnimation: 0
   _currentWaypoint: {fileID: 0}
   UnitName: 
 --- !u!114 &114000012039324014
@@ -10476,6 +10483,17 @@ MonoBehaviour:
     i15: 23
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114000013498701028
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000014233229192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f603a8633e58e4b4fbe462caaf9fb007, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114000013538479610
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10487,25 +10505,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec496bf6c7105a343a7a7bd1858bde16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114000014030704032
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000014233229192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1590678366, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Animator: {fileID: 95000010112460518}
-  m_ParameterSendBits: 7
-  param0: 
-  param1: 
-  param2: 
-  param3: 
-  param4: 
-  param5: 
 --- !u!114 &114000014222714234
 MonoBehaviour:
   m_ObjectHideFlags: 1
