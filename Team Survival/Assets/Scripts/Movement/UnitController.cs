@@ -125,14 +125,6 @@ public class UnitController : MonoBehaviour {
         _motor.SetRotateDestination(new Vector3(0, rotDir.y, 0));
     }
 
-    /*public override void UnitOnDeath() {
-        SetNewAnimation(UnitAnimation.Dead);
-
-        _path = null;
-        Motor.SetMoveDirection(Vector3.zero);
-        Motor.SetRotateDestination(Vector3.zero);
-    }*/
-
     private static NavMeshPath FindPath(Vector3 startPoint, Vector3 endPoint) {
         NavMeshPath path = new NavMeshPath();
         bool pathFound = NavMesh.CalculatePath(startPoint, endPoint, NavMesh.AllAreas, path);
