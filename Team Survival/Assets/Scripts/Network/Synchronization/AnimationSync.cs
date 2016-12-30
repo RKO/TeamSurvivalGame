@@ -74,6 +74,10 @@ public class AnimationSync : NetworkBehaviour {
             case UnitAnimation.Running:
                 _mechanimAnimator.SetInteger("Speed", 2);
                 break;
+            case UnitAnimation.Dying:
+                _netAnimator.SetTrigger("Death");
+                break;
+            case UnitAnimation.Dead:
             default:
                 break;
         }
