@@ -14,6 +14,7 @@ public class BaseUnit : MonoBehaviour, IUnit {
     public float MoveSpeed { get { return UnitMoveSpeed; } }
 
     public Team UnitTeam;
+    //TODO Rename!
     public Team GetTeam { get { return UnitTeam; } }
 
     public string UnitName;

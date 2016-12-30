@@ -48,9 +48,9 @@ public class AbilityBasicAttack : BaseAbility
     }
 
     private void DoHitOnTarget(UnitShell target) {
-        if (target.ChildUnit.GetTeam == Team.Enemies)
+        if (target.ChildUnit.GetTeam != _unit.GetTeam)
         {
-            target.DealDamage(100);
+            target.DealDamage(10);
         }
     }
 }
