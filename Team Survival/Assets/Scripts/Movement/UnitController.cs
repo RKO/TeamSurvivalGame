@@ -13,6 +13,8 @@ public class UnitController : MonoBehaviour {
         _unit = GetComponent<BaseUnit>();
         _unit.OnKillCallback += OnUnitKill;
         _motor = _unit.Motor;
+
+        _unit.Abilities.GrantAbility(new AbilityBasicAttack(_motor, _unit), AbilitySlot.Attack1);
     }
 
     public void SetPathWaypoints(Transform[] waypoints) {
