@@ -1,29 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Networking;
 
-public class BaseMotor : NetworkBehaviour {
-    private static LayerMask TerrainLayerMask = 1 << 8;
-    private static Vector3 RayUp = Vector3.up * 0.25f;
-    private static Vector3 RayDown = Vector3.down;
-    private const float RayLength = 1.0f;
-
+public class BaseMotor : NetworkBehaviour, IMotor {
     private Vector3 moveDirection;
     private Quaternion rotationTarget;
     private Vector3 addedForce;
 
-    public Rigidbody myRigidbody;
+    private Rigidbody myRigidbody;
 
-    private bool _cachedIsGrounded = false;
-    private bool _hasIsGroundedCache = false;
-
+    private GroundChecker _groundChecker;
     public Vector3 MoveDirection { get { return moveDirection; } }
 
-    [SyncVar]
     private float moveSpeed;
 
     public Transform Body { get; private set; }
     public Transform Head { get; private set; }
 
+    [Server]
     public void Initialize(float moveSpeed) {
         this.moveSpeed = moveSpeed;
     }
@@ -35,40 +29,21 @@ public class BaseMotor : NetworkBehaviour {
         rotationTarget = Quaternion.Euler(transform.rotation.eulerAngles);
         addedForce = MathUtil.VectorZero;
 
+        _groundChecker = new GroundChecker(transform);
+
         Body = transform.FindChild("Body");
         Head = transform.FindChild("Head");
     }
 
+    [Server]
     public bool CalculateIsGrounded() {
-        if (_hasIsGroundedCache)
-            return _cachedIsGrounded;
-
-        Vector3 pos = transform.position + RayUp;
-        Vector3 right = transform.right * 0.25f;
-        Vector3 forward = transform.forward * 0.25f;
-
-        bool grounded = CastRay(new Ray(pos - right + forward, RayDown));
-        if(!grounded)
-            grounded = CastRay(new Ray(pos + right + forward, RayDown));
-        if (!grounded)
-            grounded = CastRay(new Ray(pos - right - forward, RayDown));
-        if (!grounded)
-            grounded = CastRay(new Ray(pos + right - forward, RayDown));
-
-        _cachedIsGrounded = grounded;
-        _hasIsGroundedCache = true;
-
-        return grounded;
+        return _groundChecker.CalculateIsGrounded();
     }
 
+    [ServerCallback]
     private void LateUpdate() {
         //Reset cached values.
-        _cachedIsGrounded = false;
-        _hasIsGroundedCache = false;
-    }
-
-    private bool CastRay(Ray ray) {
-        return Physics.Raycast(ray, RayLength, TerrainLayerMask);
+        _groundChecker.ResetCache();
     }
 	
     [ServerCallback]
@@ -117,5 +92,17 @@ public class BaseMotor : NetworkBehaviour {
     [Server]
     public void AddForce(Vector3 force) {
         this.addedForce += force;
+    }
+
+    public void SetMoveDestination(Vector3 destination)
+    {
+        //Nothing to do here.
+    }
+
+    public void Stop()
+    {
+        moveDirection = MathUtil.VectorZero;
+        rotationTarget = transform.rotation;
+        addedForce = MathUtil.VectorZero;
     }
 }

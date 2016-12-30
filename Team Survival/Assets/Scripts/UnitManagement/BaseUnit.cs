@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(AnimationSync))]
-[RequireComponent(typeof(BaseMotor))]
 [RequireComponent(typeof(AbilityList))]
 public class BaseUnit : MonoBehaviour, IUnit {
 
     public UnitShell Shell { get; protected set; }
-    public BaseMotor Motor { get; protected set; }
+    public IMotor Motor { get; protected set; }
     public AbilityList Abilities { get; protected set; }
     private AnimationSync _animationSync;
     public bool IsOnServer;
@@ -25,7 +24,7 @@ public class BaseUnit : MonoBehaviour, IUnit {
     public void Initialize(UnitShell shell) {
         Shell = shell;
         IsOnServer = Shell.isServer;
-        Motor = GetComponent<BaseMotor>();
+        Motor = GetComponent<IMotor>();
         Abilities = GetComponent<AbilityList>();
         _animationSync = GetComponent<AnimationSync>();
 
@@ -79,12 +78,22 @@ public class BaseUnit : MonoBehaviour, IUnit {
     //TODO Virtual or not virtual? (Make sure the required code is always called, or allow override?)
     public virtual void UnitOnKill() {
         _animationSync.SetNewAnimation(UnitAnimation.Dying);
+
+        Motor.Stop();
+        if (OnKillCallback != null)
+            OnKillCallback();
     }
 
     public virtual void UnitOnDeath() {
         _animationSync.SetNewAnimation(UnitAnimation.Dead);
 
-        Motor.SetMoveDirection(Vector3.zero);
-        Motor.SetRotateDestination(Vector3.zero);
+        if (OnDeathCallback != null)
+            OnDeathCallback();
     }
+
+    public delegate void OnKillDelegate();
+    public OnKillDelegate OnKillCallback;
+
+    public delegate void OnDeathDelegate();
+    public OnKillDelegate OnDeathCallback;
 }
