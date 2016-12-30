@@ -44,9 +44,8 @@ MonoBehaviour:
   - UnitCount: 10
     isDone: 0
     isSpawning: 0
-    UnitPrefab: {fileID: 1000014233229192, guid: c21091182e9f7b14abd8664776cbc017,
+    UnitPrefab: {fileID: 1000013148322692, guid: 997f5046c44682f488cc435af6e30c7b,
       type: 2}
-    PrefabToLoad: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
