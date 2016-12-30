@@ -26,9 +26,10 @@ public class UnitShell : NetworkBehaviour {
     [Server]
     private void ServerSideSetup(BaseUnit unit) {
         //TODO Hardcoded way of giving orders to Units
-        if (unit is UnitController)
+        UnitController controller = GetComponent<UnitController>();
+        if (controller != null)
         {
-            (unit as UnitController).SetPathWaypoints(waypoints);
+            controller.SetPathWaypoints(waypoints);
         }
 
         //Initialize health from the model.

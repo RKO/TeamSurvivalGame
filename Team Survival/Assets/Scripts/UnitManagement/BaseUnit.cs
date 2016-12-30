@@ -3,7 +3,7 @@
 [RequireComponent(typeof(AnimationSync))]
 [RequireComponent(typeof(BaseMotor))]
 [RequireComponent(typeof(AbilityList))]
-public abstract class BaseUnit : MonoBehaviour, IUnit {
+public class BaseUnit : MonoBehaviour, IUnit {
 
     public UnitShell Shell { get; protected set; }
     public BaseMotor Motor { get; protected set; }
@@ -11,9 +11,14 @@ public abstract class BaseUnit : MonoBehaviour, IUnit {
     private AnimationSync _animationSync;
     public bool IsOnServer;
 
-    public abstract Team GetTeam { get; }
+    public float UnitMoveSpeed;
+    public float MoveSpeed { get { return UnitMoveSpeed; } }
 
-    public abstract string Name { get; }
+    public Team UnitTeam;
+    public Team GetTeam { get { return UnitTeam; } }
+
+    public string UnitName;
+    public string Name { get { return UnitName; } }
 
     public int MaxHealth;
 
@@ -23,6 +28,11 @@ public abstract class BaseUnit : MonoBehaviour, IUnit {
         Motor = GetComponent<BaseMotor>();
         Abilities = GetComponent<AbilityList>();
         _animationSync = GetComponent<AnimationSync>();
+
+        Motor.Initialize(MoveSpeed);
+
+        if (IsOnServer)
+            _animationSync.SetNewAnimation(UnitAnimation.Idle);
     }
 
     private void Awake() {
@@ -36,12 +46,20 @@ public abstract class BaseUnit : MonoBehaviour, IUnit {
     }
 
     private void Update() {
-        UnitUpdate();
-    }
-
-    public void SetNewAnimation(UnitAnimation newAnimation)
-    {
-        _animationSync.SetNewAnimation(newAnimation);
+        if (IsOnServer)
+        {
+            if (Shell.AliveState == LifeState.Alive)
+            {
+                if (Motor.MoveDirection != Vector3.zero)
+                    _animationSync.SetNewAnimation(UnitAnimation.Running);
+                else
+                    _animationSync.SetNewAnimation(UnitAnimation.Idle);
+            }
+            ServerSideUpdate();
+        }
+        else {
+            ClientSideUpdate();
+        }
     }
 
     public void TriggerAnimation(UnitTriggerAnimation triggerAnim)
@@ -49,13 +67,24 @@ public abstract class BaseUnit : MonoBehaviour, IUnit {
         _animationSync.TriggerAnimation(triggerAnim);
     }
 
-    protected virtual void UnitUpdate() { }
+    protected virtual void ServerSideUpdate() { }
+
+    protected virtual void ClientSideUpdate() { }
 
     protected virtual void UnitOnAwake() { }
 
     protected virtual void UnitOnDestroy() { }
 
-    public virtual void UnitOnKill() { }
 
-    public virtual void UnitOnDeath() { }
+    //TODO Virtual or not virtual? (Make sure the required code is always called, or allow override?)
+    public virtual void UnitOnKill() {
+        _animationSync.SetNewAnimation(UnitAnimation.Dying);
+    }
+
+    public virtual void UnitOnDeath() {
+        _animationSync.SetNewAnimation(UnitAnimation.Dead);
+
+        Motor.SetMoveDirection(Vector3.zero);
+        Motor.SetRotateDestination(Vector3.zero);
+    }
 }

@@ -20,8 +20,6 @@ public class MyNetworkManager : NetworkManager {
         var playerObj = (GameObject)Instantiate(playerPrefab, spawnPoint, Quaternion.identity);
 
         Player player = playerObj.GetComponent<Player>();
-        BaseMotor motor = playerObj.GetComponent<BaseMotor>();
-        motor.Initialize(Player.MoveSpeed);
 
         // -------------- Player -------------- //
         player.Initialize(playerNumber);
