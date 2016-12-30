@@ -49,10 +49,14 @@ public class BaseUnit : MonoBehaviour, IUnit {
         {
             if (Shell.AliveState == LifeState.Alive)
             {
-                if (Motor.MoveDirection != Vector3.zero)
-                    _animationSync.SetNewAnimation(UnitAnimation.Running);
-                else
+                float actualSpeed = Motor.MoveDirection.magnitude;
+                
+                if (actualSpeed == 0)
                     _animationSync.SetNewAnimation(UnitAnimation.Idle);
+                else if(actualSpeed < MoveSpeed * 0.5f)
+                    _animationSync.SetNewAnimation(UnitAnimation.Walking);
+                else 
+                    _animationSync.SetNewAnimation(UnitAnimation.Running);
             }
             ServerSideUpdate();
         }
