@@ -63,6 +63,19 @@ public class AbilityList : NetworkBehaviour {
             ActivateAbility(index);
     }
 
+    public AbilityState GetAbilityState(int abilityIndex) {
+        return _abilityStates[abilityIndex];
+    }
+
+    public AbilityState GetAbilityState(AbilitySlot slot)
+    {
+        int index = _abilitySlotMap[slot];
+        if (index != -1)
+            return GetAbilityState(index);
+
+        return new AbilityState() { isGarbage = true };
+    }
+
     [Server]
     public void RemoveAbility(BaseAbility toRemove)
     {
@@ -86,5 +99,6 @@ public class AbilityList : NetworkBehaviour {
         public float cooldownPercent;
         public bool isActive;
         public bool canActivate;
+        public bool isGarbage;
     }
 }

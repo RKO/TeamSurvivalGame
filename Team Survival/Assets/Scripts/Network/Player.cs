@@ -26,11 +26,18 @@ public class Player : NetworkBehaviour {
         _abilities = gameObject.GetComponent<AbilityList>();
         _unit = gameObject.GetComponent<BaseUnit>();
 
+        _unit.OnKillCallback += OnKill;
+
         if (isServer) {
             
             _abilities.GrantAbility(new AbilityJump(_motor, _unit), AbilitySlot.Jump);
             _abilities.GrantAbility(new AbilityBasicAttack(_motor, _unit), AbilitySlot.Attack1);
         }
+    }
+
+    private void OnKill()
+    {
+        Debug.LogError("Player died!");
     }
 
     void Update() {

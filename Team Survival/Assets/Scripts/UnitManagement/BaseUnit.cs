@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [RequireComponent(typeof(AnimationSync))]
 [RequireComponent(typeof(AbilityList))]
@@ -19,6 +20,8 @@ public class BaseUnit : MonoBehaviour, IUnit {
 
     public string UnitName;
     public string Name { get { return UnitName; } }
+
+    public Vector3 Position { get { return transform.position; } }
 
     public int MaxHealth;
 
@@ -83,6 +86,10 @@ public class BaseUnit : MonoBehaviour, IUnit {
     //TODO Virtual or not virtual? (Make sure the required code is always called, or allow override?)
     public virtual void UnitOnKill() {
         _animationSync.SetNewAnimation(UnitAnimation.Dying);
+        GetComponent<Collider>().enabled = false;
+        var obstacle = GetComponent<NavMeshObstacle>();
+        if(obstacle != null)
+            obstacle.enabled = false;
 
         Motor.Stop();
         if (OnKillCallback != null)

@@ -50,7 +50,9 @@ public class NavMeshMotor : NetworkBehaviour, IMotor
     }
 
     [Server]
-    public void SetRotateDestination(Vector3 dir) { }
+    public void SetRotateDestination(Vector3 dir) {
+        transform.rotation = Quaternion.LookRotation(dir);
+    }
 
     [Server]
     public void SetMoveDestination(Vector3 destination)

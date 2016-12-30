@@ -2,19 +2,19 @@
 using UnityEngine;
 
 public class AnimationSync : NetworkBehaviour {
-    private Animation _animation;
-    private Animator _unitAnimator;
+    private Animation _legacyAnimator;
+    private Animator _mechanimAnimator;
     private NetworkAnimator _netAnimator;
 
     [SyncVar]
     private UnitAnimation _currentAnimation = UnitAnimation.Idle;
 
     private void Start() {
-        _animation = GetComponentInChildren<Animation>();
-        _unitAnimator = GetComponent<Animator>();
+        _legacyAnimator = GetComponentInChildren<Animation>();
+        _mechanimAnimator = GetComponent<Animator>();
         _netAnimator = GetComponent<NetworkAnimator>();
 
-        if (_animation != null)
+        if (_legacyAnimator != null)
             ApplyAnimation(_currentAnimation);
     }
 
@@ -26,7 +26,7 @@ public class AnimationSync : NetworkBehaviour {
 
         _currentAnimation = newAnimation;
 
-        if (_animation != null)
+        if (_legacyAnimator != null)
             RpcSetNewAnimation(newAnimation);
         else
             ApplyMechanim(newAnimation);
@@ -41,18 +41,18 @@ public class AnimationSync : NetworkBehaviour {
         switch (newAnimation)
         {
             case UnitAnimation.Idle:
-                _animation.Play("idle");
+                _legacyAnimator.Play("idle");
                 break;
             case UnitAnimation.Walking:
-                _animation.Play("walk");
+                _legacyAnimator.Play("walk");
                 break;
             case UnitAnimation.Running:
-                _animation.Play("run");
+                _legacyAnimator.Play("run");
                 break;
             case UnitAnimation.Dying:
             case UnitAnimation.Dead:
-                _animation.wrapMode = WrapMode.ClampForever;
-                _animation.Play("death");
+                _legacyAnimator.wrapMode = WrapMode.ClampForever;
+                _legacyAnimator.Play("death");
                 break;
             default:
                 break;
@@ -66,13 +66,13 @@ public class AnimationSync : NetworkBehaviour {
         switch (newAnimation)
         {
             case UnitAnimation.Idle:
-                _unitAnimator.SetInteger("Speed", 0);
+                _mechanimAnimator.SetInteger("Speed", 0);
                 break;
             case UnitAnimation.Walking:
-                _unitAnimator.SetInteger("Speed", 1);
+                _mechanimAnimator.SetInteger("Speed", 1);
                 break;
             case UnitAnimation.Running:
-                _unitAnimator.SetInteger("Speed", 2);
+                _mechanimAnimator.SetInteger("Speed", 2);
                 break;
             default:
                 break;
@@ -81,8 +81,31 @@ public class AnimationSync : NetworkBehaviour {
         _currentAnimation = newAnimation;
     }
 
+    [Server]
     public void TriggerAnimation(UnitTriggerAnimation triggerAnim)
     {
+        if (_legacyAnimator != null)
+        {
+            RpcTriggerAnimation(triggerAnim);
+        }
+        else
+        {
+            TriggerMechanimAnimation(triggerAnim);
+        }
+    }
+
+    [ClientRpc]
+    private void RpcTriggerAnimation(UnitTriggerAnimation triggerAnim) {
+        if (triggerAnim == UnitTriggerAnimation.Jump)
+        {
+            _legacyAnimator.Play("jump");
+        }
+        else {
+            _legacyAnimator.Play("attack");
+        }
+    }
+
+    private void TriggerMechanimAnimation(UnitTriggerAnimation triggerAnim) {
         if (triggerAnim == UnitTriggerAnimation.Jump)
         {
             _netAnimator.SetTrigger("Jump");
