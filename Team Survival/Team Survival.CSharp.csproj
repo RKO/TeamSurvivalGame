@@ -108,7 +108,6 @@
     <Compile Include="Assets\Scripts\Enums.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Movement\BaseMotor.cs" />
-    <Compile Include="Assets\Scripts\Movement\Characters\WarriorPrincessCharacter.cs" />
     <Compile Include="Assets\Scripts\Movement\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Movement\SmoothMouseLook.cs" />
     <Compile Include="Assets\Scripts\Movement\UnitController.cs" />

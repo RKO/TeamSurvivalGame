@@ -3,8 +3,6 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 public class Player : NetworkBehaviour {
-    public const float MoveSpeed = 6;
-
     public GameObject CameraPrefab;
 
     public int PlayerID { get; private set; }
@@ -56,13 +54,6 @@ public class Player : NetworkBehaviour {
     public void CmdSetMoveDir(Vector3 moveDir)
     {
         _motor.SetMoveDirection(moveDir);
-        if (_unit != null)
-        {
-            if (moveDir != Vector3.zero)
-                _unit.SetNewAnimation(UnitAnimation.Running);
-            else
-                _unit.SetNewAnimation(UnitAnimation.Idle);
-        }
     }
 
     [Command]

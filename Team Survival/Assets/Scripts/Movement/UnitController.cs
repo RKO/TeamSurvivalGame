@@ -1,30 +1,20 @@
 ﻿using UnityEngine;
 
-public class UnitController : BaseUnit {
+public class UnitController : MonoBehaviour {
     private const float MoveSpeed = 6;
     private NavMeshPath _path;
     private Transform[] _waypoints;
     private int _waypointIndex;
     public Transform _currentWaypoint;
 
-    private AnimationSync _animationSync;
-
-    public override Team GetTeam
-    {
-        get { return Team.Enemies; } //TODO be able to spawn friendly and neutral units.
-    }
-
-    public string UnitName; //Set from prefab. For now...
-    public override string Name
-    {
-        get { return UnitName; }
-    }
+    private BaseUnit _unit;
+    private BaseMotor _motor;
 
     private void Start () {
-        Motor.Initialize(MoveSpeed);
+        _unit = GetComponent<BaseUnit>();
+        _motor = _unit.Motor;
 
-        if(IsOnServer)
-            SetNewAnimation(UnitAnimation.Idle);
+        _motor.Initialize(MoveSpeed);
     }
 
     public void SetPathWaypoints(Transform[] waypoints) {
@@ -32,16 +22,19 @@ public class UnitController : BaseUnit {
         _waypointIndex = 0;
     }
 	
-    protected override void UnitUpdate()
+    private void Update()
     {
         //Only update on server
-        if (IsOnServer)
+        if (_unit.IsOnServer)
             ServerSideUpdate();
 	}
 
     private void ServerSideUpdate() {
-        if (Shell.AliveState != LifeState.Alive)
+        if (_unit.Shell.AliveState != LifeState.Alive)
+        {
+            _path = null;
             return;
+        }
 
         CheckWaypoint();
 
@@ -52,7 +45,7 @@ public class UnitController : BaseUnit {
 
         if (_path == null)
         {
-            if (_waypointIndex < _waypoints.Length && Motor.CalculateIsGrounded())
+            if (_waypointIndex < _waypoints.Length && _motor.CalculateIsGrounded())
                 _path = FindPath(transform.position, _waypoints[_waypointIndex].position);
         }
 
@@ -103,9 +96,7 @@ public class UnitController : BaseUnit {
     private void Stear() {
         if (_path == null)
         {
-            Motor.SetMoveDirection(Vector3.zero);
-            //Idle
-            SetNewAnimation(UnitAnimation.Idle);
+            _motor.SetMoveDirection(Vector3.zero);
             return;
         }
 
@@ -125,29 +116,22 @@ public class UnitController : BaseUnit {
 
 
         Vector3 dir = nextPoint - transform.position;
-        Motor.SetMoveDirection(dir);
-        //Running
-        SetNewAnimation(UnitAnimation.Running);
+        _motor.SetMoveDirection(dir);
 
         Quaternion rotation = Quaternion.LookRotation(dir);
         Vector3 rotDir = rotation.eulerAngles;
 
         //TODO Smooth rotation instead of instant.
-        Motor.SetRotateDestination(new Vector3(0, rotDir.y, 0));
+        _motor.SetRotateDestination(new Vector3(0, rotDir.y, 0));
     }
 
-    public override void UnitOnKill()
-    {
-        SetNewAnimation(UnitAnimation.Dying);
-    }
-
-    public override void UnitOnDeath() {
+    /*public override void UnitOnDeath() {
         SetNewAnimation(UnitAnimation.Dead);
 
         _path = null;
         Motor.SetMoveDirection(Vector3.zero);
         Motor.SetRotateDestination(Vector3.zero);
-    }
+    }*/
 
     private static NavMeshPath FindPath(Vector3 startPoint, Vector3 endPoint) {
         NavMeshPath path = new NavMeshPath();

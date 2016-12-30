@@ -16,6 +16,8 @@ public class BaseMotor : NetworkBehaviour {
     private bool _cachedIsGrounded = false;
     private bool _hasIsGroundedCache = false;
 
+    public Vector3 MoveDirection { get { return moveDirection; } }
+
     [SyncVar]
     private float moveSpeed;
 
