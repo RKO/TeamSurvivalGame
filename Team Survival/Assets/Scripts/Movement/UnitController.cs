@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
 public class UnitController : MonoBehaviour {
+    private const float AttackRange = 2f;
+
     private Transform[] _waypoints;
     private int _waypointIndex;
     public Transform _currentWaypoint;
@@ -89,13 +91,14 @@ public class UnitController : MonoBehaviour {
             return;
         }
 
-        if (Vector3.Distance(transform.position, _enemyTarget.Position) > 2)
+        if (Vector3.Distance(transform.position, _enemyTarget.Position) > AttackRange)
         {
             _motor.SetMoveDestination(_enemyTarget.Position);
         }
         else {
             Vector3 dir = _enemyTarget.Position - transform.position;
             dir.y = 0;
+            _motor.SetMoveDestination(transform.position);
             _motor.SetRotateDestination(dir);
             AbilityList.AbilityState state = _unit.Abilities.GetAbilityState(AbilitySlot.Attack1);
 
