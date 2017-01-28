@@ -23,11 +23,19 @@ public class NavMeshMotor : NetworkBehaviour, IMotor
         _agent.speed = moveSpeed;
     }
 
+    [ServerCallback]
     private void Awake() {
         _agent = GetComponent<NavMeshAgent>();
         _agent.updateRotation = true;
 
         _groundChecker = new GroundChecker(transform);
+    }
+
+    [ServerCallback]
+    private void Update() {
+        Debug.DrawLine(transform.position, _agent.steeringTarget, Color.blue);
+        Debug.DrawLine(transform.position, _agent.destination, Color.green);
+        Debug.DrawRay(transform.position, _agent.desiredVelocity, Color.yellow);
     }
 
     [Server]

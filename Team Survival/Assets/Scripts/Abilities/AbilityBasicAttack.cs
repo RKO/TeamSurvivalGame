@@ -28,7 +28,10 @@ public class AbilityBasicAttack : BaseAbility
         Transform transform = _unit.transform;
         Vector3 inFront = transform.position + transform.forward + Vector3.up;
 
+        ExtDebug.DrawBox(inFront, HalfBox, transform.rotation, Color.red);
+
         RaycastHit[] hits = Physics.BoxCastAll(inFront, HalfBox, transform.forward, transform.rotation, MaxDistance, targetMask);
+        
         foreach (var hit in hits)
         {
             Debug.DrawLine(transform.position + Vector3.up, hit.collider.transform.position + Vector3.up, Color.yellow);
