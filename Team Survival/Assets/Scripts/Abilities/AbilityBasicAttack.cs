@@ -13,7 +13,7 @@ public class AbilityBasicAttack : BaseAbility
 
     public override string Name { get { return "Attack"; } }
 
-    public AbilityBasicAttack(IMotor caster, BaseUnit unit) : base(caster, unit, Cooldown, Duration) {
+    public AbilityBasicAttack(IMotor caster, UnitShell unit) : base(caster, unit, Cooldown, Duration) {
         _hitTable = new Dictionary<Transform, UnitShell>();
     }
 
@@ -51,7 +51,7 @@ public class AbilityBasicAttack : BaseAbility
     }
 
     private void DoHitOnTarget(UnitShell target) {
-        if (target.ChildUnit.GetTeam != _unit.GetTeam)
+        if (target.ChildUnit.GetTeam != _unit.ChildUnit.GetTeam)
         {
             target.DealDamage(10);
         }

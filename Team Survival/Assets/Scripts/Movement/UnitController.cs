@@ -7,26 +7,28 @@ public class UnitController : MonoBehaviour {
     private int _waypointIndex;
     public Transform _currentWaypoint;
 
+    private UnitShell _shell;
     private BaseUnit _unit;
     private IMotor _motor;
-    private IUnit _enemyTarget;
+    private UnitShell _enemyTarget;
     private Team _enemyTeam;
 
     private void Start () {
-        _unit = GetComponent<BaseUnit>();
+        _shell = GetComponent<UnitShell>();
+
         //Disable this component on clients.
-        if (_unit == null || !_unit.IsOnServer)
+        if (!_shell.isServer)
         {
-            if(_unit == null)
-                Debug.LogWarning("No BaseUnit script found on "+gameObject.name);
             this.enabled = false;
             return;
         }
 
-        _unit.OnKillCallback += OnUnitKill;
-        _motor = _unit.Motor;
+        _unit = GetComponent<BaseUnit>();
 
-        _unit.Abilities.GrantAbility(new AbilityBasicAttack(_motor, _unit), AbilitySlot.Attack1);
+        _shell.OnKillCallback += OnUnitKill;
+        _motor = _shell.Motor;
+
+        _shell.Abilities.GrantAbility(new AbilityBasicAttack(_motor, _shell), AbilitySlot.Attack1);
 
         if (_unit.GetTeam == Team.Enemies)
             _enemyTeam = Team.Players;
@@ -42,12 +44,12 @@ public class UnitController : MonoBehaviour {
     private void Update()
     {
         //Only update on server
-        if (_unit.IsOnServer)
+        if (_shell.isServer)
             ServerSideUpdate();
 	}
 
     private void ServerSideUpdate() {
-        if (_unit.Shell.AliveState != LifeState.Alive)
+        if (_shell.AliveState != LifeState.Alive)
         {
             return;
         }
@@ -84,7 +86,7 @@ public class UnitController : MonoBehaviour {
         {
             if (Vector3.Distance(transform.position, potentialEnemy.Position) > 10)
                 continue;
-            else if(potentialEnemy.Shell.AliveState == LifeState.Alive)
+            else if(potentialEnemy.AliveState == LifeState.Alive)
             {
                 _enemyTarget = potentialEnemy;
                 break;
@@ -93,7 +95,7 @@ public class UnitController : MonoBehaviour {
     }
 
     private void AttackEnemy() {
-        if (_enemyTarget.Shell.AliveState != LifeState.Alive)
+        if (_enemyTarget.AliveState != LifeState.Alive)
         {
             _enemyTarget = null;
             _currentWaypoint = null;
@@ -109,10 +111,10 @@ public class UnitController : MonoBehaviour {
             dir.y = 0;
             _motor.SetMoveDestination(transform.position);
             _motor.SetRotateDestination(dir);
-            AbilityList.AbilityState state = _unit.Abilities.GetAbilityState(AbilitySlot.Attack1);
+            AbilityList.AbilityState state = _shell.Abilities.GetAbilityState(AbilitySlot.Attack1);
 
             if (!state.isGarbage && state.canActivate)
-                _unit.Abilities.ActivateAbility(AbilitySlot.Attack1);
+                _shell.Abilities.ActivateAbility(AbilitySlot.Attack1);
         }
     }
 

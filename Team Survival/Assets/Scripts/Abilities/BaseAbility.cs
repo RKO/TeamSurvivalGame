@@ -5,7 +5,7 @@ public abstract class BaseAbility {
     public abstract string Name { get; }
 
     protected IMotor _caster;
-    protected BaseUnit _unit;
+    protected UnitShell _unit;
     protected float _cooldown;
     protected float _cooldownCounter;
     protected float _duration;
@@ -17,7 +17,7 @@ public abstract class BaseAbility {
 
     public bool CanActivate { get { return _cooldownCounter == 0 && !IsActive && CheckCanActivate(); } }
 
-    public BaseAbility(IMotor caster, BaseUnit unit, float cooldown, float duration = 0) {
+    public BaseAbility(IMotor caster, UnitShell unit, float cooldown, float duration = 0) {
         _caster = caster;
         _unit = unit;
         _cooldown = cooldown;
