@@ -32,19 +32,7 @@ public class BaseUnit : MonoBehaviour, IUnit {
         _animationSync = GetComponent<AnimationSync>();
 
         Motor.Initialize(MoveSpeed);
-
-        if (IsOnServer)
-            _animationSync.SetNewAnimation(UnitAnimation.Idle);
-    }
-
-    private void Awake() {
-        GameManager.Instance.unitManager.AddUnit(this);
-        UnitOnAwake();
-    }
-
-    private void OnDestroy() {
-        GameManager.Instance.unitManager.KillUnit(this);
-        UnitOnDestroy();
+        _animationSync.SetNewAnimation(UnitAnimation.Idle);
     }
 
     private void Update() {
@@ -61,10 +49,6 @@ public class BaseUnit : MonoBehaviour, IUnit {
                 else 
                     _animationSync.SetNewAnimation(UnitAnimation.Running);
             }
-            ServerSideUpdate();
-        }
-        else {
-            ClientSideUpdate();
         }
     }
 
@@ -72,14 +56,6 @@ public class BaseUnit : MonoBehaviour, IUnit {
     {
         _animationSync.TriggerAnimation(triggerAnim);
     }
-
-    protected virtual void ServerSideUpdate() { }
-
-    protected virtual void ClientSideUpdate() { }
-
-    protected virtual void UnitOnAwake() { }
-
-    protected virtual void UnitOnDestroy() { }
 
 
     //TODO Virtual or not virtual? (Make sure the required code is always called, or allow override?)

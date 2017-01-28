@@ -14,6 +14,15 @@ public class UnitController : MonoBehaviour {
 
     private void Start () {
         _unit = GetComponent<BaseUnit>();
+        //Disable this component on clients.
+        if (_unit == null || !_unit.IsOnServer)
+        {
+            if(_unit == null)
+                Debug.LogWarning("No BaseUnit script found on "+gameObject.name);
+            this.enabled = false;
+            return;
+        }
+
         _unit.OnKillCallback += OnUnitKill;
         _motor = _unit.Motor;
 

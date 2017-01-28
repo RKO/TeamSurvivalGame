@@ -16,9 +16,10 @@ public class UnitShell : NetworkBehaviour {
     // Use this for initialization
     void Start() {
         _unit = GetComponentInChildren<BaseUnit>();
-        _unit.Initialize(this);
+        GameManager.Instance.unitManager.AddUnit(_unit);
 
         if (this.isServer) {
+            _unit.Initialize(this);
             ServerSideSetup(_unit);
         }
     }
@@ -89,5 +90,9 @@ public class UnitShell : NetworkBehaviour {
         yield return new WaitForSeconds(10);
 
         NetworkServer.Destroy(this.gameObject);
+    }
+
+    private void OnDestroy() {
+        GameManager.Instance.unitManager.KillUnit(_unit);
     }
 }
