@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 272e84c6ff8fea340b19da71308f0475
+guid: 2f797c2415400a1488cac8f69b57612f
 timeCreated: 1473218141
 licenseType: Store
 ModelImporter:
@@ -55,7 +55,7 @@ ModelImporter:
     400044: Bip001 Spine
     400046: Bip001 Spine1
     400048: //RootNode
-    7400000: walk
+    7400000: run
     9500000: //RootNode
     11100000: //RootNode
   materials:
@@ -80,7 +80,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: walk
+      name: run
       takeName: Take 001
       firstFrame: 0
       lastFrame: 35

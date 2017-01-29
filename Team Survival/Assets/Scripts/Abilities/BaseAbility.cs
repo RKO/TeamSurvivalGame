@@ -4,8 +4,8 @@ public abstract class BaseAbility {
 
     public abstract string Name { get; }
 
-    protected BaseMotor _caster;
-    protected BaseUnit _unit;
+    protected IMotor _caster;
+    protected UnitShell _unit;
     protected float _cooldown;
     protected float _cooldownCounter;
     protected float _duration;
@@ -13,15 +13,16 @@ public abstract class BaseAbility {
 
     public float CooldownPercent { get; private set; }
 
-    public bool IsActive { get { return _duration > 0 && _durationCounter < _duration; } }
+    public bool IsActive { get { return _duration > 0 && _durationCounter > 0; } }
 
     public bool CanActivate { get { return _cooldownCounter == 0 && !IsActive && CheckCanActivate(); } }
 
-    public BaseAbility(BaseMotor caster, BaseUnit unit, float cooldown, float duration = 0) {
+    public BaseAbility(IMotor caster, UnitShell unit, float cooldown, float duration = 0) {
         _caster = caster;
         _unit = unit;
         _cooldown = cooldown;
         _duration = duration;
+        _durationCounter = 0;
 
         //Just default to 0, in case there is no cooldown.
         CooldownPercent = 0;
@@ -31,7 +32,7 @@ public abstract class BaseAbility {
         if (IsActive)
         {
             AbilityUpdate();
-            _durationCounter += Time.deltaTime;
+            _durationCounter -= Time.deltaTime;
         }
         else {
             CalculateCooldown();
@@ -49,7 +50,7 @@ public abstract class BaseAbility {
         {
             DoActivate();
             _cooldownCounter = _cooldown;
-            _durationCounter = 0;
+            _durationCounter = _duration;
         }
     }
 

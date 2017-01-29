@@ -7,7 +7,7 @@ public class AbilityJump : BaseAbility
 
     public override string Name { get { return "Jump"; } }
 
-    public AbilityJump(BaseMotor caster, BaseUnit unit) : base(caster, unit, Cooldown) { }
+    public AbilityJump(IMotor caster, UnitShell unit) : base(caster, unit, Cooldown) { }
 
     protected override bool CheckCanActivate()
     {

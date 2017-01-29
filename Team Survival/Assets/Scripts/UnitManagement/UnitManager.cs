@@ -3,37 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class UnitManager {
-    private Dictionary<Team, List<IUnit>> _unitsByTeam;
+    private Dictionary<Team, List<UnitShell>> _unitsByTeam;
 
     public UnitManager()
     {
-        _unitsByTeam = new Dictionary<Team, List<IUnit>>();
+        _unitsByTeam = new Dictionary<Team, List<UnitShell>>();
         foreach (var item in Enum.GetValues(typeof(Team)).Cast<Team>())
         {
-            _unitsByTeam.Add(item, new List<IUnit>());
+            _unitsByTeam.Add(item, new List<UnitShell>());
         }
     }
 
-    public void AddUnit(IUnit unit)
+    public void AddUnit(UnitShell unit)
     {
-        _unitsByTeam[unit.GetTeam].Add(unit);
+        _unitsByTeam[unit.ChildUnit.GetTeam].Add(unit);
     }
 
-    public void RemoveUnit(IUnit unit)
+    public void RemoveUnit(UnitShell unit)
     {
-        _unitsByTeam[unit.GetTeam].Remove(unit);
+        List<UnitShell> teamList = _unitsByTeam[unit.ChildUnit.GetTeam];
+        if (teamList.Contains(unit))
+            teamList.Remove(unit);
     }
 
-    public void RemovePlayer() {
-
-    }
-
-    public void KillUnit(IUnit unit)
+    public void KillUnit(UnitShell unit)
     {
         RemoveUnit(unit);
     }
 
-    public List<IUnit> GetUnits(Team team) {
+    public List<UnitShell> GetUnits(Team team) {
         return _unitsByTeam[team];
     }
 

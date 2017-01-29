@@ -22,6 +22,7 @@ GameObject:
   - 114: {fileID: 114000013807639538}
   - 114: {fileID: 114000012978847992}
   - 114: {fileID: 114000014230433388}
+  - 208: {fileID: 208000010213080144}
   m_Layer: 9
   m_Name: UnitWarriorPrincess
   m_TagString: Untagged
@@ -132,7 +133,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae35e7c133054674985bd79c191f9689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myRigidbody: {fileID: 0}
 --- !u!114 &11486856
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3721,7 +3721,7 @@ MonoBehaviour:
   UnitMoveSpeed: 9
   UnitTeam: 1
   UnitName: Player
-  MaxHealth: 100
+  MaxHealth: 600
 --- !u!137 &137000010076581220
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -5048,3 +5048,18 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.2916545, y: -0.0009561181, z: 0.0011705756}
     m_Extent: {x: 0.24861947, y: 0.13393247, z: 0.18896794}
   m_DirtyAABB: 0
+--- !u!208 &208000010213080144
+NavMeshObstacle:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 198110}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.6, y: 1, z: 0.6}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1, z: 0}
+  m_TimeToStationary: 0.5

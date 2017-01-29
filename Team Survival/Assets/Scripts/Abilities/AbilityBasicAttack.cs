@@ -13,7 +13,7 @@ public class AbilityBasicAttack : BaseAbility
 
     public override string Name { get { return "Attack"; } }
 
-    public AbilityBasicAttack(BaseMotor caster, BaseUnit unit) : base(caster, unit, Cooldown, Duration) {
+    public AbilityBasicAttack(IMotor caster, UnitShell unit) : base(caster, unit, Cooldown, Duration) {
         _hitTable = new Dictionary<Transform, UnitShell>();
     }
 
@@ -25,12 +25,16 @@ public class AbilityBasicAttack : BaseAbility
 
     protected override void AbilityUpdate()
     {
-        Vector3 inFront = _caster.transform.position + _caster.transform.forward + Vector3.up;
+        Transform transform = _unit.transform;
+        Vector3 inFront = transform.position + transform.forward + Vector3.up;
 
-        RaycastHit[] hits = Physics.BoxCastAll(inFront, HalfBox, _caster.transform.forward, _caster.transform.rotation, MaxDistance, targetMask);
+        ExtDebug.DrawBox(inFront, HalfBox, transform.rotation, Color.red);
+
+        RaycastHit[] hits = Physics.BoxCastAll(inFront, HalfBox, transform.forward, transform.rotation, MaxDistance, targetMask);
+        
         foreach (var hit in hits)
         {
-            Debug.DrawLine(_caster.transform.position + Vector3.up, hit.collider.transform.position + Vector3.up, Color.yellow);
+            Debug.DrawLine(transform.position + Vector3.up, hit.collider.transform.position + Vector3.up, Color.yellow);
 
             if (!_hitTable.ContainsKey(hit.transform)) {
                 UnitShell unit = hit.transform.gameObject.GetComponentInChildren<UnitShell>();
@@ -47,9 +51,9 @@ public class AbilityBasicAttack : BaseAbility
     }
 
     private void DoHitOnTarget(UnitShell target) {
-        if (target.ChildUnit.GetTeam == Team.Enemies)
+        if (target.ChildUnit.GetTeam != _unit.ChildUnit.GetTeam)
         {
-            target.DealDamage(100);
+            target.DealDamage(10);
         }
     }
 }

@@ -1,20 +1,39 @@
 ﻿using UnityEngine;
 
 public class UnitController : MonoBehaviour {
-    private const float MoveSpeed = 6;
-    private NavMeshPath _path;
+    private const float AttackRange = 2f;
+
     private Transform[] _waypoints;
     private int _waypointIndex;
     public Transform _currentWaypoint;
 
+    private UnitShell _shell;
     private BaseUnit _unit;
-    private BaseMotor _motor;
+    private IMotor _motor;
+    private UnitShell _enemyTarget;
+    private Team _enemyTeam;
 
     private void Start () {
-        _unit = GetComponent<BaseUnit>();
-        _motor = _unit.Motor;
+        _shell = GetComponent<UnitShell>();
 
-        _motor.Initialize(MoveSpeed);
+        //Disable this component on clients.
+        if (!_shell.isServer)
+        {
+            this.enabled = false;
+            return;
+        }
+
+        _unit = GetComponent<BaseUnit>();
+
+        _shell.OnKillCallback += OnUnitKill;
+        _motor = _shell.Motor;
+
+        _shell.Abilities.GrantAbility(new AbilityBasicAttack(_motor, _shell), AbilitySlot.Attack1);
+
+        if (_unit.GetTeam == Team.Enemies)
+            _enemyTeam = Team.Players;
+        else
+            _enemyTeam = Team.Enemies;
     }
 
     public void SetPathWaypoints(Transform[] waypoints) {
@@ -25,54 +44,88 @@ public class UnitController : MonoBehaviour {
     private void Update()
     {
         //Only update on server
-        if (_unit.IsOnServer)
+        if (_shell.isServer)
             ServerSideUpdate();
 	}
 
     private void ServerSideUpdate() {
-        if (_unit.Shell.AliveState != LifeState.Alive)
+        if (_shell.AliveState != LifeState.Alive)
         {
-            _path = null;
+            return;
+        }
+
+        if (_enemyTarget == null)
+        {
+            CheckForEnemyTargets();
+        }
+
+
+        if (_enemyTarget != null)
+        {
+            AttackEnemy();
             return;
         }
 
         CheckWaypoint();
-
         if (_currentWaypoint == null)
         {
-            _path = null;
+            _motor.Stop();
         }
+    }
 
-        if (_path == null)
-        {
-            if (_waypointIndex < _waypoints.Length && _motor.CalculateIsGrounded())
-                _path = FindPath(transform.position, _waypoints[_waypointIndex].position);
-        }
+    private void OnUnitKill()
+    {
+        GetComponent<NavMeshAgent>().enabled = false;
+        GetComponent<Rigidbody>().isKinematic = false;
+    }
 
-        /*if (_path != null)
+    private void CheckForEnemyTargets() {
+        var enemies = GameManager.Instance.unitManager.GetUnits(_enemyTeam);
+
+        foreach (var potentialEnemy in enemies)
         {
-            //Debug lines
-            for (int i = 1; i < _path.corners.Length; i++)
+            if (Vector3.Distance(transform.position, potentialEnemy.Position) > 10)
+                continue;
+            else if(potentialEnemy.AliveState == LifeState.Alive)
             {
-                Vector3 start = _path.corners[i - 1];
-                Vector3 end = _path.corners[i];
-
-                Debug.DrawLine(start, end, Color.yellow);
+                _enemyTarget = potentialEnemy;
+                break;
             }
-        }*/
+        }
+    }
 
-        Stear();
+    private void AttackEnemy() {
+        if (_enemyTarget.AliveState != LifeState.Alive)
+        {
+            _enemyTarget = null;
+            _currentWaypoint = null;
+            return;
+        }
+
+        if (Vector3.Distance(transform.position, _enemyTarget.Position) > AttackRange)
+        {
+            _motor.SetMoveDestination(_enemyTarget.Position);
+        }
+        else {
+            Vector3 dir = _enemyTarget.Position - transform.position;
+            dir.y = 0;
+            _motor.SetMoveDestination(transform.position);
+            _motor.SetRotateDestination(dir);
+            AbilityList.AbilityState state = _shell.Abilities.GetAbilityState(AbilitySlot.Attack1);
+
+            if (!state.isGarbage && state.canActivate)
+                _shell.Abilities.ActivateAbility(AbilitySlot.Attack1);
+        }
     }
 
     private void CheckWaypoint() {
         if (_waypoints.Length == 0 || _waypointIndex >= _waypoints.Length)
             return;
 
-        bool newPath = false;
         if (_currentWaypoint == null)
         {
             _currentWaypoint = _waypoints[_waypointIndex];
-            newPath = true;
+            _motor.SetMoveDestination(_currentWaypoint.position);
         }
         else if (Vector3.Distance(transform.position, _currentWaypoint.position) < 2)
         {
@@ -80,58 +133,11 @@ public class UnitController : MonoBehaviour {
             if (_waypointIndex < _waypoints.Length)
             {
                 _currentWaypoint = _waypoints[_waypointIndex];
-                newPath = true;
+                _motor.SetMoveDestination(_currentWaypoint.position);
             }
             else {
-                _path = null;
+                _motor.Stop();
             }
         }
-
-        if (newPath) {
-            _path = FindPath(transform.position, _currentWaypoint.position);
-        }
-    }
-
-    //Only called on server.
-    private void Stear() {
-        if (_path == null)
-        {
-            _motor.SetMoveDirection(Vector3.zero);
-            return;
-        }
-
-        if (_path.corners.Length <= 1)
-        {
-            _path = null;
-            return;
-        }
-
-        Vector3 nextPoint = _path.corners[1];
-        //When the unit gets to the point, calculate a route to the next point.
-        if (Vector3.Distance(transform.position, nextPoint) < 0.25)
-        {
-            _path = FindPath(nextPoint, _currentWaypoint.position);
-            return;
-        }
-
-
-        Vector3 dir = nextPoint - transform.position;
-        _motor.SetMoveDirection(dir);
-
-        Quaternion rotation = Quaternion.LookRotation(dir);
-        Vector3 rotDir = rotation.eulerAngles;
-
-        //TODO Smooth rotation instead of instant.
-        _motor.SetRotateDestination(new Vector3(0, rotDir.y, 0));
-    }
-
-    private static NavMeshPath FindPath(Vector3 startPoint, Vector3 endPoint) {
-        NavMeshPath path = new NavMeshPath();
-        bool pathFound = NavMesh.CalculatePath(startPoint, endPoint, NavMesh.AllAreas, path);
-
-        if (!pathFound)
-            path = null;
-
-        return path;
     }
 }

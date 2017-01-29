@@ -15,7 +15,7 @@ public class Player : NetworkBehaviour {
     private PlayerController controller;
     private BaseMotor _motor;
     private AbilityList _abilities;
-    private BaseUnit _unit;
+    private UnitShell _shell;
 
     public void Initialize(int id) {
         PlayerID = id;
@@ -24,13 +24,20 @@ public class Player : NetworkBehaviour {
     void Start() {
         _motor = gameObject.GetComponent<BaseMotor>();
         _abilities = gameObject.GetComponent<AbilityList>();
-        _unit = gameObject.GetComponent<BaseUnit>();
+        _shell = gameObject.GetComponent<UnitShell>();
+
+        _shell.OnKillCallback += OnKill;
 
         if (isServer) {
             
-            _abilities.GrantAbility(new AbilityJump(_motor, _unit), AbilitySlot.Jump);
-            _abilities.GrantAbility(new AbilityBasicAttack(_motor, _unit), AbilitySlot.Attack1);
+            _abilities.GrantAbility(new AbilityJump(_motor, _shell), AbilitySlot.Jump);
+            _abilities.GrantAbility(new AbilityBasicAttack(_motor, _shell), AbilitySlot.Attack1);
         }
+    }
+
+    private void OnKill()
+    {
+        Debug.LogError("Player died!");
     }
 
     void Update() {
