@@ -96,19 +96,18 @@ public class UnitShell : NetworkBehaviour {
     private void Kill() {
         AliveState = LifeState.Dying;
 
-        //_unit.UnitOnKill();
-        {
-            _animationSync.SetNewAnimation(UnitAnimation.Dying);
-            GetComponent<Collider>().enabled = false;
-            var obstacle = GetComponent<NavMeshObstacle>();
-            if (obstacle != null)
-                obstacle.enabled = false;
+        _animationSync.SetNewAnimation(UnitAnimation.Dying);
+        GetComponent<Collider>().enabled = false;
+        var obstacle = GetComponent<NavMeshObstacle>();
+        if (obstacle != null)
+            obstacle.enabled = false;
 
-            Motor.Stop();
+        Motor.Stop();
 
-            if (OnKillCallback != null)
-                OnKillCallback();
-        }
+        GameManager.Instance.unitManager.KillUnit(this);
+
+        if (OnKillCallback != null)
+            OnKillCallback();
 
         RpcOnKill();
         StartCoroutine(Die());
@@ -121,6 +120,9 @@ public class UnitShell : NetworkBehaviour {
         rigidBody.constraints = RigidbodyConstraints.FreezeAll;
 
         GetComponent<Collider>().enabled = false;
+        
+        if(!isServer)
+            GameManager.Instance.unitManager.KillUnit(this);
     }
 
     [Server]
@@ -142,7 +144,7 @@ public class UnitShell : NetworkBehaviour {
     }
 
     private void OnDestroy() {
-        GameManager.Instance.unitManager.KillUnit(this);
+        GameManager.Instance.unitManager.RemoveUnit(this);
     }
 
     public delegate void OnKillDelegate();

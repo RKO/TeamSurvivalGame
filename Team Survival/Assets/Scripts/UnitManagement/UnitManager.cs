@@ -21,11 +21,9 @@ public class UnitManager {
 
     public void RemoveUnit(UnitShell unit)
     {
-        _unitsByTeam[unit.ChildUnit.GetTeam].Remove(unit);
-    }
-
-    public void RemovePlayer() {
-
+        List<UnitShell> teamList = _unitsByTeam[unit.ChildUnit.GetTeam];
+        if (teamList.Contains(unit))
+            teamList.Remove(unit);
     }
 
     public void KillUnit(UnitShell unit)
