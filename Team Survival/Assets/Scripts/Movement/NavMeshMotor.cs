@@ -2,6 +2,7 @@
 using UnityEngine.Networking;
 using System;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class NavMeshMotor : NetworkBehaviour, IMotor
 {
     private NavMeshAgent _agent;
@@ -29,6 +30,16 @@ public class NavMeshMotor : NetworkBehaviour, IMotor
         _agent.updateRotation = true;
 
         _groundChecker = new GroundChecker(transform);
+    }
+
+    public override void OnStartClient() {
+        //Disable on the client.
+        if (!isServer)
+        {
+            _agent = GetComponent<NavMeshAgent>();
+            _agent.enabled = false;
+            enabled = false;
+        }
     }
 
     [ServerCallback]
