@@ -33,6 +33,11 @@ public class BaseMotor : NetworkBehaviour, IMotor {
 
         Body = transform.FindChild("Body");
         Head = transform.FindChild("Head");
+
+        //Disable on clients.
+        if (!isServer) {
+            enabled = false;
+        }
     }
 
     [Server]
@@ -94,11 +99,13 @@ public class BaseMotor : NetworkBehaviour, IMotor {
         this.addedForce += force;
     }
 
+    [Server]
     public void SetMoveDestination(Vector3 destination)
     {
         //Nothing to do here.
     }
 
+    [Server]
     public void Stop()
     {
         moveDirection = MathUtil.VectorZero;
