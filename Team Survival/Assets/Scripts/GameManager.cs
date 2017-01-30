@@ -9,12 +9,16 @@ public class GameManager : NetworkBehaviour {
     public UnitManager unitManager;
     public bool IsGUIOpen { get; set; }
 
+    public EffectSync EffectManager { get; private set; }
+
     // Use this for initialization
     void Awake () {
         Instance = this;
 
         spawnManager = gameObject.AddComponent<SpawnManager>();
         unitManager = new UnitManager();
+
+        EffectManager = GetComponent<EffectSync>();
     }
 
     public override void OnStartServer() {

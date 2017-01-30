@@ -53,6 +53,7 @@ public class AbilityBasicAttack : BaseAbility
     private void DoHitOnTarget(UnitShell target) {
         if (target.ChildUnit.GetTeam != _unit.ChildUnit.GetTeam)
         {
+            GameManager.Instance.EffectManager.TriggerEffect(Effect.EffectId.MeleeHit, target.transform.position + Vector3.up);
             target.DealDamage(10);
         }
     }
