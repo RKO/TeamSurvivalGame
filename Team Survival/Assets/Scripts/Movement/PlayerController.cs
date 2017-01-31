@@ -4,8 +4,9 @@ public class PlayerController : MonoBehaviour {
     private const float CameraRotationSpeed = 300;
 
     private Player _player;
-    private BaseMotor _motor;
+    private UnitShell _unitShell;
     private AbilityList _abilities;
+    private SmoothMouseLook _mouseLook;
 
     private GameObject cameraObj;
     private float rotationX = 0;
@@ -17,26 +18,32 @@ public class PlayerController : MonoBehaviour {
     public void PlayerInitialize (GameObject cameraPrefab, Player player) {
         _player = player;
 
-        _motor = GetComponent<BaseMotor>();
-        _abilities = GetComponent<AbilityList>();
+        _unitShell = GetComponent<UnitShell>();
+        _abilities = _unitShell.Abilities;
 
         cameraObj = Instantiate(cameraPrefab, Vector3.zero, Quaternion.identity) as GameObject;
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        SmoothMouseLook mouseLook = gameObject.AddComponent<SmoothMouseLook>();
-        mouseLook.axes = SmoothMouseLook.RotationAxes.MouseX;
-        mouseLook.sensitivityX = 7;
+        _mouseLook = gameObject.AddComponent<SmoothMouseLook>();
+        _mouseLook.axes = SmoothMouseLook.RotationAxes.MouseX;
+        _mouseLook.sensitivityX = 7;
 
         _initialized = true;
     }
 
     private void Update() {
-        if (_initialized)
+        if (!_initialized)
+            return;
+
+        if (_unitShell.AliveState == LifeState.Alive)
         {
             SetMovement();
             ControlCamera();
+        }
+        else if (_unitShell.AliveState != LifeState.Alive && _mouseLook.enabled) {
+            _mouseLook.enabled = false;
         }
     }
 
@@ -103,7 +110,7 @@ public class PlayerController : MonoBehaviour {
 
     private void ControlCamera()
     {
-        cameraObj.transform.position = _motor.Head.position;
+        cameraObj.transform.position = _unitShell.Motor.Head.position;
 
         //Don't rotate the camera, if GUI is open.
         if (!GameManager.Instance.IsGUIOpen)
@@ -122,11 +129,15 @@ public class PlayerController : MonoBehaviour {
         //Save the rotation locally, for the players camera
         rotationX = q.eulerAngles.y;
 
-        //And send it to the server, for the actual object rotation.
-        Vector3 rotation = new Vector3(0, rotationX, 0);
-        _player.CmdSetRotateDestination(rotation);
+        //TODO Possiby limit how often this is sent.
+        if (Mathf.Abs(_unitShell.transform.localRotation.eulerAngles.y - rotationX) > 0.001f)
+        {
+            //And send it to the server, for the actual object rotation.
+            Vector3 rotation = new Vector3(0, rotationX, 0);
+            _player.CmdSetRotateDestination(rotation);
+        }
 
         //Apply the desired rotation immediately so the user can see it, but the server will decide if it's correct.
-        _motor.transform.localRotation = q;
+        _unitShell.transform.localRotation = q;
     }
 }

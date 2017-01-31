@@ -41,7 +41,8 @@ public class AnimationSync : NetworkBehaviour {
         switch (newAnimation)
         {
             case UnitAnimation.Idle:
-                _legacyAnimator.Play("idle");
+                //Let the Idle be the default clip, and then don't set it. 
+                //(Otherwise, it will be set right after any triggered animations, and override them)
                 break;
             case UnitAnimation.Walking:
                 _legacyAnimator.Play("walk");
@@ -99,17 +100,19 @@ public class AnimationSync : NetworkBehaviour {
     }
 
     [ClientRpc]
-    private void RpcTriggerAnimation(UnitTriggerAnimation triggerAnim) {
+    private void RpcTriggerAnimation(UnitTriggerAnimation triggerAnim)
+    {
         if (triggerAnim == UnitTriggerAnimation.Jump)
         {
             _legacyAnimator.Play("jump");
         }
         else {
-            _legacyAnimator.Play("attack");
+            _legacyAnimator.Play("attack", PlayMode.StopAll);
         }
     }
 
-    private void TriggerMechanimAnimation(UnitTriggerAnimation triggerAnim) {
+    private void TriggerMechanimAnimation(UnitTriggerAnimation triggerAnim)
+    {
         if (triggerAnim == UnitTriggerAnimation.Jump)
         {
             _netAnimator.SetTrigger("Jump");

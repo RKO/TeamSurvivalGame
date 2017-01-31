@@ -1167,11 +1167,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5449964928b30c94d8e2e3ffcb21565f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsOnServer: 0
   UnitMoveSpeed: 6
   UnitTeam: 2
   UnitName: Skeleton - Level 1
-  MaxHealth: 10
+  MaxHealth: 15
 --- !u!114 &114000013016154958
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1183,6 +1182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 466bb6cd50d4dcb4cbbe003c14f515d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SendIntervalDelay: 0.11
   _syncPosition: {x: 0, y: 0, z: 0}
   _syncRotation: {x: 0, y: 0, z: 0}
 --- !u!114 &114000013507471592

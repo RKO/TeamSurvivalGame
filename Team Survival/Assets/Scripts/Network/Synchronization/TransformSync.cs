@@ -2,6 +2,11 @@
 using UnityEngine;
 
 public class TransformSync : NetworkBehaviour {
+    [SerializeField]
+    private float SendIntervalDelay = 0.11f;
+
+    private float _remainingDelay;
+
     [SyncVar]
     public Vector3 _syncPosition;
 
@@ -21,10 +26,18 @@ public class TransformSync : NetworkBehaviour {
     [Server]
     private void ServerUpdate()
     {
+        if (_remainingDelay > 0)
+        {
+            _remainingDelay -= Time.deltaTime;
+            return;
+        }
+
         if (transform.hasChanged)
         {
             _syncPosition = transform.position;
             _syncRotation = transform.rotation.eulerAngles;
+
+            _remainingDelay = SendIntervalDelay;
         }
     }
 

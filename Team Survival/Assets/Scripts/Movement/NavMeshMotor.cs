@@ -9,6 +9,9 @@ public class NavMeshMotor : NetworkBehaviour, IMotor
     private GroundChecker _groundChecker;
     private float _moveSpeed;
 
+    public Transform Body { get; private set; }
+    public Transform Head { get; private set; }
+
     public Vector3 MoveDirection
     {
         get
@@ -22,6 +25,12 @@ public class NavMeshMotor : NetworkBehaviour, IMotor
     {
         _moveSpeed = moveSpeed;
         _agent.speed = moveSpeed;
+    }
+
+    //TODO This should not be available on the client.
+    private void Start() {
+        Body = transform.FindChild("Body");
+        Head = transform.FindChild("Head");
     }
 
     [ServerCallback]

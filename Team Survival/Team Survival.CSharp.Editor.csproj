@@ -5,16 +5,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BE82DC0F-B5B7-0AB3-C20E-17C9AA30B2FB}</ProjectGuid>
+    <ProjectGuid>{06EAAF92-11DE-4C0A-94AD-46610F0F05CE}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
-    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>5.4.0f3</UnityVersion>
     <RootNamespace></RootNamespace>
@@ -52,98 +52,59 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.EditorTestsRunner">
+      <HintPath>Library\UnityAssemblies\UnityEditor.EditorTestsRunner.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\UnityAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor">
-      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    <Reference Include="UnityEditor.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.TreeEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.TreeEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.SamsungTV.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.SamsungTV.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\Antialiasing.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\Bloom.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\BloomAndFlares.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\BloomOptimized.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\Blur.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\BlurOptimized.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\CameraMotionBlur.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\ColorCorrectionCurves.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\ColorCorrectionLookup.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\ColorCorrectionRamp.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\ContrastEnhance.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\ContrastStretch.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\CreaseShading.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\DepthOfField.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\DepthOfFieldDeprecated.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\EdgeDetection.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\Fisheye.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\GlobalFog.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\Grayscale.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\ImageEffectBase.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\ImageEffects.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\MotionBlur.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\NoiseAndGrain.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\NoiseAndScratches.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\PostEffectsBase.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\PostEffectsHelper.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\Quads.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\ScreenOverlay.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\ScreenSpaceAmbientObscurance.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\ScreenSpaceAmbientOcclusion.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\SepiaTone.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\SunShafts.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\TiltShift.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\Tonemapping.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\Triangles.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
-    <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Script\CameraTarget.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Script\EffectController.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Script\EffectDemo.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Script\EffectShaderPropertyStr.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Script\RenderEffect.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Script\TransformExtension.cs" />
-    <Compile Include="Assets\Scripts\Abilities\AbilityBasicAttack.cs" />
-    <Compile Include="Assets\Scripts\Abilities\AbilityJump.cs" />
-    <Compile Include="Assets\Scripts\Abilities\AbilityList.cs" />
-    <Compile Include="Assets\Scripts\Abilities\AbilitySweepingStrike.cs" />
-    <Compile Include="Assets\Scripts\Abilities\BaseAbility.cs" />
-    <Compile Include="Assets\Scripts\Effects\DestroyWhenFinished.cs" />
-    <Compile Include="Assets\Scripts\Effects\Effect.cs" />
-    <Compile Include="Assets\Scripts\Enums.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Scripts\Movement\BaseMotor.cs" />
-    <Compile Include="Assets\Scripts\Movement\GroundChecker.cs" />
-    <Compile Include="Assets\Scripts\Movement\IMotor.cs" />
-    <Compile Include="Assets\Scripts\Movement\NavMeshMotor.cs" />
-    <Compile Include="Assets\Scripts\Movement\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\Movement\SmoothMouseLook.cs" />
-    <Compile Include="Assets\Scripts\Movement\UnitController.cs" />
-    <Compile Include="Assets\Scripts\Network\LobbyGUI.cs" />
-    <Compile Include="Assets\Scripts\Network\MyNetworkManager.cs" />
-    <Compile Include="Assets\Scripts\Network\Player.cs" />
-    <Compile Include="Assets\Scripts\Network\Synchronization\AnimationSync.cs" />
-    <Compile Include="Assets\Scripts\Network\Synchronization\EffectSync.cs" />
-    <Compile Include="Assets\Scripts\Network\Synchronization\TransformSync.cs" />
-    <Compile Include="Assets\Scripts\Network\Synchronization\UnitShell.cs" />
-    <Compile Include="Assets\Scripts\UI\EscapeMenu.cs" />
-    <Compile Include="Assets\Scripts\UI\TestUI.cs" />
-    <Compile Include="Assets\Scripts\UnitManagement\BaseUnit.cs" />
-    <Compile Include="Assets\Scripts\UnitManagement\GoalZone.cs" />
-    <Compile Include="Assets\Scripts\UnitManagement\IUnit.cs" />
-    <Compile Include="Assets\Scripts\UnitManagement\SpawnManager.cs" />
-    <Compile Include="Assets\Scripts\UnitManagement\SpawnManagerNetwork.cs" />
-    <Compile Include="Assets\Scripts\UnitManagement\SpawnPoint.cs" />
-    <Compile Include="Assets\Scripts\UnitManagement\UnitManager.cs" />
-    <Compile Include="Assets\Scripts\UnitManagement\Wave.cs" />
-    <Compile Include="Assets\Scripts\UnitManagement\WaveConfig.cs" />
-    <Compile Include="Assets\Scripts\Util\ExtDebug.cs" />
-    <Compile Include="Assets\Scripts\Util\Extentions.cs" />
-    <Compile Include="Assets\Scripts\Util\MathUtil.cs" />
+    <ProjectReference Include="Team Survival.CSharp.csproj">
+      <Project>{BE82DC0F-B5B7-0AB3-C20E-17C9AA30B2FB}</Project>
+      <Name>Team Survival.CSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Editor\EffectControllerInspector.cs" />
+    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Editor\EffectToolBar.cs" />
+    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Editor\RenderEffectInspector.cs" />
+    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Editor\ShaderCustomEditor\ShaderMaterialsEditor.cs" />
+    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Editor\XUIUtils.cs" />
+    <Compile Include="Assets\Scripts\Effects\Editor\MakeEffectObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
