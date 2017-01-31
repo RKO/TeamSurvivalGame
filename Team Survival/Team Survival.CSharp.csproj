@@ -110,6 +110,7 @@
     <Compile Include="Assets\Scripts\Abilities\AbilityBasicAttack.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityJump.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityList.cs" />
+    <Compile Include="Assets\Scripts\Abilities\AbilitySweepingStrike.cs" />
     <Compile Include="Assets\Scripts\Abilities\BaseAbility.cs" />
     <Compile Include="Assets\Scripts\Effects\DestroyWhenFinished.cs" />
     <Compile Include="Assets\Scripts\Effects\Effect.cs" />
