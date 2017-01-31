@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class AbilityBasicAttack : BaseAbility
 {
+    private const float Damage = 5f;
     private const float Cooldown = 0.1f;
     private const float MaxDistance = 0.5f;
     private Vector3 HalfBox = new Vector3(1f, 1f, 0.5f);
@@ -79,7 +80,7 @@ public class AbilityBasicAttack : BaseAbility
                 impact = target.transform.position + Vector3.up;
 
             GameManager.Instance.EffectManager.TriggerEffect(Effect.EffectId.MeleeHit, impact);
-            target.DealDamage(10);
+            target.DealDamage(Damage);
         }
     }
 }
