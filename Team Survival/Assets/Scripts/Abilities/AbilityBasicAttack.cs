@@ -3,17 +3,22 @@ using System.Collections.Generic;
 
 public class AbilityBasicAttack : BaseAbility
 {
-    private const float Cooldown = 0f;
-    private const float Duration = 1.1f;
+    private const float Cooldown = 0.1f;
+    private const float Duration = 1.14f;
     private const float MaxDistance = 0.5f;
     private Vector3 HalfBox = new Vector3(1f, 1f, 0.5f);
     private LayerMask targetMask = 1 << LayerMask.NameToLayer("Unit");
 
     private Dictionary<Transform, UnitShell> _hitTable;
+    private float _animationDuration;
+    private float _hitDelay;
+    private float _hitDelayTimer;
+    private bool _done;
 
     public override string Name { get { return "Attack"; } }
 
-    public AbilityBasicAttack(IMotor caster, UnitShell unit) : base(caster, unit, Cooldown, Duration) {
+    public AbilityBasicAttack(IMotor caster, UnitShell unit, float animationDuration, float hitDelay) : base(caster, unit, Cooldown, animationDuration) {
+        _hitDelay = hitDelay;
         _hitTable = new Dictionary<Transform, UnitShell>();
     }
 
@@ -21,10 +26,21 @@ public class AbilityBasicAttack : BaseAbility
     {
         _unit.TriggerAnimation(UnitTriggerAnimation.Attack1);
         _hitTable.Clear();
+        _hitDelayTimer = _hitDelay;
+        _done = false;
     }
 
     protected override void AbilityUpdate()
     {
+        if (_done)
+            return;
+
+        if (_hitDelayTimer > 0)
+        {
+            _hitDelayTimer -= Time.deltaTime;
+            return;
+        }
+
         Transform transform = _unit.transform;
         Vector3 inFront = transform.position + transform.forward + Vector3.up;
 
@@ -40,7 +56,7 @@ public class AbilityBasicAttack : BaseAbility
                 UnitShell unit = hit.transform.gameObject.GetComponentInChildren<UnitShell>();
                 if (unit != null)
                 {
-                    DoHitOnTarget(unit);
+                    DoHitOnTarget(unit, hit.point);
                     _hitTable.Add(hit.transform, unit);
                 }
                 else {
@@ -48,12 +64,17 @@ public class AbilityBasicAttack : BaseAbility
                 }
             }
         }
+
+        _done = true;
     }
 
-    private void DoHitOnTarget(UnitShell target) {
+    private void DoHitOnTarget(UnitShell target, Vector3 impact) {
         if (target.ChildUnit.GetTeam != _unit.ChildUnit.GetTeam)
         {
-            GameManager.Instance.EffectManager.TriggerEffect(Effect.EffectId.MeleeHit, target.transform.position + Vector3.up);
+            if (impact == Vector3.zero)
+                impact = target.transform.position + Vector3.up;
+
+            GameManager.Instance.EffectManager.TriggerEffect(Effect.EffectId.MeleeHit, impact);
             target.DealDamage(10);
         }
     }
