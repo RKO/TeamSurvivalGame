@@ -129,9 +129,13 @@ public class PlayerController : MonoBehaviour {
         //Save the rotation locally, for the players camera
         rotationX = q.eulerAngles.y;
 
-        //And send it to the server, for the actual object rotation.
-        Vector3 rotation = new Vector3(0, rotationX, 0);
-        _player.CmdSetRotateDestination(rotation);
+        //TODO Possiby limit how often this is sent.
+        if (Mathf.Abs(_unitShell.transform.localRotation.eulerAngles.y - rotationX) > 0.001f)
+        {
+            //And send it to the server, for the actual object rotation.
+            Vector3 rotation = new Vector3(0, rotationX, 0);
+            _player.CmdSetRotateDestination(rotation);
+        }
 
         //Apply the desired rotation immediately so the user can see it, but the server will decide if it's correct.
         _unitShell.transform.localRotation = q;
