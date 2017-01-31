@@ -2,7 +2,7 @@
 
 public class Effect : ScriptableObject {
     public EffectId id;
-    public ParticleSystem particle;
+    public GameObject particle;
 
     public enum EffectId { MeleeHit }
 }

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Name: Effect_MeleeHit
   m_EditorClassIdentifier: 
   id: 0
-  particle: {fileID: 198000010396756468, guid: a7a02e314f71b8d4d92f40023a5d398a, type: 2}
+  particle: {fileID: 1000010537394400, guid: a7a02e314f71b8d4d92f40023a5d398a, type: 2}
