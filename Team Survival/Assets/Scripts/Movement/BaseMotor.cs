@@ -14,6 +14,7 @@ public class BaseMotor : NetworkBehaviour, IMotor {
 
     private float moveSpeed;
 
+    //TODO This should not be available on the client.
     public Transform Body { get; private set; }
     public Transform Head { get; private set; }
 
