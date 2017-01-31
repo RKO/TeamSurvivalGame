@@ -34,7 +34,10 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Update() {
-        if (_initialized && _unitShell.AliveState == LifeState.Alive)
+        if (!_initialized)
+            return;
+
+        if (_unitShell.AliveState == LifeState.Alive)
         {
             SetMovement();
             ControlCamera();
