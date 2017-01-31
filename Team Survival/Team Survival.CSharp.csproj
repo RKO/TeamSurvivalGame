@@ -111,6 +111,7 @@
     <Compile Include="Assets\Scripts\Abilities\AbilityJump.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityList.cs" />
     <Compile Include="Assets\Scripts\Abilities\BaseAbility.cs" />
+    <Compile Include="Assets\Scripts\Effects\DestroyWhenFinished.cs" />
     <Compile Include="Assets\Scripts\Effects\Effect.cs" />
     <Compile Include="Assets\Scripts\Enums.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
