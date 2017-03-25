@@ -6,6 +6,9 @@ public class HealthBar : MonoBehaviour {
     private UnitShell _owner;
 
     [SerializeField]
+    private AnimationCurve HealthColorCurve;
+
+    [SerializeField]
     private Color FullHealthColor;
 
     [SerializeField]
@@ -45,6 +48,8 @@ public class HealthBar : MonoBehaviour {
         }
 
         float percent = _owner.Health / _owner.MaxHealth;
-        HealthBackground.color = Color.Lerp(NearDeathColor, FullHealthColor, percent);
+        float t = HealthColorCurve.Evaluate(percent);
+
+        HealthBackground.color = Color.Lerp(NearDeathColor, FullHealthColor, t);
     }
 }

@@ -3706,6 +3706,8 @@ MonoBehaviour:
   waypoints: []
   MaxHealth: 0
   Health: 0
+  HealthBarPrefab: {fileID: 1000010656295530, guid: 9addbe9681a7f12428bc993846415159,
+    type: 2}
 --- !u!114 &114000014230433388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3717,7 +3719,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5449964928b30c94d8e2e3ffcb21565f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsOnServer: 0
   UnitMoveSpeed: 9
   UnitTeam: 1
   UnitName: Player
