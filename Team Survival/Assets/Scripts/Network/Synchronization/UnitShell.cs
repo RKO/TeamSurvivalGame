@@ -32,6 +32,9 @@ public class UnitShell : NetworkBehaviour {
     public float Health;
     #endregion
 
+    [SerializeField]
+    private GameObject HealthBarPrefab;
+
     // Use this for initialization
     void Start() {
         _unit = GetComponentInChildren<BaseUnit>();
@@ -41,8 +44,17 @@ public class UnitShell : NetworkBehaviour {
         Motor = GetComponent<IMotor>();
         Abilities = GetComponent<AbilityList>();
 
-        if (this.isServer) {
+        if (this.isServer)
+        {
             ServerSideSetup(_unit);
+        }
+
+        if (this.isClient) {
+            if (HealthBarPrefab != null)
+            {
+                var obj = Instantiate(HealthBarPrefab, transform, false) as GameObject;
+                obj.transform.localPosition = transform.FindChild("Head").localPosition + Vector3.up * 0.5f;
+            }
         }
     }
 

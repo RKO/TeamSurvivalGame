@@ -1210,6 +1210,8 @@ MonoBehaviour:
   waypoints: []
   MaxHealth: 0
   Health: 0
+  HealthBarPrefab: {fileID: 1000010656295530, guid: 9addbe9681a7f12428bc993846415159,
+    type: 2}
 --- !u!114 &114000013835391648
 MonoBehaviour:
   m_ObjectHideFlags: 1
