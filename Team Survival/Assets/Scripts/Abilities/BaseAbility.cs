@@ -4,12 +4,16 @@ public abstract class BaseAbility {
 
     public abstract string Name { get; }
 
+    protected abstract string GetUniqueID { get; }
+
     protected IMotor _caster;
     protected UnitShell _unit;
     protected float _cooldown;
     protected float _cooldownCounter;
     protected float _duration;
     protected float _durationCounter;
+
+    private AbilityInfo _abilityInfo;
 
     public float CooldownPercent { get; private set; }
 
@@ -24,8 +28,14 @@ public abstract class BaseAbility {
         _duration = duration;
         _durationCounter = 0;
 
+        _abilityInfo = AbilityInfoSync.GetAbilityInfo(GetUniqueID);
+
         //Just default to 0, in case there is no cooldown.
         CooldownPercent = 0;
+    }
+
+    public AbilityInfo GetInfo() { 
+        return _abilityInfo;
     }
 
     public void Update() {

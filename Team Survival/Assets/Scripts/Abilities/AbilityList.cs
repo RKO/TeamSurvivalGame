@@ -1,4 +1,5 @@
-﻿using UnityEngine.Networking;
+﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections.Generic;
 using System;
 
@@ -8,11 +9,13 @@ public class AbilityList : NetworkBehaviour {
     public SyncListAbilityState _abilityStates;
 
     private Dictionary<AbilitySlot, int> _abilitySlotMap;
+    private Dictionary<AbilitySlot, AbilitySynchronizer> _abilitySyncs;
 
     void Awake() {
         _abilities = new List<BaseAbility>();
         _abilityStates = new SyncListAbilityState();
         _abilitySlotMap = new Dictionary<AbilitySlot, int>();
+        _abilitySyncs = new Dictionary<AbilitySlot, AbilitySynchronizer>();
 
         foreach (AbilitySlot slot in Enum.GetValues(typeof(AbilitySlot)))
         {
@@ -38,7 +41,7 @@ public class AbilityList : NetworkBehaviour {
     }
 
     [Server]
-    public void GrantAbility(BaseAbility newAbility, AbilitySlot slot = AbilitySlot.None)
+    public void GrantAbility(BaseAbility newAbility, AbilitySlot slot, bool spawnSynchronization = false)
     {
         _abilities.Add(newAbility);
         _abilityStates.Add(new AbilityState());
@@ -46,6 +49,19 @@ public class AbilityList : NetworkBehaviour {
         //It is possible to overwrite assigned abilities.
         if (slot != AbilitySlot.None) {
             _abilitySlotMap[slot] = _abilities.IndexOf(newAbility);
+
+            if (spawnSynchronization) {
+                AbilitySynchronizer sync;
+
+                _abilitySyncs.TryGetValue(slot, out sync);
+                if (sync == null) {
+                    GameObject go = Instantiate(AbilityInfoSync.GetAbilitySyncPrefab());
+                    sync = go.GetComponent<AbilitySynchronizer>();
+                    _abilitySyncs.Add(slot, sync);
+                }
+
+                sync.AbilityID = newAbility.GetInfo().UniqueID;
+            }
         }
     }
 

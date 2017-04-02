@@ -122,6 +122,7 @@
     <Compile Include="Assets\Scripts\Network\MyNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Network\Player.cs" />
     <Compile Include="Assets\Scripts\Network\Synchronization\AbilityInfoSync.cs" />
+    <Compile Include="Assets\Scripts\Network\Synchronization\AbilitySynchronizer.cs" />
     <Compile Include="Assets\Scripts\Network\Synchronization\AnimationSync.cs" />
     <Compile Include="Assets\Scripts\Network\Synchronization\EffectSync.cs" />
     <Compile Include="Assets\Scripts\Network\Synchronization\TransformSync.cs" />
