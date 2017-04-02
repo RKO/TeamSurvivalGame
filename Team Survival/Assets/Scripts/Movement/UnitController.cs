@@ -113,7 +113,7 @@ public class UnitController : MonoBehaviour {
             _motor.SetRotateDestination(dir);
             var state = _shell.Abilities.GetAbilityState(AbilitySlot.Attack1);
 
-            if (state != null && state.CanActivateAbility)
+            if (state.CanActivate)
                 _shell.Abilities.ActivateAbility(AbilitySlot.Attack1);
         }
     }

@@ -73,7 +73,7 @@ public class AbilityList : NetworkBehaviour {
                     sync = go.GetComponent<AbilitySynchronizer>();
                     _abilitySyncs.Add(slot, sync);
 
-                    RpcSynchronizerCreated(go.GetComponent<NetworkIdentity>());
+                    RpcSynchronizerCreated(go.GetComponent<NetworkIdentity>(), syncParent.GetComponent<NetworkIdentity>());
                 }
 
                 sync.AbilityID = newAbility.GetInfo().UniqueID;
@@ -96,9 +96,10 @@ public class AbilityList : NetworkBehaviour {
     }
 
     [Server]
-    public AbilitySynchronizer GetAbilityState(AbilitySlot slot)
+    public BaseAbility GetAbilityState(AbilitySlot slot)
     {
-        return _abilitySyncs[slot];
+        int index = _abilitySlotMap[slot];
+        return _abilities[index];
     }
 
     [Server]
@@ -126,7 +127,8 @@ public class AbilityList : NetworkBehaviour {
     }
 
     [ClientRpc]
-    private void RpcSynchronizerCreated(NetworkIdentity id) {
-        _clientSynchronizerObjects.Add(id.GetComponent<AbilitySynchronizer>());
+    private void RpcSynchronizerCreated(NetworkIdentity syncObject, NetworkIdentity owner) {
+        syncObject.transform.SetParent(owner.transform);
+        _clientSynchronizerObjects.Add(syncObject.GetComponent<AbilitySynchronizer>());
     }
 }
