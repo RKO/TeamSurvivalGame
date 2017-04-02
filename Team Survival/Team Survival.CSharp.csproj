@@ -101,13 +101,8 @@
     <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\Twirl.cs" />
     <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Script\CameraTarget.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Script\EffectController.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Script\EffectDemo.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Script\EffectShaderPropertyStr.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Script\RenderEffect.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Script\TransformExtension.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityBasicAttack.cs" />
+    <Compile Include="Assets\Scripts\Abilities\AbilityInfo.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityJump.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityList.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilitySweepingStrike.cs" />
@@ -126,6 +121,8 @@
     <Compile Include="Assets\Scripts\Network\LobbyGUI.cs" />
     <Compile Include="Assets\Scripts\Network\MyNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Network\Player.cs" />
+    <Compile Include="Assets\Scripts\Network\Synchronization\AbilityInfoSync.cs" />
+    <Compile Include="Assets\Scripts\Network\Synchronization\AbilitySynchronizer.cs" />
     <Compile Include="Assets\Scripts\Network\Synchronization\AnimationSync.cs" />
     <Compile Include="Assets\Scripts\Network\Synchronization\EffectSync.cs" />
     <Compile Include="Assets\Scripts\Network\Synchronization\TransformSync.cs" />
@@ -218,7 +215,6 @@
     <None Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleBlendEffect.shader" />
     <None Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Shader\ParticlePremultiplyBlend.shader" />
     <None Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Shader\effect_distortion_mask.shader" />
-    <None Include="Assets\Artwork\Particlecollection_Free samples\READ ME.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
