@@ -2,8 +2,6 @@
 
 public abstract class BaseAbility {
 
-    public abstract string Name { get; }
-
     protected abstract string GetUniqueID { get; }
 
     protected IMotor _caster;

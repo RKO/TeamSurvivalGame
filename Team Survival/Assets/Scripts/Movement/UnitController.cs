@@ -111,9 +111,9 @@ public class UnitController : MonoBehaviour {
             dir.y = 0;
             _motor.SetMoveDestination(transform.position);
             _motor.SetRotateDestination(dir);
-            AbilityList.AbilityState state = _shell.Abilities.GetAbilityState(AbilitySlot.Attack1);
+            var state = _shell.Abilities.GetAbilityState(AbilitySlot.Attack1);
 
-            if (!state.isGarbage && state.canActivate)
+            if (state != null && state.CanActivateAbility)
                 _shell.Abilities.ActivateAbility(AbilitySlot.Attack1);
         }
     }

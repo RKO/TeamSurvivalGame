@@ -6,21 +6,18 @@ using System;
 public class AbilityList : NetworkBehaviour {
 
     private List<BaseAbility> _abilities;
-    public SyncListAbilityState _abilityStates;
 
     private Dictionary<AbilitySlot, int> _abilitySlotMap;
     private Dictionary<AbilitySlot, AbilitySynchronizer> _abilitySyncs;
+    private List<AbilitySynchronizer> _clientSynchronizerObjects;
 
-    private List<AbilitySynchronizer> _clientSideSynchronizers;
-
-    public List<AbilitySynchronizer> AbilitySynchronizers { get { return _clientSideSynchronizers; } }
+    public List<AbilitySynchronizer> AbilitySynchronizers { get { return _clientSynchronizerObjects; } }
 
     void Awake() {
         _abilities = new List<BaseAbility>();
-        _abilityStates = new SyncListAbilityState();
         _abilitySlotMap = new Dictionary<AbilitySlot, int>();
         _abilitySyncs = new Dictionary<AbilitySlot, AbilitySynchronizer>();
-        _clientSideSynchronizers = new List<AbilitySynchronizer>();
+        _clientSynchronizerObjects = new List<AbilitySynchronizer>();
 
         foreach (AbilitySlot slot in Enum.GetValues(typeof(AbilitySlot)))
         {
@@ -36,13 +33,6 @@ public class AbilityList : NetworkBehaviour {
             BaseAbility ability = _abilities[i];
             ability.Update();
 
-            AbilityState abs = new AbilityState();
-            abs.cooldownPercent = ability.CooldownPercent;
-            abs.name = ability.Name;
-            abs.isActive = ability.IsActive;
-            abs.canActivate = ability.CanActivate;
-            _abilityStates[i] = abs;
-
             AbilitySlot slot = AbilitySlot.None;
             foreach (var item in _abilitySlotMap)
             {
@@ -52,7 +42,8 @@ public class AbilityList : NetworkBehaviour {
                     break;
                 }
             }
-                    AbilitySynchronizer sync;
+
+            AbilitySynchronizer sync;
             _abilitySyncs.TryGetValue(slot, out sync);
             if (sync != null) {
                 sync.CooldownPercent = ability.CooldownPercent;
@@ -66,7 +57,6 @@ public class AbilityList : NetworkBehaviour {
     public void GrantAbility(BaseAbility newAbility, AbilitySlot slot, Transform syncParent = null)
     {
         _abilities.Add(newAbility);
-        _abilityStates.Add(new AbilityState());
 
         //It is possible to overwrite assigned abilities.
         if (slot != AbilitySlot.None) {
@@ -105,17 +95,10 @@ public class AbilityList : NetworkBehaviour {
             ActivateAbility(index);
     }
 
-    public AbilityState GetAbilityState(int abilityIndex) {
-        return _abilityStates[abilityIndex];
-    }
-
-    public AbilityState GetAbilityState(AbilitySlot slot)
+    [Server]
+    public AbilitySynchronizer GetAbilityState(AbilitySlot slot)
     {
-        int index = _abilitySlotMap[slot];
-        if (index != -1)
-            return GetAbilityState(index);
-
-        return new AbilityState() { isGarbage = true };
+        return _abilitySyncs[slot];
     }
 
     [Server]
@@ -123,8 +106,6 @@ public class AbilityList : NetworkBehaviour {
     {
         int index = _abilities.IndexOf(toRemove);
         _abilities.Remove(toRemove);
-        //We just remove any abilityState object, because their values are assigned every update anyway.
-        _abilityStates.RemoveAt(_abilityStates.Count - 1);
 
         //Remove the reference from the Slot->Ability map.
         foreach (var item in _abilitySlotMap)
@@ -146,17 +127,6 @@ public class AbilityList : NetworkBehaviour {
 
     [ClientRpc]
     private void RpcSynchronizerCreated(NetworkIdentity id) {
-        Debug.Log("ID: "+id);
-        _clientSideSynchronizers.Add(id.GetComponent<AbilitySynchronizer>());
-    }
-
-    //Stuff to make the syncList work...
-    public class SyncListAbilityState : SyncListStruct<AbilityState> { }
-    public struct AbilityState {
-        public string name;
-        public float cooldownPercent;
-        public bool isActive;
-        public bool canActivate;
-        public bool isGarbage;
+        _clientSynchronizerObjects.Add(id.GetComponent<AbilitySynchronizer>());
     }
 }
