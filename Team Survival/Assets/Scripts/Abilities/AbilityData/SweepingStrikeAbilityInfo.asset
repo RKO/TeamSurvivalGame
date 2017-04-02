@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16bfb04576363c548998a87354c34dda, type: 3}
   m_Name: SweepingStrikeAbilityInfo
   m_EditorClassIdentifier: 
-  UniqueID: 
-  Name: 
-  Description: 
+  UniqueID: AbilitySweepingStrike
+  Name: Sweeping Strike
+  Description: Sweeping Strike
   Icon: {fileID: 0}
