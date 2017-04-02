@@ -1,6 +1,10 @@
-﻿using UnityEngine.Networking;
+﻿using UnityEngine;
+using UnityEngine.Networking;
 
 public class AbilitySynchronizer : NetworkBehaviour {
+
+    [SyncVar]
+    public NetworkIdentity ParentObject;
 
     [SyncVar]
     public string AbilityID;
@@ -13,6 +17,13 @@ public class AbilitySynchronizer : NetworkBehaviour {
 
     [SyncVar]
     public bool CanActivateAbility;
+
+    private void Start() {
+        if (transform.parent == null && ParentObject != null)
+        {
+            transform.SetParent(ParentObject.transform);
+        }
+    }
 
     public AbilityInfo GetAbilityInfo() {
         return AbilityInfoSync.GetAbilityInfo(AbilityID);
