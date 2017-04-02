@@ -104,6 +104,7 @@ MonoBehaviour:
   RegisteredAbilities:
   - {fileID: 11400000, guid: a2fcdd23bb281cd4688fd9a551f1f04a, type: 2}
   - {fileID: 11400000, guid: 798fcdafd5568d74b927a45c4b083733, type: 2}
+  - {fileID: 11400000, guid: 76bee376c2440394499d027031d7f963, type: 2}
 --- !u!114 &114000013108845938
 MonoBehaviour:
   m_ObjectHideFlags: 1
