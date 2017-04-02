@@ -99,11 +99,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Editor\EffectControllerInspector.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Editor\EffectToolBar.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Editor\RenderEffectInspector.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Editor\ShaderCustomEditor\ShaderMaterialsEditor.cs" />
-    <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Editor\XUIUtils.cs" />
     <Compile Include="Assets\Scripts\Abilities\Editor\AbilityInfoCreator.cs" />
     <Compile Include="Assets\Scripts\Effects\Editor\MakeEffectObject.cs" />
   </ItemGroup>
