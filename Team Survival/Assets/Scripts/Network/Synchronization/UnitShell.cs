@@ -20,7 +20,7 @@ public class UnitShell : NetworkBehaviour {
 
     public BaseUnit ChildUnit{ get { return _unit; } }
 
-    public LifeState AliveState { get; private set; }
+    public LifeState AliveState { get { return _aliveState; } }
 
     public Vector3 Position { get { return transform.position; } }
 
@@ -30,6 +30,9 @@ public class UnitShell : NetworkBehaviour {
 
     [SyncVar]
     public float Health;
+
+    [SyncVar]
+    private LifeState _aliveState;
     #endregion
 
     [SerializeField]
@@ -76,12 +79,12 @@ public class UnitShell : NetworkBehaviour {
 
     [ServerCallback]
     void Update() {
-        if (AliveState == LifeState.Alive && Health <= 0) {
+        if (_aliveState == LifeState.Alive && Health <= 0) {
             Kill();
             return;
         }
 
-        if (AliveState == LifeState.Alive)
+        if (_aliveState == LifeState.Alive)
         {
             float actualSpeed = Motor.MoveDirection.magnitude;
 
@@ -96,7 +99,7 @@ public class UnitShell : NetworkBehaviour {
 
     [Server]
     public void DealDamage(float damage) {
-        if (AliveState == LifeState.Alive)
+        if (_aliveState == LifeState.Alive)
         {
             Health -= damage;
             if (Health < 0)
@@ -106,7 +109,7 @@ public class UnitShell : NetworkBehaviour {
 
     [Server]
     private void Kill() {
-        AliveState = LifeState.Dying;
+        _aliveState = LifeState.Dying;
 
         _animationSync.SetNewAnimation(UnitAnimation.Dying);
         GetComponent<Collider>().enabled = false;
@@ -141,7 +144,7 @@ public class UnitShell : NetworkBehaviour {
     private IEnumerator Die() {
         yield return new WaitForSeconds(2);
 
-        AliveState = LifeState.Dead;
+        _aliveState = LifeState.Dead;
         _animationSync.SetNewAnimation(UnitAnimation.Dead);
 
         yield return new WaitForSeconds(10);
