@@ -8,4 +8,6 @@ public class AbilityInfo : ScriptableObject {
     public string Description;
 
     public Sprite Icon;
+
+    public Texture2D TempIcon;
 }

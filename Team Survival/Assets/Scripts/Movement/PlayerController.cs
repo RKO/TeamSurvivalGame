@@ -103,7 +103,11 @@ public class PlayerController : MonoBehaviour {
 
             GUI.enabled = state.CanActivateAbility;
             {
-                GUI.Button(new Rect(x, y, size * 2, size), info.Name + ": " + state.CooldownPercent);
+                Rect rect = new Rect(x, y, size * 2, size);
+                if(info.TempIcon != null)
+                    GUI.DrawTexture(rect, info.TempIcon);
+
+                GUI.Label(rect, info.Name + ":\n" + state.CooldownPercent);
             }
             GUI.enabled = true;
             count++;
