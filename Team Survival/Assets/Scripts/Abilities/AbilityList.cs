@@ -69,11 +69,11 @@ public class AbilityList : NetworkBehaviour {
                 if (sync == null) {
                     GameObject go = Instantiate(AbilityInfoSync.GetAbilitySyncPrefab());
                     NetworkServer.Spawn(go);
-                    go.transform.SetParent(syncParent);
                     sync = go.GetComponent<AbilitySynchronizer>();
+                    sync.ParentObject = syncParent.GetComponent<NetworkIdentity>();
                     _abilitySyncs.Add(slot, sync);
 
-                    RpcSynchronizerCreated(go.GetComponent<NetworkIdentity>(), syncParent.GetComponent<NetworkIdentity>());
+                    RpcSynchronizerCreated(go.GetComponent<NetworkIdentity>());
                 }
 
                 sync.AbilityID = newAbility.GetInfo().UniqueID;
@@ -127,8 +127,7 @@ public class AbilityList : NetworkBehaviour {
     }
 
     [ClientRpc]
-    private void RpcSynchronizerCreated(NetworkIdentity syncObject, NetworkIdentity owner) {
-        syncObject.transform.SetParent(owner.transform);
+    private void RpcSynchronizerCreated(NetworkIdentity syncObject) {
         _clientSynchronizerObjects.Add(syncObject.GetComponent<AbilitySynchronizer>());
     }
 }
