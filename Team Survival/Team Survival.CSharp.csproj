@@ -108,6 +108,7 @@
     <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Script\RenderEffect.cs" />
     <Compile Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Script\TransformExtension.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityBasicAttack.cs" />
+    <Compile Include="Assets\Scripts\Abilities\AbilityInfo.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityJump.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityList.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilitySweepingStrike.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Assets\Scripts\Network\LobbyGUI.cs" />
     <Compile Include="Assets\Scripts\Network\MyNetworkManager.cs" />
     <Compile Include="Assets\Scripts\Network\Player.cs" />
+    <Compile Include="Assets\Scripts\Network\Synchronization\AbilityInfoSync.cs" />
     <Compile Include="Assets\Scripts\Network\Synchronization\AnimationSync.cs" />
     <Compile Include="Assets\Scripts\Network\Synchronization\EffectSync.cs" />
     <Compile Include="Assets\Scripts\Network\Synchronization\TransformSync.cs" />
