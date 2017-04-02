@@ -11,11 +11,16 @@ public class AbilityList : NetworkBehaviour {
     private Dictionary<AbilitySlot, int> _abilitySlotMap;
     private Dictionary<AbilitySlot, AbilitySynchronizer> _abilitySyncs;
 
+    private List<AbilitySynchronizer> _clientSideSynchronizers;
+
+    public List<AbilitySynchronizer> AbilitySynchronizers { get { return _clientSideSynchronizers; } }
+
     void Awake() {
         _abilities = new List<BaseAbility>();
         _abilityStates = new SyncListAbilityState();
         _abilitySlotMap = new Dictionary<AbilitySlot, int>();
         _abilitySyncs = new Dictionary<AbilitySlot, AbilitySynchronizer>();
+        _clientSideSynchronizers = new List<AbilitySynchronizer>();
 
         foreach (AbilitySlot slot in Enum.GetValues(typeof(AbilitySlot)))
         {
@@ -37,11 +42,28 @@ public class AbilityList : NetworkBehaviour {
             abs.isActive = ability.IsActive;
             abs.canActivate = ability.CanActivate;
             _abilityStates[i] = abs;
+
+            AbilitySlot slot = AbilitySlot.None;
+            foreach (var item in _abilitySlotMap)
+            {
+                if (item.Value == i)
+                {
+                    slot = item.Key;
+                    break;
+                }
+            }
+                    AbilitySynchronizer sync;
+            _abilitySyncs.TryGetValue(slot, out sync);
+            if (sync != null) {
+                sync.CooldownPercent = ability.CooldownPercent;
+                sync.IsAbilityActive = ability.IsActive;
+                sync.CanActivateAbility = ability.CanActivate;
+            }
         }
     }
 
     [Server]
-    public void GrantAbility(BaseAbility newAbility, AbilitySlot slot, bool spawnSynchronization = false)
+    public void GrantAbility(BaseAbility newAbility, AbilitySlot slot, Transform syncParent = null)
     {
         _abilities.Add(newAbility);
         _abilityStates.Add(new AbilityState());
@@ -50,14 +72,18 @@ public class AbilityList : NetworkBehaviour {
         if (slot != AbilitySlot.None) {
             _abilitySlotMap[slot] = _abilities.IndexOf(newAbility);
 
-            if (spawnSynchronization) {
+            if (syncParent != null) {
                 AbilitySynchronizer sync;
 
                 _abilitySyncs.TryGetValue(slot, out sync);
                 if (sync == null) {
                     GameObject go = Instantiate(AbilityInfoSync.GetAbilitySyncPrefab());
+                    NetworkServer.Spawn(go);
+                    go.transform.SetParent(syncParent);
                     sync = go.GetComponent<AbilitySynchronizer>();
                     _abilitySyncs.Add(slot, sync);
+
+                    RpcSynchronizerCreated(go.GetComponent<NetworkIdentity>());
                 }
 
                 sync.AbilityID = newAbility.GetInfo().UniqueID;
@@ -104,8 +130,24 @@ public class AbilityList : NetworkBehaviour {
         foreach (var item in _abilitySlotMap)
         {
             if (item.Value == index)
+            {
                 _abilitySlotMap[item.Key] = -1;
+
+                if (_abilitySyncs.ContainsKey(item.Key))
+                {
+                    var sync = _abilitySyncs[item.Key];
+                    _abilitySyncs.Remove(item.Key);
+                    Destroy(sync.gameObject);
+                }
+                break;
+            }
         }
+    }
+
+    [ClientRpc]
+    private void RpcSynchronizerCreated(NetworkIdentity id) {
+        Debug.Log("ID: "+id);
+        _clientSideSynchronizers.Add(id.GetComponent<AbilitySynchronizer>());
     }
 
     //Stuff to make the syncList work...

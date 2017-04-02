@@ -6,11 +6,15 @@ public class AbilitySynchronizer : NetworkBehaviour {
     public string AbilityID;
 
     [SyncVar]
-    public float cooldownPercent;
+    public float CooldownPercent;
 
     [SyncVar]
-    public bool isActive;
+    public bool IsAbilityActive;
 
     [SyncVar]
-    public bool canActivate;
+    public bool CanActivateAbility;
+
+    public AbilityInfo GetAbilityInfo() {
+        return AbilityInfoSync.GetAbilityInfo(AbilityID);
+    }
 }

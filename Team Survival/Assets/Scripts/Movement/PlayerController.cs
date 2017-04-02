@@ -94,16 +94,18 @@ public class PlayerController : MonoBehaviour {
         const int size = 50;
 
         int count = 0;
-        foreach (var state in _abilities._abilityStates)
+        foreach (var state in _abilities.AbilitySynchronizers)
         {
             int x = 100 + (count * size * 2);
             int y = Screen.height - 10 - size;
 
-            GUI.enabled = state.canActivate;
+            AbilityInfo info = state.GetAbilityInfo();
+
+            GUI.enabled = state.CanActivateAbility;
             {
-                GUI.Button(new Rect(x, y, size * 2, size), state.name + ": " + state.cooldownPercent);
-                GUI.enabled = true;
+                GUI.Button(new Rect(x, y, size * 2, size), info.Name + ": " + state.CooldownPercent);
             }
+            GUI.enabled = true;
             count++;
         }
     }
