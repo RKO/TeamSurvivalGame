@@ -1,8 +1,6 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
-public class BaseMotor : NetworkBehaviour, IMotor {
+public class BaseMotor : IMotor {
     private Vector3 moveDirection;
     private Quaternion rotationTarget;
     private Vector3 addedForce;
@@ -14,50 +12,38 @@ public class BaseMotor : NetworkBehaviour, IMotor {
 
     private float moveSpeed;
 
+    private Transform _transform;
+
     //TODO This should not be available on the client.
     public Transform Body { get; private set; }
     public Transform Head { get; private set; }
 
-    [Server]
-    public void Initialize(float moveSpeed) {
+    public void Initialize(Transform parent, float moveSpeed) {
+        _transform = parent;
         this.moveSpeed = moveSpeed;
-    }
 
-	// Use this for initialization
-	void Start () {
-        myRigidbody = GetComponent<Rigidbody>();
+        myRigidbody = _transform.GetComponent<Rigidbody>();
         moveDirection = MathUtil.VectorZero;
-        rotationTarget = Quaternion.Euler(transform.rotation.eulerAngles);
+        rotationTarget = Quaternion.Euler(_transform.rotation.eulerAngles);
         addedForce = MathUtil.VectorZero;
 
-        _groundChecker = new GroundChecker(transform);
-
-        Body = transform.FindChild("Body");
-        Head = transform.FindChild("Head");
-
-        //Disable on clients.
-        if (!isServer) {
-            enabled = false;
-        }
+        _groundChecker = new GroundChecker(_transform);
     }
 
-    [Server]
     public bool CalculateIsGrounded() {
         return _groundChecker.CalculateIsGrounded();
     }
 
-    [ServerCallback]
-    private void LateUpdate() {
+    public void LateUpdate() {
         //Reset cached values.
         _groundChecker.ResetCache();
     }
 	
-    [ServerCallback]
-	void Update () {
+	public void Update () {
         if (moveDirection != MathUtil.VectorZero)// || addedForce != Vector3.zero)
             Move();
 
-        if(rotationTarget != MathUtil.QuatIdentity && rotationTarget != transform.rotation)
+        if(rotationTarget != MathUtil.QuatIdentity && rotationTarget != _transform.rotation)
             Rotate();
 
         if (addedForce != MathUtil.VectorZero)
@@ -68,7 +54,7 @@ public class BaseMotor : NetworkBehaviour, IMotor {
     private void Move() {
         
         _movement = moveDirection * Time.deltaTime;
-        myRigidbody.MovePosition(transform.position + _movement);
+        myRigidbody.MovePosition(_transform.position + _movement);
     }
 
     private void Rotate() {
@@ -82,35 +68,30 @@ public class BaseMotor : NetworkBehaviour, IMotor {
         addedForce = MathUtil.VectorZero;
     }
 
-    [Server]
     public void SetMoveDirection(Vector3 dir) {
         //Normalize the direction, as controllers might forget it. 
         //And apply speed, as it is used every frame, but dir is not changed very often.
         moveDirection = dir.normalized * moveSpeed;
     }
 
-    [Server]
     public void SetRotateDestination(Vector3 dir)
     {
         rotationTarget = Quaternion.Euler(dir);
     }
 
-    [Server]
     public void AddForce(Vector3 force) {
         this.addedForce += force;
     }
 
-    [Server]
     public void SetMoveDestination(Vector3 destination)
     {
         //Nothing to do here.
     }
 
-    [Server]
     public void Stop()
     {
         moveDirection = MathUtil.VectorZero;
-        rotationTarget = transform.rotation;
+        rotationTarget = _transform.rotation;
         addedForce = MathUtil.VectorZero;
     }
 }

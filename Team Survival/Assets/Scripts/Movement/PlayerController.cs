@@ -15,6 +15,9 @@ public class PlayerController : MonoBehaviour {
 
     private Vector3 _moveDir = Vector3.zero;
 
+    private Transform Body { get; set; }
+    private Transform Head { get; set; }
+
     public void PlayerInitialize (GameObject cameraPrefab, Player player) {
         _player = player;
 
@@ -29,6 +32,9 @@ public class PlayerController : MonoBehaviour {
         _mouseLook = gameObject.AddComponent<SmoothMouseLook>();
         _mouseLook.axes = SmoothMouseLook.RotationAxes.MouseX;
         _mouseLook.sensitivityX = 7;
+
+        Body = transform.FindChild("Body");
+        Head = transform.FindChild("Head");
 
         _initialized = true;
     }
@@ -116,7 +122,7 @@ public class PlayerController : MonoBehaviour {
 
     private void ControlCamera()
     {
-        cameraObj.transform.position = _unitShell.Motor.Head.position;
+        cameraObj.transform.position = Head.position;
 
         //Don't rotate the camera, if GUI is open.
         if (!GameManager.Instance.IsGUIOpen)

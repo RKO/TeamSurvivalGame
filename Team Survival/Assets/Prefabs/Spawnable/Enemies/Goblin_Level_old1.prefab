@@ -5294,7 +5294,6 @@ GameObject:
   - 54: {fileID: 54000013473457996}
   - 114: {fileID: 114000012825601938}
   - 114: {fileID: 114000012039324014}
-  - 114: {fileID: 114000014222714234}
   - 114: {fileID: 114000013538479610}
   - 114: {fileID: 114000010155149880}
   - 114: {fileID: 114000011886017930}
@@ -7698,7 +7697,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010171538766}
-  m_LocalRotation: {x: -0.6613818, y: -0.32186097, z: -0.36608952, w: 0.57005095}
+  m_LocalRotation: {x: -0.66138184, y: -0.321861, z: -0.36608955, w: 0.570051}
   m_LocalPosition: {x: -0.14345437, y: 0.008685013, z: -0.044942744}
   m_LocalScale: {x: 0.9999999, y: 1, z: 0.99999994}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8408,7 +8407,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010826507902}
-  m_LocalRotation: {x: -0.6613819, y: -0.3218609, z: -0.36608946, w: 0.5700509}
+  m_LocalRotation: {x: -0.66138196, y: -0.32186094, z: -0.3660895, w: 0.57005095}
   m_LocalPosition: {x: -0.26663175, y: 0.008685023, z: -0.044942595}
   m_LocalScale: {x: 0.99999964, y: 0.9999999, z: 0.99999976}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10417,6 +10416,7 @@ MonoBehaviour:
   waypoints: []
   MaxHealth: 0
   Health: 0
+  HealthBarPrefab: {fileID: 0}
 --- !u!114 &114000011886017930
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10518,18 +10518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec496bf6c7105a343a7a7bd1858bde16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114000014222714234
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000014233229192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae35e7c133054674985bd79c191f9689, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myRigidbody: {fileID: 0}
 --- !u!137 &137000010835817466
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

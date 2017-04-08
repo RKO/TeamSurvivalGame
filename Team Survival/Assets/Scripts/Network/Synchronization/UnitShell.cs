@@ -5,7 +5,6 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(BaseUnit))]
 [RequireComponent(typeof(AnimationSync))]
 [RequireComponent(typeof(AbilityList))]
-[RequireComponent(typeof(IMotor))]
 public class UnitShell : NetworkBehaviour {
 
     public Transform[] waypoints;
@@ -46,7 +45,6 @@ public class UnitShell : NetworkBehaviour {
         _unit = GetComponentInChildren<BaseUnit>();
 
         _animationSync = GetComponent<AnimationSync>();
-        Motor = GetComponent<IMotor>();
         Abilities = GetComponent<AbilityList>();
 
         if (this.isServer)
@@ -74,7 +72,12 @@ public class UnitShell : NetworkBehaviour {
             controller.SetPathWaypoints(waypoints);
         }
 
-        Motor.Initialize(_unit.MoveSpeed);
+        if (GetComponent<NavMeshAgent>() != null)
+            Motor = new NavMeshMotor();
+        else
+            Motor = new BaseMotor();
+
+        Motor.Initialize(this.transform, _unit.MoveSpeed);
         _animationSync.SetNewAnimation(UnitAnimation.Idle);
 
         //Initialize health from the model.
@@ -101,6 +104,13 @@ public class UnitShell : NetworkBehaviour {
             else
                 _animationSync.SetNewAnimation(UnitAnimation.Running);
         }
+
+        Motor.Update();
+    }
+
+    [ServerCallback]
+    void LateUpdate() {
+        Motor.LateUpdate();
     }
 
     [Server]
@@ -162,6 +172,13 @@ public class UnitShell : NetworkBehaviour {
     public void TriggerAnimation(UnitTriggerAnimation triggerAnim)
     {
         _animationSync.TriggerAnimation(triggerAnim);
+    }
+
+    [Server]
+    public void SetIMotor(IMotor newMotor) {
+        Motor.Stop();
+        Motor = newMotor;
+        Motor.Initialize(this.transform, _unit.MoveSpeed);
     }
 
     private void OnDestroy() {
