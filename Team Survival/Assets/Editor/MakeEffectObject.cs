@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-public class MakeEffectObject
+public class EffectObjectCreator
 {
-    [MenuItem("Effects/Create/New Effect")]
+    [MenuItem("Create/New Effect")]
     public static void CreateMyAsset()
     {
         Effect asset = ScriptableObject.CreateInstance<Effect>();

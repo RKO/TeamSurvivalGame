@@ -135,6 +135,7 @@
     <Compile Include="Assets\Scripts\UnitManagement\SpawnManager.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\SpawnManagerNetwork.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\SpawnPoint.cs" />
+    <Compile Include="Assets\Scripts\UnitManagement\UnitData.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\UnitManager.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\Wave.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\WaveConfig.cs" />

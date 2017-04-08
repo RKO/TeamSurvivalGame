@@ -3,7 +3,7 @@ using UnityEditor;
 
 public class AbilityInfoCreator
 {
-    [MenuItem("Abilities/Create/New Ability Info")]
+    [MenuItem("Create/New Ability Info")]
     public static void CreateMyAsset()
     {
         AbilityInfo asset = ScriptableObject.CreateInstance<AbilityInfo>();

@@ -99,8 +99,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Abilities\Editor\AbilityInfoCreator.cs" />
-    <Compile Include="Assets\Scripts\Effects\Editor\MakeEffectObject.cs" />
+    <Compile Include="Assets\Editor\AbilityInfoCreator.cs" />
+    <Compile Include="Assets\Editor\MakeEffectObject.cs" />
+    <Compile Include="Assets\Editor\UnitDataCreator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
