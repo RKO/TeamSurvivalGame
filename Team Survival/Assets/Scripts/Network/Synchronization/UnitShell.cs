@@ -18,8 +18,6 @@ public class UnitShell : NetworkBehaviour {
 
     public AbilityList Abilities { get; protected set; }
 
-    public BaseUnit ChildUnit{ get { return _unit; } }
-
     public LifeState AliveState { get { return _aliveState; } }
 
     public Vector3 Position { get { return transform.position; } }
@@ -46,7 +44,6 @@ public class UnitShell : NetworkBehaviour {
     // Use this for initialization
     void Start() {
         _unit = GetComponentInChildren<BaseUnit>();
-        GameManager.Instance.unitManager.AddUnit(this);
 
         _animationSync = GetComponent<AnimationSync>();
         Motor = GetComponent<IMotor>();
@@ -56,6 +53,8 @@ public class UnitShell : NetworkBehaviour {
         {
             ServerSideSetup(_unit);
         }
+
+        GameManager.Instance.unitManager.AddUnit(this);
 
         if (this.isClient) {
             if (HealthBarPrefab != null)
@@ -81,7 +80,7 @@ public class UnitShell : NetworkBehaviour {
         //Initialize health from the model.
         Health = MaxHealth = unit.MaxHealth;
 
-        _team = unit.GetTeam;
+        _team = unit.DefaultTeam;
     }
 
     [ServerCallback]
