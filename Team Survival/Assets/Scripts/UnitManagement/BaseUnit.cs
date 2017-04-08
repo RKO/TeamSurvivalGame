@@ -8,7 +8,6 @@ public class BaseUnit : MonoBehaviour
 
     [SerializeField]
     private Team _defaultTeam;
-    //TODO Rename!
     public Team DefaultTeam { get { return _defaultTeam; } }
 
     [SerializeField]
