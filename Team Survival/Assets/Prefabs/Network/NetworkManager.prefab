@@ -54,7 +54,7 @@ MonoBehaviour:
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
   m_OfflineScene: ConnectionScene
-  m_OnlineScene: ConceptScene
+  m_OnlineScene: Map_Concept
   m_SpawnPrefabs:
   - {fileID: 1000011072882146, guid: e9beaaa1eb437bd43a65227bd220c038, type: 2}
   - {fileID: 1000013148322692, guid: 997f5046c44682f488cc435af6e30c7b, type: 2}
