@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class BaseUnit : MonoBehaviour, IUnit
+public class BaseUnit : MonoBehaviour
 {
     public float UnitMoveSpeed;
     public float MoveSpeed { get { return UnitMoveSpeed; } }

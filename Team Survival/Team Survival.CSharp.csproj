@@ -132,7 +132,6 @@
     <Compile Include="Assets\Scripts\UI\TestUI.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\BaseUnit.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\GoalZone.cs" />
-    <Compile Include="Assets\Scripts\UnitManagement\IUnit.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\SpawnManager.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\SpawnManagerNetwork.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\SpawnPoint.cs" />

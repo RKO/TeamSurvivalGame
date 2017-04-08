@@ -16,12 +16,12 @@ public class UnitManager {
 
     public void AddUnit(UnitShell unit)
     {
-        _unitsByTeam[unit.ChildUnit.GetTeam].Add(unit);
+        _unitsByTeam[unit.CurrentTeam].Add(unit);
     }
 
     public void RemoveUnit(UnitShell unit)
     {
-        List<UnitShell> teamList = _unitsByTeam[unit.ChildUnit.GetTeam];
+        List<UnitShell> teamList = _unitsByTeam[unit.CurrentTeam];
         if (teamList.Contains(unit))
             teamList.Remove(unit);
     }

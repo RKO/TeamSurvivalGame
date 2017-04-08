@@ -27,7 +27,7 @@ public class UnitController : MonoBehaviour {
 
         _shell.Abilities.GrantAbility(new AbilityBasicAttack(_motor, _shell, 1.5f, 0.36f), AbilitySlot.Attack1);
 
-        if (_shell.ChildUnit.GetTeam == Team.Enemies)
+        if (_shell.CurrentTeam == Team.Enemies)
             _enemyTeam = Team.Players;
         else
             _enemyTeam = Team.Enemies;

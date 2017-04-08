@@ -24,6 +24,8 @@ public class UnitShell : NetworkBehaviour {
 
     public Vector3 Position { get { return transform.position; } }
 
+    public Team CurrentTeam { get { return _team; } }
+
     #region Stats
     [SyncVar]
     public int MaxHealth;
@@ -33,6 +35,9 @@ public class UnitShell : NetworkBehaviour {
 
     [SyncVar]
     private LifeState _aliveState;
+
+    [SyncVar]
+    private Team _team;
     #endregion
 
     [SerializeField]
@@ -75,6 +80,8 @@ public class UnitShell : NetworkBehaviour {
 
         //Initialize health from the model.
         Health = MaxHealth = unit.MaxHealth;
+
+        _team = unit.GetTeam;
     }
 
     [ServerCallback]

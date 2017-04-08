@@ -75,7 +75,7 @@ public class AbilityBasicAttack : BaseAbility
     }
 
     private void DoHitOnTarget(UnitShell target, Vector3 impact) {
-        if (target.ChildUnit.GetTeam != _unit.ChildUnit.GetTeam)
+        if (target.CurrentTeam != _unit.CurrentTeam)
         {
             if (impact == Vector3.zero)
                 impact = target.transform.position + Vector3.up;
