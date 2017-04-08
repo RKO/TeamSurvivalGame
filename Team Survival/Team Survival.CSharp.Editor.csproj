@@ -101,7 +101,6 @@
   <ItemGroup>
     <Compile Include="Assets\Editor\AbilityInfoCreator.cs" />
     <Compile Include="Assets\Editor\MakeEffectObject.cs" />
-    <Compile Include="Assets\Editor\UnitDataCreator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
