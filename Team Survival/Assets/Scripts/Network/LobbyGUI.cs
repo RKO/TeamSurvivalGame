@@ -90,6 +90,11 @@ public class LobbyGUI : MonoBehaviour {
             }
         }
 
+        if (scrollContent == null)
+        {
+            Debug.LogWarning("OnMatchList called when scrollContent variable == null");
+            return;
+        }
 
         Vector2 sizeDelta = scrollContent.sizeDelta;
         sizeDelta.y = 31 * activeItems;
