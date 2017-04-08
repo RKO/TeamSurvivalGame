@@ -8,10 +8,10 @@ public class TransformSync : NetworkBehaviour {
     private float _remainingDelay;
 
     [SyncVar]
-    public Vector3 _syncPosition;
+    private Vector3 _syncPosition;
 
     [SyncVar]
-    public Vector3 _syncRotation;
+    private Vector3 _syncRotation;
 
 
     private void Update() {
