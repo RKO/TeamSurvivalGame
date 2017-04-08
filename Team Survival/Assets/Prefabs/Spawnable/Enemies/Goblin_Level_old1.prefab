@@ -10492,11 +10492,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5449964928b30c94d8e2e3ffcb21565f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsOnServer: 0
-  UnitMoveSpeed: 9
-  UnitTeam: 2
-  UnitName: Goblin - Level 1
-  MaxHealth: 10
+  _unitMoveSpeed: 9
+  _defaultTeam: 2
+  _unitName: Goblin - Level 1
+  _maxHealth: 10
 --- !u!114 &114000013498701028
 MonoBehaviour:
   m_ObjectHideFlags: 1

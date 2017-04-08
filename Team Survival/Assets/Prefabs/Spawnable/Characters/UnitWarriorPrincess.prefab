@@ -3719,10 +3719,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5449964928b30c94d8e2e3ffcb21565f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnitMoveSpeed: 9
-  UnitTeam: 1
-  UnitName: Player
-  MaxHealth: 600
+  _unitMoveSpeed: 9
+  _defaultTeam: 1
+  _unitName: Warrior Princess
+  _maxHealth: 600
 --- !u!137 &137000010076581220
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

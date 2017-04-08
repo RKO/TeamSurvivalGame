@@ -2,15 +2,21 @@
 
 public class BaseUnit : MonoBehaviour
 {
-    public float UnitMoveSpeed;
-    public float MoveSpeed { get { return UnitMoveSpeed; } }
+    [SerializeField]
+    private float _unitMoveSpeed;
+    public float MoveSpeed { get { return _unitMoveSpeed; } }
 
-    public Team UnitTeam;
+    [SerializeField]
+    private Team _defaultTeam;
     //TODO Rename!
-    public Team GetTeam { get { return UnitTeam; } }
+    public Team GetTeam { get { return _defaultTeam; } }
 
-    public string UnitName;
-    public string Name { get { return UnitName; } }
+    [SerializeField]
+    private string _unitName;
+    public string Name { get { return _unitName; } }
 
-    public int MaxHealth;
+    [SerializeField]
+    private int _maxHealth;
+
+    public int MaxHealth { get { return _maxHealth; } }
 }
