@@ -8,7 +8,6 @@ public class UnitController : MonoBehaviour {
     public Transform _currentWaypoint;
 
     private UnitShell _shell;
-    private BaseUnit _unit;
     private IMotor _motor;
     private UnitShell _enemyTarget;
     private Team _enemyTeam;
@@ -23,14 +22,12 @@ public class UnitController : MonoBehaviour {
             return;
         }
 
-        _unit = GetComponent<BaseUnit>();
-
         _shell.OnKillCallback += OnUnitKill;
         _motor = _shell.Motor;
 
         _shell.Abilities.GrantAbility(new AbilityBasicAttack(_motor, _shell, 1.5f, 0.36f), AbilitySlot.Attack1);
 
-        if (_unit.GetTeam == Team.Enemies)
+        if (_shell.ChildUnit.GetTeam == Team.Enemies)
             _enemyTeam = Team.Players;
         else
             _enemyTeam = Team.Enemies;
