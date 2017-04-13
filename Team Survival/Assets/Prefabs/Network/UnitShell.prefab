@@ -78,7 +78,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000012931006702}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!4 &4000012931006702
 Transform:
   m_ObjectHideFlags: 1
@@ -90,8 +90,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 4000010422893876}
   - {fileID: 4000013990553688}
+  - {fileID: 4000010422893876}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &4000013990553688
@@ -106,7 +106,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000012931006702}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!33 &33000012589286804
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -220,6 +220,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waypoints: []
+  Head: {fileID: 4000013990553688}
+  Body: {fileID: 4000010422893876}
   UnitID: 
   MaxHealth: 0
   Health: 0

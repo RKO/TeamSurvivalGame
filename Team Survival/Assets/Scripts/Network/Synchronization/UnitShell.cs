@@ -22,6 +22,12 @@ public class UnitShell : NetworkBehaviour {
 
     public Team CurrentTeam { get { return _team; } }
 
+    [SerializeField]
+    private Transform Head;
+
+    [SerializeField]
+    private Transform Body;
+
     #region Stats
     [SyncVar]
     public string UnitID;
@@ -65,14 +71,13 @@ public class UnitShell : NetworkBehaviour {
             if (_unitData.Model != null)
             {
                 var model = Instantiate(_unitData.Model);
-                Transform body = transform.FindChild("Body");
-                model.transform.SetParent(body, false);
+                model.transform.SetParent(Body, false);
             }
 
             if (HealthBarPrefab != null)
             {
                 var obj = Instantiate(HealthBarPrefab, transform, false) as GameObject;
-                obj.transform.localPosition = transform.FindChild("Head").localPosition + Vector3.up * 0.5f;
+                obj.transform.localPosition = Head.localPosition + Vector3.up * 0.5f;
             }
         }
     }
