@@ -62,6 +62,12 @@ public class UnitShell : NetworkBehaviour {
 
         if (this.isClient) {
             _unitData = UnitRegistry.GetUnitData(UnitID);
+            if (_unitData.Model != null)
+            {
+                var model = Instantiate(_unitData.Model);
+                Transform body = transform.FindChild("Body");
+                model.transform.SetParent(body, false);
+            }
 
             if (HealthBarPrefab != null)
             {

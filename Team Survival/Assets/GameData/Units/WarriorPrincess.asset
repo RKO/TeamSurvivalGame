@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Name: WarriorPrincess
   m_EditorClassIdentifier: 
   _uniqueID: WarriorPrincess
+  _unitType: 1
   _unitMoveSpeed: 9
   _defaultTeam: 1
   _unitName: Warrior Princess
   _maxHealth: 600
-  _model: {fileID: 0}
+  _model: {fileID: 1000013739999818, guid: f775943d49d5c134a8a106bc4519ede1, type: 2}

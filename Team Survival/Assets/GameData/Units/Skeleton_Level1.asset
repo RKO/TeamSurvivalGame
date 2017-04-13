@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Name: Skeleton_Level1
   m_EditorClassIdentifier: 
   _uniqueID: Skeleton.Level1
+  _unitType: 0
   _unitMoveSpeed: 6
   _defaultTeam: 2
   _unitName: Skeleton - Level 1
   _maxHealth: 15
-  _model: {fileID: 0}
+  _model: {fileID: 1000012953236998, guid: 02ece8876e499dc4982902b9e26c3c45, type: 2}
