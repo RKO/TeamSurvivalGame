@@ -8,6 +8,10 @@ public class UnitData : ScriptableObject {
     public string UnitID { get { return _uniqueID; } }
 
     [SerializeField]
+    private UnitType _unitType;
+    public UnitType Type { get { return _unitType; } }
+
+    [SerializeField]
     private float _unitMoveSpeed;
     public float MoveSpeed { get { return _unitMoveSpeed; } }
 
