@@ -374,7 +374,6 @@ GameObject:
   - 114: {fileID: 114000013656629896}
   - 114: {fileID: 114000010056734440}
   - 114: {fileID: 114000011693920388}
-  - 114: {fileID: 114000011704460450}
   - 195: {fileID: 195000012121686996}
   - 114: {fileID: 114000013016154958}
   m_Layer: 9
@@ -1155,21 +1154,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f603a8633e58e4b4fbe462caaf9fb007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114000011704460450
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013148322692}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5449964928b30c94d8e2e3ffcb21565f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _unitMoveSpeed: 6
-  _defaultTeam: 2
-  _unitName: Skeleton - Level 1
-  _maxHealth: 15
 --- !u!114 &114000013016154958
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1194,6 +1178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waypoints: []
+  UnitID: 
   MaxHealth: 0
   Health: 0
   HealthBarPrefab: {fileID: 1000010656295530, guid: 9addbe9681a7f12428bc993846415159,

@@ -5,6 +5,8 @@ using UnityEngine.Networking;
 public class Player : NetworkBehaviour {
     public GameObject CameraPrefab;
 
+    public UnitData HeroUnitData;
+
     public int PlayerID { get; private set; }
 
     public string PlayerName { get; set; }
@@ -16,6 +18,7 @@ public class Player : NetworkBehaviour {
     private AbilityList _abilities;
     private UnitShell _shell;
 
+    [Server]
     public void Initialize(int id) {
         PlayerID = id;
     }
@@ -26,8 +29,10 @@ public class Player : NetworkBehaviour {
 
         _shell.OnKillCallback += OnKill;
 
-        if (isServer) {
-            
+        if (isServer)
+        {
+            _shell.Initialize(HeroUnitData);
+
             _abilities.GrantAbility(new AbilityJump(_shell.Motor, _shell), AbilitySlot.Jump, transform);
             //_abilities.GrantAbility(new AbilityBasicAttack(_motor, _shell, 1.1f, 0.3f), AbilitySlot.Attack1);
             _abilities.GrantAbility(new AbilitySweepingStrike(_shell.Motor, _shell, 1.1f, 0.3f), AbilitySlot.Attack1, transform);

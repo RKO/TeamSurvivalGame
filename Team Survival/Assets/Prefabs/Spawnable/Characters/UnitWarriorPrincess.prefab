@@ -20,7 +20,6 @@ GameObject:
   - 114: {fileID: 114000011345926920}
   - 114: {fileID: 114000013807639538}
   - 114: {fileID: 114000012978847992}
-  - 114: {fileID: 114000014230433388}
   - 208: {fileID: 208000010213080144}
   m_Layer: 9
   m_Name: UnitWarriorPrincess
@@ -3639,6 +3638,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CameraPrefab: {fileID: 175286, guid: f0a34faa774e7b7409429d704becb6e5, type: 2}
+  HeroUnitData: {fileID: 11400000, guid: 60c3ba9904e511b4f9a588f6db494e93, type: 2}
 --- !u!114 &114000011381851884
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3692,25 +3692,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waypoints: []
+  UnitID: 
   MaxHealth: 0
   Health: 0
   HealthBarPrefab: {fileID: 1000010656295530, guid: 9addbe9681a7f12428bc993846415159,
     type: 2}
---- !u!114 &114000014230433388
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 198110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5449964928b30c94d8e2e3ffcb21565f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _unitMoveSpeed: 9
-  _defaultTeam: 1
-  _unitName: Warrior Princess
-  _maxHealth: 600
 --- !u!137 &137000010076581220
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

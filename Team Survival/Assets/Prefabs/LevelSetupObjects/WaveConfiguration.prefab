@@ -42,10 +42,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waves:
   - UnitCount: 10
-    isDone: 0
-    isSpawning: 0
     UnitPrefab: {fileID: 1000013148322692, guid: 997f5046c44682f488cc435af6e30c7b,
       type: 2}
+    SpawnUnitData: {fileID: 11400000, guid: 55bb4914924412543b4c29e7389146ef, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
