@@ -4,10 +4,8 @@ using UnityEngine.Networking;
 
 [RequireComponent(typeof(AnimationSync))]
 [RequireComponent(typeof(AbilityList))]
-public class UnitShell : NetworkBehaviour {
-
-    public Transform[] waypoints;
-    
+public class UnitShell : NetworkBehaviour
+{
     private UnitData _unitData;
 
     private AnimationSync _animationSync;
@@ -84,13 +82,6 @@ public class UnitShell : NetworkBehaviour {
 
     [Server]
     private void ServerSideSetup(UnitData unit) {
-        //TODO Hardcoded way of giving orders to Units
-        UnitController controller = GetComponent<UnitController>();
-        if (controller != null)
-        {
-            controller.SetPathWaypoints(waypoints);
-        }
-
         if (GetComponent<NavMeshAgent>() != null)
             Motor = new NavMeshMotor();
         else
