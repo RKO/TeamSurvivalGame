@@ -18,7 +18,7 @@ public class AbilityBasicAttack : BaseAbility
 
     protected override string GetUniqueID { get { return "AbilityAttackStandard"; } }
 
-    public AbilityBasicAttack(IMotor caster, UnitShell unit, float animationDuration, float hitDelay) : base(caster, unit, Cooldown, animationDuration) {
+    public AbilityBasicAttack(UnitShell unit, float animationDuration, float hitDelay) : base(unit, Cooldown, animationDuration) {
         _hitDelay = hitDelay;
         _hitTable = new Dictionary<Transform, UnitShell>();
     }

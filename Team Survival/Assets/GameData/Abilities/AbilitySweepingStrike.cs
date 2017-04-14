@@ -6,7 +6,7 @@ public class AbilitySweepingStrike : AbilityBasicAttack
 
     protected override string GetUniqueID { get { return "AbilitySweepingStrike"; } }
 
-    public AbilitySweepingStrike(IMotor caster, UnitShell unit, float animationDuration, float hitDelay) : base(caster, unit, animationDuration, hitDelay)
+    public AbilitySweepingStrike(UnitShell unit, float animationDuration, float hitDelay) : base(unit, animationDuration, hitDelay)
     { }
 
     protected override void DoActivate()

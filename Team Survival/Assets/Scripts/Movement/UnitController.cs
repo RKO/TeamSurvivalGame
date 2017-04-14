@@ -25,7 +25,7 @@ public class UnitController : MonoBehaviour {
         _shell.OnKillCallback += OnUnitKill;
         _motor = _shell.Motor;
 
-        _shell.Abilities.GrantAbility(new AbilityBasicAttack(_motor, _shell, 1.5f, 0.36f), AbilitySlot.Attack1);
+        _shell.Abilities.GrantAbility(new AbilityBasicAttack(_shell, 1.5f, 0.36f), AbilitySlot.Attack1);
 
         if (_shell.CurrentTeam == Team.Enemies)
             _enemyTeam = Team.Players;

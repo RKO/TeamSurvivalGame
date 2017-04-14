@@ -8,16 +8,16 @@ public class AbilityJump : BaseAbility
 
     protected override string GetUniqueID { get { return "AbilityJumpStandard"; } }
 
-    public AbilityJump(IMotor caster, UnitShell unit) : base(caster, unit, Cooldown) { }
+    public AbilityJump(UnitShell unit) : base(unit, Cooldown) { }
 
     protected override bool CheckCanActivate()
     {
-        return _caster.CalculateIsGrounded();
+        return _unit.Motor.CalculateIsGrounded();
     }
 
     protected override void DoActivate()
     {
-        _caster.AddForce(Vector3.up * JumpForce);
+        _unit.Motor.AddForce(Vector3.up * JumpForce);
         _unit.TriggerAnimation(UnitTriggerAnimation.Jump);
     }
 }
