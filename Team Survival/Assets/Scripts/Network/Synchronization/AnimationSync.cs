@@ -4,15 +4,14 @@ using UnityEngine;
 public class AnimationSync : NetworkBehaviour {
     private Animation _legacyAnimator;
     private Animator _mechanimAnimator;
-    private NetworkAnimator _netAnimator;
+    //private NetworkAnimator _netAnimator;
 
     [SyncVar]
     private UnitAnimation _currentAnimation = UnitAnimation.Idle;
 
     private void Start() {
         _legacyAnimator = GetComponentInChildren<Animation>();
-        _mechanimAnimator = GetComponent<Animator>();
-        _netAnimator = GetComponent<NetworkAnimator>();
+        _mechanimAnimator = GetComponentInChildren<Animator>();
 
         if (_legacyAnimator != null)
             ApplyAnimation(_currentAnimation);
@@ -26,15 +25,18 @@ public class AnimationSync : NetworkBehaviour {
 
         _currentAnimation = newAnimation;
 
-        if (_legacyAnimator != null)
+        //if (_legacyAnimator != null)
             RpcSetNewAnimation(newAnimation);
-        else
-            ApplyMechanim(newAnimation);
+        /*else
+            ApplyMechanim(newAnimation);*/
     }
 
     [ClientRpc]
     private void RpcSetNewAnimation(UnitAnimation newAnimation) {
-        ApplyAnimation(newAnimation);
+        if (_legacyAnimator != null)
+            ApplyAnimation(newAnimation);
+        else
+            ApplyMechanim(newAnimation);
     }
 
     private void ApplyAnimation(UnitAnimation newAnimation) {
@@ -76,7 +78,7 @@ public class AnimationSync : NetworkBehaviour {
                 _mechanimAnimator.SetInteger("Speed", 2);
                 break;
             case UnitAnimation.Dying:
-                _netAnimator.SetTrigger("Death");
+                _mechanimAnimator.SetTrigger("Death");
                 break;
             case UnitAnimation.Dead:
             default:
@@ -89,19 +91,18 @@ public class AnimationSync : NetworkBehaviour {
     [Server]
     public void TriggerAnimation(UnitTriggerAnimation triggerAnim)
     {
-        if (_legacyAnimator != null)
-        {
-            RpcTriggerAnimation(triggerAnim);
-        }
-        else
-        {
-            TriggerMechanimAnimation(triggerAnim);
-        }
+        RpcTriggerAnimation(triggerAnim);
     }
 
     [ClientRpc]
     private void RpcTriggerAnimation(UnitTriggerAnimation triggerAnim)
     {
+        if (_legacyAnimator == null)
+        {
+            TriggerMechanimAnimation(triggerAnim);
+            return;
+        }
+
         if (triggerAnim == UnitTriggerAnimation.Jump)
         {
             _legacyAnimator.Play("jump");
@@ -115,10 +116,12 @@ public class AnimationSync : NetworkBehaviour {
     {
         if (triggerAnim == UnitTriggerAnimation.Jump)
         {
-            _netAnimator.SetTrigger("Jump");
+            _mechanimAnimator.SetTrigger("Jump");
+            //_netAnimator.SetTrigger("Jump");
         }
         else {
-            _netAnimator.SetTrigger("Attack");
+            _mechanimAnimator.SetTrigger("Attack");
+            //_netAnimator.SetTrigger("Attack");
         }
     }
 }

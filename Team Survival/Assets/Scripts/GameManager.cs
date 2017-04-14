@@ -10,6 +10,7 @@ public class GameManager : NetworkBehaviour {
     public bool IsGUIOpen { get; set; }
 
     public EffectSync EffectManager { get; private set; }
+    public UnitRegistry UnitRegistry { get; private set; }
 
     // Use this for initialization
     void Awake () {
@@ -19,6 +20,8 @@ public class GameManager : NetworkBehaviour {
         unitManager = new UnitManager();
 
         EffectManager = GetComponent<EffectSync>();
+        UnitRegistry = GetComponent<UnitRegistry>();
+        UnitRegistry.Initialize();
     }
 
     public override void OnStartServer() {

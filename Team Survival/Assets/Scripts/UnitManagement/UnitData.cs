@@ -1,7 +1,16 @@
 ﻿using UnityEngine;
+using System.Collections;
 
-public class BaseUnit : MonoBehaviour
-{
+public class UnitData : ScriptableObject {
+
+    [SerializeField]
+    private string _uniqueID;
+    public string UnitID { get { return _uniqueID; } }
+
+    [SerializeField]
+    private UnitType _unitType;
+    public UnitType Type { get { return _unitType; } }
+
     [SerializeField]
     private float _unitMoveSpeed;
     public float MoveSpeed { get { return _unitMoveSpeed; } }
@@ -17,4 +26,8 @@ public class BaseUnit : MonoBehaviour
     [SerializeField]
     private int _maxHealth;
     public int MaxHealth { get { return _maxHealth; } }
+
+    [SerializeField]
+    private GameObject _model;
+    public GameObject Model { get { return _model; } }
 }

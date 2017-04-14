@@ -2,14 +2,11 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(BaseUnit))]
 [RequireComponent(typeof(AnimationSync))]
 [RequireComponent(typeof(AbilityList))]
-public class UnitShell : NetworkBehaviour {
-
-    public Transform[] waypoints;
-    
-    private BaseUnit _unit;
+public class UnitShell : NetworkBehaviour
+{
+    private UnitData _unitData;
 
     private AnimationSync _animationSync;
 
@@ -23,7 +20,16 @@ public class UnitShell : NetworkBehaviour {
 
     public Team CurrentTeam { get { return _team; } }
 
+    [SerializeField]
+    private Transform Head;
+
+    [SerializeField]
+    private Transform Body;
+
     #region Stats
+    [SyncVar]
+    public string UnitID;
+
     [SyncVar]
     public int MaxHealth;
 
@@ -40,44 +46,48 @@ public class UnitShell : NetworkBehaviour {
     [SerializeField]
     private GameObject HealthBarPrefab;
 
+    [Server]
+    public void Initialize(UnitData data) {
+        _unitData = data;
+        UnitID = _unitData.UnitID;
+    }
+
     // Use this for initialization
     void Start() {
-        _unit = GetComponentInChildren<BaseUnit>();
-
         _animationSync = GetComponent<AnimationSync>();
         Abilities = GetComponent<AbilityList>();
 
         if (this.isServer)
         {
-            ServerSideSetup(_unit);
+            ServerSideSetup(_unitData);
         }
 
         GameManager.Instance.unitManager.AddUnit(this);
 
         if (this.isClient) {
+            _unitData = UnitRegistry.GetUnitData(UnitID);
+            if (_unitData.Model != null)
+            {
+                var model = Instantiate(_unitData.Model);
+                model.transform.SetParent(Body, false);
+            }
+
             if (HealthBarPrefab != null)
             {
                 var obj = Instantiate(HealthBarPrefab, transform, false) as GameObject;
-                obj.transform.localPosition = transform.FindChild("Head").localPosition + Vector3.up * 0.5f;
+                obj.transform.localPosition = Head.localPosition + Vector3.up * 0.5f;
             }
         }
     }
 
     [Server]
-    private void ServerSideSetup(BaseUnit unit) {
-        //TODO Hardcoded way of giving orders to Units
-        UnitController controller = GetComponent<UnitController>();
-        if (controller != null)
-        {
-            controller.SetPathWaypoints(waypoints);
-        }
-
+    private void ServerSideSetup(UnitData unit) {
         if (GetComponent<NavMeshAgent>() != null)
             Motor = new NavMeshMotor();
         else
             Motor = new BaseMotor();
 
-        Motor.Initialize(this.transform, _unit.MoveSpeed);
+        Motor.Initialize(this.transform, _unitData.MoveSpeed);
         _animationSync.SetNewAnimation(UnitAnimation.Idle);
 
         //Initialize health from the model.
@@ -99,7 +109,7 @@ public class UnitShell : NetworkBehaviour {
 
             if (actualSpeed == 0)
                 _animationSync.SetNewAnimation(UnitAnimation.Idle);
-            else if (actualSpeed < _unit.MoveSpeed * 0.5f)
+            else if (actualSpeed < _unitData.MoveSpeed * 0.5f)
                 _animationSync.SetNewAnimation(UnitAnimation.Walking);
             else
                 _animationSync.SetNewAnimation(UnitAnimation.Running);
@@ -178,7 +188,7 @@ public class UnitShell : NetworkBehaviour {
     public void SetIMotor(IMotor newMotor) {
         Motor.Stop();
         Motor = newMotor;
-        Motor.Initialize(this.transform, _unit.MoveSpeed);
+        Motor.Initialize(this.transform, _unitData.MoveSpeed);
     }
 
     private void OnDestroy() {

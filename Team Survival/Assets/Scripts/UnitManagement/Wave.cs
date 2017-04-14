@@ -9,4 +9,6 @@ public class Wave {
     public int UnitCount;
 
     public GameObject UnitPrefab;
+
+    public UnitData SpawnUnitData;
 }

@@ -20,6 +20,7 @@ public class MyNetworkManager : NetworkManager {
         var playerObj = (GameObject)Instantiate(playerPrefab, spawnPoint, Quaternion.identity);
 
         Player player = playerObj.GetComponent<Player>();
+        playerObj.GetComponent<UnitShell>().Initialize(player.HeroUnitData);
 
         // -------------- Player -------------- //
         player.Initialize(playerNumber);
