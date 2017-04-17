@@ -2,7 +2,7 @@
 
 public abstract class BaseAbility {
 
-    protected abstract string GetUniqueID { get; }
+    public abstract string GetUniqueID { get; }
 
     protected UnitShell _unit;
     protected float _cooldown;
@@ -19,6 +19,13 @@ public abstract class BaseAbility {
     public bool CanActivate { get { return _cooldownCounter == 0 && !IsActive && CheckCanActivate(); } }
 
     public BaseAbility(UnitShell unit, float cooldown, float duration = 0) {
+        //For AbilityInfoSync, when it creates from reflection.
+        if (unit == null)
+        {
+            Debug.LogWarning("Unit null from somewhere");
+            return;
+        }
+
         _unit = unit;
         _cooldown = cooldown;
         _duration = duration;

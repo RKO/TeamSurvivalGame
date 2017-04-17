@@ -10,4 +10,6 @@ public class AbilityInfo : ScriptableObject {
     public Sprite Icon;
 
     public Texture2D TempIcon;
+
+    public AbilitySlot Slot;
 }

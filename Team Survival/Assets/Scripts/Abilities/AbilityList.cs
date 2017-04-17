@@ -54,19 +54,26 @@ public class AbilityList : NetworkBehaviour {
     }
 
     [Server]
-    public void GrantAbility(BaseAbility newAbility, AbilitySlot slot, Transform syncParent = null)
+    public void GrantAbility(AbilityInfo abilityInfo, UnitShell shell, Transform syncParent = null)
     {
+        AbilitySlot slot = abilityInfo.Slot;
+
+        BaseAbility newAbility = AbilityInfoSync.GetAbilityFromID(abilityInfo.UniqueID, shell, 1, 1);
+
         _abilities.Add(newAbility);
 
         //It is possible to overwrite assigned abilities.
-        if (slot != AbilitySlot.None) {
+        if (slot != AbilitySlot.None)
+        {
             _abilitySlotMap[slot] = _abilities.IndexOf(newAbility);
 
-            if (syncParent != null) {
+            if (syncParent != null)
+            {
                 AbilitySynchronizer sync;
 
                 _abilitySyncs.TryGetValue(slot, out sync);
-                if (sync == null) {
+                if (sync == null)
+                {
                     GameObject go = Instantiate(AbilityInfoSync.GetAbilitySyncPrefab());
                     NetworkServer.Spawn(go);
                     sync = go.GetComponent<AbilitySynchronizer>();
@@ -76,7 +83,7 @@ public class AbilityList : NetworkBehaviour {
                     RpcSynchronizerCreated(go.GetComponent<NetworkIdentity>());
                 }
 
-                sync.AbilityID = newAbility.GetInfo().UniqueID;
+                sync.AbilityID = abilityInfo.UniqueID;
             }
         }
     }

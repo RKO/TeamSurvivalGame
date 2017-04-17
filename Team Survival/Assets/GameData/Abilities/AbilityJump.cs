@@ -6,7 +6,7 @@ public class AbilityJump : BaseAbility
     private const float Cooldown = 0.5f;
     private const float JumpForce = 6;
 
-    protected override string GetUniqueID { get { return "AbilityJumpStandard"; } }
+    public override string GetUniqueID { get { return "AbilityJumpStandard"; } }
 
     public AbilityJump(UnitShell unit) : base(unit, Cooldown) { }
 

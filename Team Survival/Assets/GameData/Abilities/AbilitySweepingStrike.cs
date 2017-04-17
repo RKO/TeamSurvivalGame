@@ -4,7 +4,7 @@ public class AbilitySweepingStrike : AbilityBasicAttack
 {
     private bool _hasHitOnce;
 
-    protected override string GetUniqueID { get { return "AbilitySweepingStrike"; } }
+    public override string GetUniqueID { get { return "AbilitySweepingStrike"; } }
 
     public AbilitySweepingStrike(UnitShell unit, float animationDuration, float hitDelay) : base(unit, animationDuration, hitDelay)
     { }

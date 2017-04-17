@@ -87,13 +87,18 @@ public class UnitShell : NetworkBehaviour
         else
             Motor = new BaseMotor();
 
-        Motor.Initialize(this.transform, _unitData.MoveSpeed);
+        Motor.Initialize(this.transform, unit.MoveSpeed);
         _animationSync.SetNewAnimation(UnitAnimation.Idle);
 
         //Initialize health from the model.
         Health = MaxHealth = unit.MaxHealth;
 
         _team = unit.DefaultTeam;
+
+        foreach (var ability in unit.Abilities)
+        {
+            Abilities.GrantAbility(ability, this, transform);
+        }
     }
 
     [ServerCallback]

@@ -15,3 +15,5 @@ MonoBehaviour:
   Name: Attack
   Description: Basic Attack
   Icon: {fileID: 0}
+  TempIcon: {fileID: 0}
+  Slot: 2

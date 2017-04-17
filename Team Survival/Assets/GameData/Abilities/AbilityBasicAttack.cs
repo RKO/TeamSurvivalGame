@@ -16,7 +16,7 @@ public class AbilityBasicAttack : BaseAbility
     protected float _hitDelayTimer;
     protected bool _done;
 
-    protected override string GetUniqueID { get { return "AbilityAttackStandard"; } }
+    public override string GetUniqueID { get { return "AbilityAttackStandard"; } }
 
     public AbilityBasicAttack(UnitShell unit, float animationDuration, float hitDelay) : base(unit, Cooldown, animationDuration) {
         _hitDelay = hitDelay;
