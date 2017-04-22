@@ -2,12 +2,7 @@
 
 public class AbilityJump : BaseAbility
 {
-    private const float Cooldown = 0.5f;
     private const float JumpForce = 6;
-
-    public override string GetUniqueID { get { return "AbilityJumpStandard"; } }
-
-    protected override void Initialize() { }
 
     protected override bool CheckCanActivate()
     {

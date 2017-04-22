@@ -5,7 +5,6 @@ using System;
 public class AbilityBasicAttack : BaseAbility
 {
     private const float Damage = 5f;
-    private const float Cooldown = 0.1f;
     private const float MaxDistance = 0.5f;
 
     private Vector3 HalfBox = new Vector3(1f, 1f, 0.5f);
@@ -18,8 +17,6 @@ public class AbilityBasicAttack : BaseAbility
     private float _animationDuration;
     protected float _hitDelayTimer;
     protected bool _done;
-
-    public override string GetUniqueID { get { return "AbilityAttackStandard"; } }
 
     protected override void Initialize() {
         //_hitDelay = 0.36f;

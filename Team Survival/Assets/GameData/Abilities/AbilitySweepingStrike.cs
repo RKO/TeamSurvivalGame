@@ -4,14 +4,6 @@ public class AbilitySweepingStrike : AbilityBasicAttack
 {
     private bool _hasHitOnce;
 
-    public override string GetUniqueID { get { return "AbilitySweepingStrike"; } }
-
-    protected override void Initialize()
-    {
-        base.Initialize();
-        //_hitDelay = 3.3f;
-    }
-
     protected override void DoActivate()
     {
         base.DoActivate();

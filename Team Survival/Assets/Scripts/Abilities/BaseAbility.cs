@@ -2,7 +2,7 @@
 
 public abstract class BaseAbility : MonoBehaviour {
 
-    public abstract string GetUniqueID { get; }
+    public string GetUniqueID { get { return GetType().FullName; } }
 
     [SerializeField]
     protected AbilityInfo _abilityInfo;
@@ -38,7 +38,7 @@ public abstract class BaseAbility : MonoBehaviour {
         Initialize();
     }
 
-    protected abstract void Initialize();
+    protected virtual void Initialize() { }
 
     public AbilityInfo GetInfo() { 
         return _abilityInfo;
