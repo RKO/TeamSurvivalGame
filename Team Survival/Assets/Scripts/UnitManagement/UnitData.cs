@@ -32,6 +32,6 @@ public class UnitData : ScriptableObject {
     public GameObject Model { get { return _model; } }
 
     [SerializeField]
-    private List<AbilityInfo> _abilities;
-    public List<AbilityInfo> Abilities { get { return _abilities; } }
+    private List<GameObject> _abilities;
+    public List<GameObject> Abilities { get { return _abilities; } }
 }

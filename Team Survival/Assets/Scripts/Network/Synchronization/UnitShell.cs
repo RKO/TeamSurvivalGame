@@ -20,11 +20,16 @@ public class UnitShell : NetworkBehaviour
 
     public Team CurrentTeam { get { return _team; } }
 
+    public Transform AbilityRoot { get { return abilityRootTransform; } }
+
     [SerializeField]
     private Transform Head;
 
     [SerializeField]
     private Transform Body;
+
+    [SerializeField]
+    private Transform abilityRootTransform;
 
     #region Stats
     [SyncVar]

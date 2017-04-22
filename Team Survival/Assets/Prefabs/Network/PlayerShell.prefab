@@ -37,6 +37,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1000012822867646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000010594946130}
+  m_Layer: 9
+  m_Name: Abilities
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1000013447716280
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,6 +95,7 @@ Transform:
   m_Children:
   - {fileID: 4000013710945964}
   - {fileID: 4000010363442524}
+  - {fileID: 4000010594946130}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &4000010363442524
@@ -95,6 +111,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000010195525906}
   m_RootOrder: 1
+--- !u!4 &4000010594946130
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012822867646}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4000010195525906}
+  m_RootOrder: 2
 --- !u!4 &4000013710945964
 Transform:
   m_ObjectHideFlags: 1
@@ -185,9 +214,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be0769c58a22a754ba8a1edbfb094686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoints: []
   Head: {fileID: 4000013710945964}
   Body: {fileID: 4000010363442524}
+  abilityRootTransform: {fileID: 4000010594946130}
   UnitID: 
   MaxHealth: 0
   Health: 0

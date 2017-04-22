@@ -1,25 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class AbilityBasicAttack : BaseAbility
 {
     private const float Damage = 5f;
     private const float Cooldown = 0.1f;
     private const float MaxDistance = 0.5f;
+
     private Vector3 HalfBox = new Vector3(1f, 1f, 0.5f);
-    private LayerMask targetMask = 1 << LayerMask.NameToLayer("Unit");
+    private LayerMask targetMask;
+
+    [SerializeField]
+    protected float _hitDelay;
 
     protected Dictionary<Transform, UnitShell> _hitTable;
     private float _animationDuration;
-    protected float _hitDelay;
     protected float _hitDelayTimer;
     protected bool _done;
 
     public override string GetUniqueID { get { return "AbilityAttackStandard"; } }
 
-    public AbilityBasicAttack(UnitShell unit, AbilityInfo info) : base(unit, info) {
-        _hitDelay = 0.36f;
+    protected override void Initialize() {
+        //_hitDelay = 0.36f;
         _hitTable = new Dictionary<Transform, UnitShell>();
+
+        targetMask = 1 << LayerMask.NameToLayer("Unit");
     }
 
     protected override void DoActivate()

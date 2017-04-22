@@ -6,9 +6,10 @@ public class AbilitySweepingStrike : AbilityBasicAttack
 
     public override string GetUniqueID { get { return "AbilitySweepingStrike"; } }
 
-    public AbilitySweepingStrike(UnitShell unit, AbilityInfo info) : base(unit, info)
+    protected override void Initialize()
     {
-        _hitDelay = 0.3f;
+        base.Initialize();
+        //_hitDelay = 3.3f;
     }
 
     protected override void DoActivate()
@@ -31,7 +32,9 @@ public class AbilitySweepingStrike : AbilityBasicAttack
         HitCheck();
 
         if (_hasHitOnce)
+        {
             _done = true;
+        }
         else {
             _hitTable.Clear();
             _hitDelayTimer = _hitDelay;

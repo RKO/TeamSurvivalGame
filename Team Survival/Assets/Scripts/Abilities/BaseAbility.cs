@@ -1,23 +1,27 @@
 ﻿using UnityEngine;
 
-public abstract class BaseAbility {
+public abstract class BaseAbility : MonoBehaviour {
 
     public abstract string GetUniqueID { get; }
 
+    [SerializeField]
+    protected AbilityInfo _abilityInfo;
+    [SerializeField]
+    protected float cooldown;
+    [SerializeField]
+    protected float duration;
+
     protected UnitShell _unit;
-    private AbilityInfo _abilityInfo;
-    protected float _cooldown;
     protected float _cooldownCounter;
-    protected float _duration;
     protected float _durationCounter;
 
     public float CooldownPercent { get; private set; }
 
-    public bool IsActive { get { return _duration > 0 && _durationCounter > 0; } }
+    public bool IsActive { get { return duration > 0 && _durationCounter > 0; } }
 
     public bool CanActivate { get { return _cooldownCounter == 0 && !IsActive && CheckCanActivate(); } }
 
-    public BaseAbility(UnitShell unit, AbilityInfo abilityInfo) {
+    public void Setup(UnitShell unit) {
         //For AbilityInfoSync, when it creates from reflection.
         if (unit == null)
         {
@@ -26,20 +30,21 @@ public abstract class BaseAbility {
         }
 
         _unit = unit;
-        _abilityInfo = abilityInfo;
-        _cooldown = _abilityInfo.cooldown;
-        _duration = _abilityInfo.duration;
         _durationCounter = 0;
 
         //Just default to 0, in case there is no cooldown.
         CooldownPercent = 0;
+
+        Initialize();
     }
+
+    protected abstract void Initialize();
 
     public AbilityInfo GetInfo() { 
         return _abilityInfo;
     }
 
-    public void Update() {
+    public void RunUpdate() {
         if (IsActive)
         {
             AbilityUpdate();
@@ -52,16 +57,16 @@ public abstract class BaseAbility {
                 _cooldownCounter = 0;
         }
 
-        if(_cooldown > 0)
-            CooldownPercent = _cooldownCounter / _cooldown;
+        if(cooldown > 0)
+            CooldownPercent = _cooldownCounter / cooldown;
     }
 
     public void Activate() {
         if (CanActivate)
         {
             DoActivate();
-            _cooldownCounter = _cooldown;
-            _durationCounter = _duration;
+            _cooldownCounter = cooldown;
+            _durationCounter = duration;
         }
     }
 

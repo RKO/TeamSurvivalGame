@@ -19,4 +19,4 @@ MonoBehaviour:
   _maxHealth: 15
   _model: {fileID: 1000012953236998, guid: 02ece8876e499dc4982902b9e26c3c45, type: 2}
   _abilities:
-  - {fileID: 11400000, guid: 798fcdafd5568d74b927a45c4b083733, type: 2}
+  - {fileID: 1000013510317228, guid: 7a9ea52f2215b3c469ae62eaa28d3055, type: 2}

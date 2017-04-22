@@ -17,3 +17,5 @@ MonoBehaviour:
   Icon: {fileID: 0}
   TempIcon: {fileID: 0}
   Slot: 2
+  cooldown: 0.1
+  duration: 1.5

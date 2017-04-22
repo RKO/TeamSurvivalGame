@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AbilityJump : BaseAbility
 {
@@ -8,7 +7,7 @@ public class AbilityJump : BaseAbility
 
     public override string GetUniqueID { get { return "AbilityJumpStandard"; } }
 
-    public AbilityJump(UnitShell unit, AbilityInfo info) : base(unit, info) { }
+    protected override void Initialize() { }
 
     protected override bool CheckCanActivate()
     {

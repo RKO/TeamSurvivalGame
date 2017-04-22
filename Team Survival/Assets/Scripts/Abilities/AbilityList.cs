@@ -31,7 +31,7 @@ public class AbilityList : NetworkBehaviour {
         for (int i = 0; i < _abilities.Count; i++)
         {
             BaseAbility ability = _abilities[i];
-            ability.Update();
+            ability.RunUpdate();
 
             AbilitySlot slot = AbilitySlot.None;
             foreach (var item in _abilitySlotMap)
@@ -54,11 +54,12 @@ public class AbilityList : NetworkBehaviour {
     }
 
     [Server]
-    public void GrantAbility(AbilityInfo abilityInfo, UnitShell shell, Transform syncParent = null)
+    public void GrantAbility(GameObject abilityPrefab, UnitShell shell, Transform syncParent)
     {
-        AbilitySlot slot = abilityInfo.Slot;
-
-        BaseAbility newAbility = AbilityInfoSync.GetAbilityFromID(abilityInfo, shell);
+        GameObject abilityInstance = Instantiate(abilityPrefab, shell.AbilityRoot, false) as GameObject;
+        BaseAbility newAbility = abilityInstance.GetComponent<BaseAbility>();
+        newAbility.Setup(shell);
+        AbilitySlot slot = newAbility.GetInfo().Slot;
 
         _abilities.Add(newAbility);
 
@@ -74,16 +75,17 @@ public class AbilityList : NetworkBehaviour {
                 _abilitySyncs.TryGetValue(slot, out sync);
                 if (sync == null)
                 {
-                    GameObject go = Instantiate(AbilityInfoSync.GetAbilitySyncPrefab());
+                    GameObject go = Instantiate(AbilityInfoSync.GetAbilitySyncPrefab(), shell.AbilityRoot, false) as GameObject;
                     NetworkServer.Spawn(go);
                     sync = go.GetComponent<AbilitySynchronizer>();
+                    //On the clients, they will just be children of the root object.
                     sync.ParentObject = syncParent.GetComponent<NetworkIdentity>();
                     _abilitySyncs.Add(slot, sync);
 
                     RpcSynchronizerCreated(go.GetComponent<NetworkIdentity>());
                 }
 
-                sync.AbilityID = abilityInfo.UniqueID;
+                sync.AbilityID = newAbility.GetUniqueID;
             }
         }
     }
