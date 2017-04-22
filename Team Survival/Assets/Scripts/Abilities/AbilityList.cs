@@ -58,7 +58,7 @@ public class AbilityList : NetworkBehaviour {
     {
         AbilitySlot slot = abilityInfo.Slot;
 
-        BaseAbility newAbility = AbilityInfoSync.GetAbilityFromID(abilityInfo.UniqueID, shell, 1, 1);
+        BaseAbility newAbility = AbilityInfoSync.GetAbilityFromID(abilityInfo, shell);
 
         _abilities.Add(newAbility);
 

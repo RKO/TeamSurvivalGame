@@ -11,6 +11,9 @@ public class AbilityInfoSync : MonoBehaviour {
     [SerializeField]
     private List<AbilityInfo> RegisteredAbilities;
 
+    [SerializeField]
+    private MonoBehaviour[] TestList;
+
     private static Dictionary<string, AbilityInfo> _abilityInfoMap;
     private static Dictionary<string, Type> _abilityMap;
     private static GameObject _abilitySyncPrefab;
@@ -27,7 +30,7 @@ public class AbilityInfoSync : MonoBehaviour {
         foreach (var objectType in types)
         {
             try {
-                object obj = CreateInstanceOf(objectType, null, 0);
+                object obj = CreateInstanceOf(objectType, null, null);
                 _abilityMap.Add((obj as BaseAbility).GetUniqueID, objectType);
             }
             catch (Exception e) {
@@ -53,8 +56,8 @@ public class AbilityInfoSync : MonoBehaviour {
         return _abilitySyncPrefab;
     }
 
-    public static BaseAbility GetAbilityFromID(string uniqueID, UnitShell unit, float cooldown, float duration = 0) {
-        return CreateInstanceOf(_abilityMap[uniqueID], unit, cooldown, duration) as BaseAbility;
+    public static BaseAbility GetAbilityFromID(AbilityInfo info, UnitShell unit) {
+        return CreateInstanceOf(_abilityMap[info.UniqueID], unit, info) as BaseAbility;
     }
 
     private static IEnumerable<Type> GetAbilityTypes() {
@@ -66,13 +69,7 @@ public class AbilityInfoSync : MonoBehaviour {
         return types;
     }
 
-    private static object CreateInstanceOf(Type t, UnitShell unit, float cooldown, float duration = 0) {
-        var invoke = t.GetConstructors();
-        var param = invoke[0].GetParameters();
-
-        if(param.Length == 1)
-            return Activator.CreateInstance(t, new object[] { unit });
-        else
-            return Activator.CreateInstance(t, new object[] { unit, cooldown, duration });
+    private static object CreateInstanceOf(Type t, UnitShell unit, AbilityInfo info) {
+        return Activator.CreateInstance(t, new object[] { unit, info });
     }
 }

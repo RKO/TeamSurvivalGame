@@ -12,4 +12,8 @@ public class AbilityInfo : ScriptableObject {
     public Texture2D TempIcon;
 
     public AbilitySlot Slot;
+
+    public float cooldown;
+
+    public float duration;
 }

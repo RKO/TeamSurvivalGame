@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System;
 
 public class AbilityBasicAttack : BaseAbility
 {
@@ -18,8 +17,8 @@ public class AbilityBasicAttack : BaseAbility
 
     public override string GetUniqueID { get { return "AbilityAttackStandard"; } }
 
-    public AbilityBasicAttack(UnitShell unit, float animationDuration, float hitDelay) : base(unit, Cooldown, animationDuration) {
-        _hitDelay = hitDelay;
+    public AbilityBasicAttack(UnitShell unit, AbilityInfo info) : base(unit, info) {
+        _hitDelay = 0.36f;
         _hitTable = new Dictionary<Transform, UnitShell>();
     }
 

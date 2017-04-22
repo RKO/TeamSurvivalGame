@@ -6,8 +6,10 @@ public class AbilitySweepingStrike : AbilityBasicAttack
 
     public override string GetUniqueID { get { return "AbilitySweepingStrike"; } }
 
-    public AbilitySweepingStrike(UnitShell unit, float animationDuration, float hitDelay) : base(unit, animationDuration, hitDelay)
-    { }
+    public AbilitySweepingStrike(UnitShell unit, AbilityInfo info) : base(unit, info)
+    {
+        _hitDelay = 0.3f;
+    }
 
     protected override void DoActivate()
     {

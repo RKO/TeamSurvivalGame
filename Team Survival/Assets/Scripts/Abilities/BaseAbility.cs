@@ -5,12 +5,11 @@ public abstract class BaseAbility {
     public abstract string GetUniqueID { get; }
 
     protected UnitShell _unit;
+    private AbilityInfo _abilityInfo;
     protected float _cooldown;
     protected float _cooldownCounter;
     protected float _duration;
     protected float _durationCounter;
-
-    private AbilityInfo _abilityInfo;
 
     public float CooldownPercent { get; private set; }
 
@@ -18,7 +17,7 @@ public abstract class BaseAbility {
 
     public bool CanActivate { get { return _cooldownCounter == 0 && !IsActive && CheckCanActivate(); } }
 
-    public BaseAbility(UnitShell unit, float cooldown, float duration = 0) {
+    public BaseAbility(UnitShell unit, AbilityInfo abilityInfo) {
         //For AbilityInfoSync, when it creates from reflection.
         if (unit == null)
         {
@@ -27,11 +26,10 @@ public abstract class BaseAbility {
         }
 
         _unit = unit;
-        _cooldown = cooldown;
-        _duration = duration;
+        _abilityInfo = abilityInfo;
+        _cooldown = _abilityInfo.cooldown;
+        _duration = _abilityInfo.duration;
         _durationCounter = 0;
-
-        _abilityInfo = AbilityInfoSync.GetAbilityInfo(GetUniqueID);
 
         //Just default to 0, in case there is no cooldown.
         CooldownPercent = 0;

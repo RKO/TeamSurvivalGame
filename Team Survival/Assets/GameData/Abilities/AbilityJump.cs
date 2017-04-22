@@ -8,7 +8,7 @@ public class AbilityJump : BaseAbility
 
     public override string GetUniqueID { get { return "AbilityJumpStandard"; } }
 
-    public AbilityJump(UnitShell unit) : base(unit, Cooldown) { }
+    public AbilityJump(UnitShell unit, AbilityInfo info) : base(unit, info) { }
 
     protected override bool CheckCanActivate()
     {
