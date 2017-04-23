@@ -31,6 +31,7 @@ public class UnitController : MonoBehaviour {
 
         GameObject navGo = Instantiate(NavigatorPrefab);
         _navAgent = navGo.GetComponent<NavMeshAgent>();
+        _navAgent.transform.SetParent(transform.parent);
         _navAgent.enabled = true;
         ResetNavigator();
 
