@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class BaseMotor : IMotor {
     private Vector3 moveDirection;
@@ -59,7 +60,8 @@ public class BaseMotor : IMotor {
 
     private void Rotate() {
         //Currently instant rotation.
-        myRigidbody.MoveRotation(rotationTarget);
+        Quaternion rot = Quaternion.Lerp(myRigidbody.rotation, rotationTarget, Time.deltaTime * 2);
+        myRigidbody.MoveRotation(rot);
     }
 
     private void ProcessForces()
@@ -79,13 +81,13 @@ public class BaseMotor : IMotor {
         rotationTarget = Quaternion.Euler(dir);
     }
 
-    public void AddForce(Vector3 force) {
-        this.addedForce += force;
+    public void SetRotateDestination(Quaternion dir)
+    {
+        rotationTarget = dir;
     }
 
-    public void SetMoveDestination(Vector3 destination)
-    {
-        //Nothing to do here.
+    public void AddForce(Vector3 force) {
+        this.addedForce += force;
     }
 
     public void Stop()
@@ -93,5 +95,10 @@ public class BaseMotor : IMotor {
         moveDirection = MathUtil.VectorZero;
         rotationTarget = _transform.rotation;
         addedForce = MathUtil.VectorZero;
+    }
+
+    public void SetMoveSpeed(float speed)
+    {
+        moveSpeed = speed;
     }
 }
