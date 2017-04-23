@@ -58,3 +58,4 @@ MonoBehaviour:
   Slot: 1
   Cooldown: 0.5
   Duration: 0
+  JumpForce: 6
