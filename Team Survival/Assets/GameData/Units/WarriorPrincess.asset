@@ -18,3 +18,6 @@ MonoBehaviour:
   _unitName: Warrior Princess
   _maxHealth: 600
   _model: {fileID: 1000013739999818, guid: f775943d49d5c134a8a106bc4519ede1, type: 2}
+  _abilities:
+  - {fileID: 1000014124346546, guid: ae10c12cce3bfe04f940fc4bf4b0ea35, type: 2}
+  - {fileID: 1000012916428592, guid: 0393f45d124ef4648b8523aebba7d393, type: 2}

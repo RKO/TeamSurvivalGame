@@ -99,7 +99,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Editor\AbilityInfoCreator.cs" />
     <Compile Include="Assets\Editor\MakeEffectObject.cs" />
     <Compile Include="Assets\Editor\UnitDataCreator.cs" />
   </ItemGroup>

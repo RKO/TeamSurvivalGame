@@ -20,11 +20,16 @@ public class UnitShell : NetworkBehaviour
 
     public Team CurrentTeam { get { return _team; } }
 
+    public Transform AbilityRoot { get { return abilityRootTransform; } }
+
     [SerializeField]
     private Transform Head;
 
     [SerializeField]
     private Transform Body;
+
+    [SerializeField]
+    private Transform abilityRootTransform;
 
     #region Stats
     [SyncVar]
@@ -87,13 +92,18 @@ public class UnitShell : NetworkBehaviour
         else
             Motor = new BaseMotor();
 
-        Motor.Initialize(this.transform, _unitData.MoveSpeed);
+        Motor.Initialize(this.transform, unit.MoveSpeed);
         _animationSync.SetNewAnimation(UnitAnimation.Idle);
 
         //Initialize health from the model.
         Health = MaxHealth = unit.MaxHealth;
 
         _team = unit.DefaultTeam;
+
+        foreach (var ability in unit.Abilities)
+        {
+            Abilities.GrantAbility(ability, this, transform);
+        }
     }
 
     [ServerCallback]

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class UnitData : ScriptableObject {
 
@@ -30,4 +30,8 @@ public class UnitData : ScriptableObject {
     [SerializeField]
     private GameObject _model;
     public GameObject Model { get { return _model; } }
+
+    [SerializeField]
+    private List<GameObject> _abilities;
+    public List<GameObject> Abilities { get { return _abilities; } }
 }

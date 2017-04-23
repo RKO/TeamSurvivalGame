@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour {
             int x = 100 + (count * size * 2);
             int y = Screen.height - 10 - size;
 
-            AbilityInfo info = state.GetAbilityInfo();
+            BaseAbility info = state.Ability;
 
             GUI.enabled = state.CanActivateAbility;
             {
@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour {
                 if(info.TempIcon != null)
                     GUI.DrawTexture(rect, info.TempIcon);
 
-                GUI.Label(rect, info.Name + ":\n" + state.CooldownPercent);
+                GUI.Label(rect, info.DisplayName + ":\n" + state.CooldownPercent);
             }
             GUI.enabled = true;
             count++;

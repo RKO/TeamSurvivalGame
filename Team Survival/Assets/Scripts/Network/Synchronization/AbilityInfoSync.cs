@@ -7,31 +7,30 @@ public class AbilityInfoSync : MonoBehaviour {
     private GameObject AbilitySyncPrefab;
 
     [SerializeField]
-    private List<AbilityInfo> RegisteredAbilities;
+    private GameObject[] AbilityPrefabs;
 
-    private static Dictionary<string, AbilityInfo> _abilityMap;
+    private static Dictionary<string, GameObject> _abilityPrefabMap;
     private static GameObject _abilitySyncPrefab;
-
 
     private void Awake()
     {
-        _abilityMap = new Dictionary<string, AbilityInfo>();
+        _abilityPrefabMap = new Dictionary<string, GameObject>();
         _abilitySyncPrefab = AbilitySyncPrefab;
 
-        foreach (var ability in RegisteredAbilities)
-        {
-            _abilityMap.Add(ability.UniqueID, ability);
+        foreach (var ability in AbilityPrefabs) {
+            GameObject go = Instantiate(ability);
+            BaseAbility ab = go.GetComponent<BaseAbility>();
+            _abilityPrefabMap.Add(ab.UniqueID, ability);
+            Destroy(go);
         }
-    }
-
-    public static AbilityInfo GetAbilityInfo(string uniqueID) {
-        if (!_abilityMap.ContainsKey(uniqueID))
-            throw new KeyNotFoundException("No AbilityInfo registered for ID: \""+uniqueID+"\".");
-
-        return _abilityMap[uniqueID];
     }
 
     public static GameObject GetAbilitySyncPrefab() {
         return _abilitySyncPrefab;
+    }
+
+    public static GameObject GetAbilityPrefab(string uniqueID)
+    {
+        return _abilityPrefabMap[uniqueID];
     }
 }

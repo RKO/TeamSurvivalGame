@@ -31,7 +31,7 @@ public class AbilityList : NetworkBehaviour {
         for (int i = 0; i < _abilities.Count; i++)
         {
             BaseAbility ability = _abilities[i];
-            ability.Update();
+            ability.RunUpdate();
 
             AbilitySlot slot = AbilitySlot.None;
             foreach (var item in _abilitySlotMap)
@@ -54,29 +54,38 @@ public class AbilityList : NetworkBehaviour {
     }
 
     [Server]
-    public void GrantAbility(BaseAbility newAbility, AbilitySlot slot, Transform syncParent = null)
+    public void GrantAbility(GameObject abilityPrefab, UnitShell shell, Transform syncParent)
     {
+        GameObject abilityInstance = Instantiate(abilityPrefab, shell.AbilityRoot, false) as GameObject;
+        BaseAbility newAbility = abilityInstance.GetComponent<BaseAbility>();
+        newAbility.Setup(shell);
+        AbilitySlot slot = newAbility.Slot;
+
         _abilities.Add(newAbility);
 
         //It is possible to overwrite assigned abilities.
-        if (slot != AbilitySlot.None) {
+        if (slot != AbilitySlot.None)
+        {
             _abilitySlotMap[slot] = _abilities.IndexOf(newAbility);
 
-            if (syncParent != null) {
+            if (syncParent != null)
+            {
                 AbilitySynchronizer sync;
 
                 _abilitySyncs.TryGetValue(slot, out sync);
-                if (sync == null) {
-                    GameObject go = Instantiate(AbilityInfoSync.GetAbilitySyncPrefab());
+                if (sync == null)
+                {
+                    GameObject go = Instantiate(AbilityInfoSync.GetAbilitySyncPrefab(), shell.AbilityRoot, false) as GameObject;
                     NetworkServer.Spawn(go);
                     sync = go.GetComponent<AbilitySynchronizer>();
+                    //On the clients, they will just be children of the root object.
                     sync.ParentObject = syncParent.GetComponent<NetworkIdentity>();
                     _abilitySyncs.Add(slot, sync);
 
                     RpcSynchronizerCreated(go.GetComponent<NetworkIdentity>());
                 }
 
-                sync.AbilityID = newAbility.GetInfo().UniqueID;
+                sync.SetOnServer(newAbility);
             }
         }
     }

@@ -18,14 +18,27 @@ public class AbilitySynchronizer : NetworkBehaviour {
     [SyncVar]
     public bool CanActivateAbility;
 
-    private void Start() {
+    private BaseAbility _ability;
+    public BaseAbility Ability { get { return _ability; } }
+
+    private void Start()
+    {
         if (transform.parent == null && ParentObject != null)
         {
             transform.SetParent(ParentObject.transform);
         }
+
+        if (!isServer)
+        {
+            GameObject go = Instantiate(AbilityInfoSync.GetAbilityPrefab(AbilityID), transform, false) as GameObject;
+            _ability = go.GetComponent<BaseAbility>();
+        }
     }
 
-    public AbilityInfo GetAbilityInfo() {
-        return AbilityInfoSync.GetAbilityInfo(AbilityID);
+    [Server]
+    public void SetOnServer(BaseAbility ability)
+    {
+        _ability = ability;
+        AbilityID = _ability.UniqueID;
     }
 }
