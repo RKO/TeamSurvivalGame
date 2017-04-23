@@ -2,6 +2,8 @@
 using UnityEngine;
 
 public class BaseMotor : IMotor {
+    private const float RotationSpeed = 5f;
+
     private Vector3 moveDirection;
     private Quaternion rotationTarget;
     private Vector3 addedForce;
@@ -60,7 +62,7 @@ public class BaseMotor : IMotor {
 
     private void Rotate() {
         //Currently instant rotation.
-        Quaternion rot = Quaternion.Lerp(myRigidbody.rotation, rotationTarget, Time.deltaTime * 2);
+        Quaternion rot = Quaternion.Lerp(myRigidbody.rotation, rotationTarget, Time.deltaTime * RotationSpeed);
         myRigidbody.MoveRotation(rot);
     }
 
