@@ -29,7 +29,7 @@ public class AbilitySweepingStrike : AbilityBasicAttack
         }
         else {
             _hitTable.Clear();
-            _hitDelayTimer = _hitDelay;
+            _hitDelayTimer = HitDelay;
             _hasHitOnce = true;
         }
     }

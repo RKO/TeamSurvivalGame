@@ -2,7 +2,8 @@
 
 public class AbilityJump : BaseAbility
 {
-    private const float JumpForce = 6;
+    [SerializeField]
+    private float JumpForce;
 
     protected override bool CheckCanActivate()
     {

@@ -58,4 +58,6 @@ MonoBehaviour:
   Slot: 2
   Cooldown: 0.1
   Duration: 1.1
-  _hitDelay: 0.36
+  HitDelay: 0.36
+  Damage: 5
+  MaxDistance: 0.5

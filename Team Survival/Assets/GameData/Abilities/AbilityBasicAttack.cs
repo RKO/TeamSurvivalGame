@@ -4,24 +4,22 @@ using System;
 
 public class AbilityBasicAttack : BaseAbility
 {
-    private const float Damage = 5f;
-    private const float MaxDistance = 0.5f;
-
     private Vector3 HalfBox = new Vector3(1f, 1f, 0.5f);
     private LayerMask targetMask;
 
     [SerializeField]
-    protected float _hitDelay;
+    protected float HitDelay;
+    [SerializeField]
+    protected float Damage = 5f;
+    [SerializeField]
+    protected float MaxDistance = 0.5f;
 
     protected Dictionary<Transform, UnitShell> _hitTable;
-    private float _animationDuration;
     protected float _hitDelayTimer;
     protected bool _done;
 
     protected override void Initialize() {
-        //_hitDelay = 0.36f;
         _hitTable = new Dictionary<Transform, UnitShell>();
-
         targetMask = 1 << LayerMask.NameToLayer("Unit");
     }
 
@@ -29,7 +27,7 @@ public class AbilityBasicAttack : BaseAbility
     {
         _unit.TriggerAnimation(UnitTriggerAnimation.Attack1);
         _hitTable.Clear();
-        _hitDelayTimer = _hitDelay;
+        _hitDelayTimer = HitDelay;
         _done = false;
     }
 
