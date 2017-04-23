@@ -51,7 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57a7319cd700d334c8b47400c4c23a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _abilityInfo: {fileID: 11400000, guid: 798fcdafd5568d74b927a45c4b083733, type: 2}
-  cooldown: 0.1
-  duration: 1.5
+  DisplayName: Attack
+  Description: Basic Attack
+  Icon: {fileID: 0}
+  TempIcon: {fileID: 0}
+  Slot: 2
+  Cooldown: 0.1
+  Duration: 1.5
   _hitDelay: 0.425

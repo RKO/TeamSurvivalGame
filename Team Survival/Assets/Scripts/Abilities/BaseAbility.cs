@@ -2,14 +2,22 @@
 
 public abstract class BaseAbility : MonoBehaviour {
 
-    public string GetUniqueID { get { return GetType().FullName; } }
+    public string UniqueID { get { return GetType().FullName; } }
 
     [SerializeField]
-    protected AbilityInfo _abilityInfo;
+    public string DisplayName;
     [SerializeField]
-    protected float cooldown;
+    public string Description;
     [SerializeField]
-    protected float duration;
+    public Sprite Icon;
+    [SerializeField]
+    public Texture2D TempIcon;
+    [SerializeField]
+    public AbilitySlot Slot;
+    [SerializeField]
+    protected float Cooldown;
+    [SerializeField]
+    protected float Duration;
 
     protected UnitShell _unit;
     protected float _cooldownCounter;
@@ -17,7 +25,7 @@ public abstract class BaseAbility : MonoBehaviour {
 
     public float CooldownPercent { get; private set; }
 
-    public bool IsActive { get { return duration > 0 && _durationCounter > 0; } }
+    public bool IsActive { get { return Duration > 0 && _durationCounter > 0; } }
 
     public bool CanActivate { get { return _cooldownCounter == 0 && !IsActive && CheckCanActivate(); } }
 
@@ -40,10 +48,6 @@ public abstract class BaseAbility : MonoBehaviour {
 
     protected virtual void Initialize() { }
 
-    public AbilityInfo GetInfo() { 
-        return _abilityInfo;
-    }
-
     public void RunUpdate() {
         if (IsActive)
         {
@@ -57,16 +61,16 @@ public abstract class BaseAbility : MonoBehaviour {
                 _cooldownCounter = 0;
         }
 
-        if(cooldown > 0)
-            CooldownPercent = _cooldownCounter / cooldown;
+        if(Cooldown > 0)
+            CooldownPercent = _cooldownCounter / Cooldown;
     }
 
     public void Activate() {
         if (CanActivate)
         {
             DoActivate();
-            _cooldownCounter = cooldown;
-            _durationCounter = duration;
+            _cooldownCounter = Cooldown;
+            _durationCounter = Duration;
         }
     }
 

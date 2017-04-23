@@ -59,7 +59,7 @@ public class AbilityList : NetworkBehaviour {
         GameObject abilityInstance = Instantiate(abilityPrefab, shell.AbilityRoot, false) as GameObject;
         BaseAbility newAbility = abilityInstance.GetComponent<BaseAbility>();
         newAbility.Setup(shell);
-        AbilitySlot slot = newAbility.GetInfo().Slot;
+        AbilitySlot slot = newAbility.Slot;
 
         _abilities.Add(newAbility);
 
@@ -85,7 +85,7 @@ public class AbilityList : NetworkBehaviour {
                     RpcSynchronizerCreated(go.GetComponent<NetworkIdentity>());
                 }
 
-                sync.AbilityID = newAbility.GetUniqueID;
+                sync.SetOnServer(newAbility);
             }
         }
     }

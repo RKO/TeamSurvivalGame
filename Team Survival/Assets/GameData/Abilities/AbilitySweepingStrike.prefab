@@ -51,7 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b56e80bed667e24baa3f28867d8e5e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _abilityInfo: {fileID: 11400000, guid: 76bee376c2440394499d027031d7f963, type: 2}
-  cooldown: 0.1
-  duration: 1.1
+  DisplayName: Sweeping Strike
+  Description: Sweeping Strike
+  Icon: {fileID: 0}
+  TempIcon: {fileID: 0}
+  Slot: 2
+  Cooldown: 0.1
+  Duration: 1.1
   _hitDelay: 0.36

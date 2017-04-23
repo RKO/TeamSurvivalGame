@@ -104,7 +104,6 @@
     <Compile Include="Assets\GameData\Abilities\AbilityBasicAttack.cs" />
     <Compile Include="Assets\GameData\Abilities\AbilityJump.cs" />
     <Compile Include="Assets\GameData\Abilities\AbilitySweepingStrike.cs" />
-    <Compile Include="Assets\Scripts\Abilities\AbilityInfo.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityList.cs" />
     <Compile Include="Assets\Scripts\Abilities\BaseAbility.cs" />
     <Compile Include="Assets\Scripts\Effects\DestroyWhenFinished.cs" />
