@@ -51,8 +51,8 @@ public class BaseMotor : IMotor {
 
         if (addedForce != MathUtil.VectorZero)
             ProcessForces();
-
-        myRigidbody.velocity = new Vector3(0, myRigidbody.velocity.y, 0);
+        else
+            myRigidbody.velocity = new Vector3(0, myRigidbody.velocity.y, 0);
 	}
 
     private Vector3 _movement;
