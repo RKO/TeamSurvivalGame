@@ -5,12 +5,16 @@ public class UnitController : MonoBehaviour {
 
     private Transform[] _waypoints;
     private int _waypointIndex;
-    public Transform _currentWaypoint;
+    private Transform _currentWaypoint;
 
     private UnitShell _shell;
     private IMotor _motor;
     private UnitShell _enemyTarget;
     private Team _enemyTeam;
+
+    [SerializeField]
+    private GameObject NavigatorPrefab;
+    private NavMeshAgent _navAgent;
 
     private void Start () {
         _shell = GetComponent<UnitShell>();
@@ -24,6 +28,12 @@ public class UnitController : MonoBehaviour {
 
         _shell.OnKillCallback += OnUnitKill;
         _motor = _shell.Motor;
+
+        GameObject navGo = Instantiate(NavigatorPrefab);
+        _navAgent = navGo.GetComponent<NavMeshAgent>();
+        _navAgent.transform.SetParent(transform.parent);
+        _navAgent.enabled = true;
+        ResetNavigator();
 
         if (_shell.CurrentTeam == Team.Enemies)
             _enemyTeam = Team.Players;
@@ -54,6 +64,7 @@ public class UnitController : MonoBehaviour {
             CheckForEnemyTargets();
         }
 
+        UpdateNavigation();
 
         if (_enemyTarget != null)
         {
@@ -65,13 +76,41 @@ public class UnitController : MonoBehaviour {
         if (_currentWaypoint == null)
         {
             _motor.Stop();
+            ResetNavigator();
+        }
+    }
+
+    private void UpdateNavigation()
+    {
+        const float maxDistance = 2f;
+        float distance = Vector3.Distance(transform.position, _navAgent.transform.position);
+        Vector3 direction = _navAgent.transform.position - transform.position;
+        direction.y = 0;
+
+        if (distance > 0) {
+            _navAgent.speed = Mathf.Max(_shell.DefaultMoveSpeed * (maxDistance - distance), 0);
+        }
+
+        if (distance > _navAgent.radius)
+        {
+            float speed = _shell.DefaultMoveSpeed * (distance / maxDistance);
+            _motor.SetMoveSpeed(speed);
+            _motor.SetMoveDirection(direction);
+
+            if (_navAgent.desiredVelocity != Vector3.zero)
+            {
+                _motor.SetRotateDestination(Quaternion.LookRotation(_navAgent.desiredVelocity));
+            }
+        }
+        else {
+            _motor.SetMoveDirection(Vector3.zero);
         }
     }
 
     private void OnUnitKill()
     {
-        GetComponent<NavMeshAgent>().enabled = false;
         GetComponent<Rigidbody>().isKinematic = false;
+        Destroy(_navAgent.gameObject);
     }
 
     private void CheckForEnemyTargets() {
@@ -99,13 +138,15 @@ public class UnitController : MonoBehaviour {
 
         if (Vector3.Distance(transform.position, _enemyTarget.Position) > AttackRange)
         {
-            _motor.SetMoveDestination(_enemyTarget.Position);
+            _navAgent.SetDestination(_enemyTarget.Position);
         }
         else {
             Vector3 dir = _enemyTarget.Position - transform.position;
             dir.y = 0;
-            _motor.SetMoveDestination(transform.position);
-            _motor.SetRotateDestination(dir);
+            ResetNavigator();
+            _motor.Stop();
+
+            _motor.SetRotateDestination(Quaternion.LookRotation(dir));
             var state = _shell.Abilities.GetAbilityState(AbilitySlot.Attack1);
 
             if (state.CanActivate)
@@ -120,7 +161,7 @@ public class UnitController : MonoBehaviour {
         if (_currentWaypoint == null)
         {
             _currentWaypoint = _waypoints[_waypointIndex];
-            _motor.SetMoveDestination(_currentWaypoint.position);
+            _navAgent.SetDestination(_currentWaypoint.position);
         }
         else if (Vector3.Distance(transform.position, _currentWaypoint.position) < 2)
         {
@@ -128,11 +169,17 @@ public class UnitController : MonoBehaviour {
             if (_waypointIndex < _waypoints.Length)
             {
                 _currentWaypoint = _waypoints[_waypointIndex];
-                _motor.SetMoveDestination(_currentWaypoint.position);
+                _navAgent.SetDestination(_currentWaypoint.position);
             }
             else {
                 _motor.Stop();
+                ResetNavigator();
             }
         }
+    }
+
+    private void ResetNavigator() {
+        _navAgent.transform.position = transform.position;
+        _navAgent.SetDestination(transform.position);
     }
 }

@@ -8,11 +8,13 @@ public interface IMotor {
 
     bool CalculateIsGrounded();
 
-    void SetMoveDestination(Vector3 destination);
+    void SetMoveSpeed(float speed);
 
     void SetMoveDirection(Vector3 dir);
 
     void SetRotateDestination(Vector3 dir);
+
+    void SetRotateDestination(Quaternion dir);
 
     void AddForce(Vector3 force);
 

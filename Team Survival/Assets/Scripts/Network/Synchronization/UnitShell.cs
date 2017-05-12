@@ -22,6 +22,8 @@ public class UnitShell : NetworkBehaviour
 
     public Transform AbilityRoot { get { return abilityRootTransform; } }
 
+    public float DefaultMoveSpeed { get { return _unitData.MoveSpeed; } }
+
     [SerializeField]
     private Transform Head;
 
@@ -87,10 +89,7 @@ public class UnitShell : NetworkBehaviour
 
     [Server]
     private void ServerSideSetup(UnitData unit) {
-        if (GetComponent<NavMeshAgent>() != null)
-            Motor = new NavMeshMotor();
-        else
-            Motor = new BaseMotor();
+        Motor = new BaseMotor();
 
         Motor.Initialize(this.transform, unit.MoveSpeed);
         _animationSync.SetNewAnimation(UnitAnimation.Idle);
