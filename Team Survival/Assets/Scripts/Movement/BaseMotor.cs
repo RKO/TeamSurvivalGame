@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BaseMotor : IMotor {
     private const float RotationSpeed = 5f;
