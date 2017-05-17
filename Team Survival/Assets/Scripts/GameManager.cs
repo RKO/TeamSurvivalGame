@@ -12,6 +12,8 @@ public class GameManager : NetworkBehaviour {
     public EffectSync EffectManager { get; private set; }
     public UnitRegistry UnitRegistry { get; private set; }
 
+    [SerializeField]
+    private GameObject UnitDecoratorPrefab;
     private UnitDecorator _unitDecorator;
 
     // Use this for initialization
@@ -21,7 +23,8 @@ public class GameManager : NetworkBehaviour {
         SpawnManager = gameObject.AddComponent<SpawnManager>();
         UnitManager = new UnitManager();
 
-        _unitDecorator = gameObject.GetComponentInChildren<UnitDecorator>();
+        GameObject decoratorObj = Instantiate(UnitDecoratorPrefab, transform) as GameObject;
+        _unitDecorator = decoratorObj.GetComponent<UnitDecorator>();
         _unitDecorator.Initialize(UnitManager);
 
         EffectManager = GetComponent<EffectSync>();

@@ -128,6 +128,7 @@
     <Compile Include="Assets\Scripts\Network\Synchronization\UnitShell.cs" />
     <Compile Include="Assets\Scripts\UI\EscapeMenu.cs" />
     <Compile Include="Assets\Scripts\UI\HealthBar.cs" />
+    <Compile Include="Assets\Scripts\UI\TeamIndicator.cs" />
     <Compile Include="Assets\Scripts\UI\TestUI.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\GoalZone.cs" />
     <Compile Include="Assets\Scripts\UnitManagement\SpawnManager.cs" />
@@ -215,6 +216,7 @@
     <None Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleBlendEffect.shader" />
     <None Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Shader\ParticlePremultiplyBlend.shader" />
     <None Include="Assets\Artwork\Particlecollection_Free samples\Plugins\Effect\Shader\effect_distortion_mask.shader" />
+    <None Include="Assets\Prefabs\UI\Worldspace\ProjectorAdditiveTint.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

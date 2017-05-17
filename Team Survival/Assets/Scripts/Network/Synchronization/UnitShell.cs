@@ -90,19 +90,7 @@ public class UnitShell : NetworkBehaviour
                 var model = Instantiate(_unitData.Model);
                 model.transform.SetParent(Body, false);
             }
-
-            TriggerHooks();
         }
-    }
-
-    /// <summary>
-    /// Hooks are not called for the initial value the NetworkBehaviour receives, so we do it manually.
-    /// </summary>
-    [Client]
-    private void TriggerHooks() {
-        OnTeamChanged(_team);
-        OnLifeStateChanged(_aliveState);
-        OnHealthChanged(_health);
     }
 
     [Server]
