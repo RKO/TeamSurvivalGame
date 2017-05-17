@@ -124,6 +124,7 @@
     <Compile Include="Assets\Scripts\Network\Synchronization\AnimationSync.cs" />
     <Compile Include="Assets\Scripts\Network\Synchronization\EffectSync.cs" />
     <Compile Include="Assets\Scripts\Network\Synchronization\TransformSync.cs" />
+    <Compile Include="Assets\Scripts\Network\Synchronization\UnitEventHandle.cs" />
     <Compile Include="Assets\Scripts\Network\Synchronization\UnitShell.cs" />
     <Compile Include="Assets\Scripts\UI\EscapeMenu.cs" />
     <Compile Include="Assets\Scripts\UI\HealthBar.cs" />

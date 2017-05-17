@@ -26,7 +26,7 @@ public class UnitController : MonoBehaviour {
             return;
         }
 
-        _shell.OnKillCallback += OnUnitKill;
+        _shell.EventHandle.OnKill += OnUnitKill;
         _motor = _shell.Motor;
 
         GameObject navGo = Instantiate(NavigatorPrefab);
@@ -110,6 +110,7 @@ public class UnitController : MonoBehaviour {
     private void OnUnitKill()
     {
         GetComponent<Rigidbody>().isKinematic = false;
+        _shell.EventHandle.OnKill -= OnUnitKill;
         Destroy(_navAgent.gameObject);
     }
 

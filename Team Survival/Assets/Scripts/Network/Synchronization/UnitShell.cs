@@ -10,6 +10,8 @@ public class UnitShell : NetworkBehaviour
 
     private AnimationSync _animationSync;
 
+    private UnitEventHandle _clientEventHandle;
+
     public IMotor Motor { get; protected set; }
 
     public AbilityList Abilities { get; protected set; }
@@ -24,6 +26,12 @@ public class UnitShell : NetworkBehaviour
 
     public float DefaultMoveSpeed { get { return _unitData.MoveSpeed; } }
 
+    public UnitEventHandle EventHandle { get { return _clientEventHandle; } }
+
+    public string UnitId { get { return _unitID; } }
+    public float Health { get { return _health; } }
+    public float MaxHealth { get { return _maxHealth; } }
+
     [SerializeField]
     private Transform Head;
 
@@ -35,18 +43,18 @@ public class UnitShell : NetworkBehaviour
 
     #region Stats
     [SyncVar]
-    public string UnitID;
+    private string _unitID;
 
     [SyncVar]
-    public int MaxHealth;
+    private int _maxHealth;
 
-    [SyncVar]
-    public float Health;
+    [SyncVar(hook = "OnHealthChanged")]
+    private float _health;
 
-    [SyncVar]
+    [SyncVar(hook = "OnLifeStateChanged")]
     private LifeState _aliveState;
 
-    [SyncVar]
+    [SyncVar(hook = "OnTeamChanged")]
     private Team _team;
     #endregion
 
@@ -56,11 +64,13 @@ public class UnitShell : NetworkBehaviour
     [Server]
     public void Initialize(UnitData data) {
         _unitData = data;
-        UnitID = _unitData.UnitID;
+        _unitID = _unitData.UnitID;
     }
 
     // Use this for initialization
     void Start() {
+        _clientEventHandle = new UnitEventHandle();
+
         _animationSync = GetComponent<AnimationSync>();
         Abilities = GetComponent<AbilityList>();
 
@@ -72,7 +82,7 @@ public class UnitShell : NetworkBehaviour
         GameManager.Instance.unitManager.AddUnit(this);
 
         if (this.isClient) {
-            _unitData = UnitRegistry.GetUnitData(UnitID);
+            _unitData = UnitRegistry.GetUnitData(_unitID);
             if (_unitData.Model != null)
             {
                 var model = Instantiate(_unitData.Model);
@@ -84,7 +94,15 @@ public class UnitShell : NetworkBehaviour
                 var obj = Instantiate(HealthBarPrefab, transform, false) as GameObject;
                 obj.transform.localPosition = Head.localPosition + Vector3.up * 0.5f;
             }
+
+            TriggerHooks();
         }
+    }
+
+    [Client]
+    private void TriggerHooks() {
+        OnTeamChanged(_team);
+        OnLifeStateChanged(_aliveState);
     }
 
     [Server]
@@ -95,7 +113,7 @@ public class UnitShell : NetworkBehaviour
         _animationSync.SetNewAnimation(UnitAnimation.Idle);
 
         //Initialize health from the model.
-        Health = MaxHealth = unit.MaxHealth;
+        _health = _maxHealth = unit.MaxHealth;
 
         _team = unit.DefaultTeam;
 
@@ -107,7 +125,7 @@ public class UnitShell : NetworkBehaviour
 
     [ServerCallback]
     void Update() {
-        if (_aliveState == LifeState.Alive && Health <= 0) {
+        if (_aliveState == LifeState.Alive && _health <= 0) {
             Kill();
             return;
         }
@@ -136,9 +154,9 @@ public class UnitShell : NetworkBehaviour
     public void DealDamage(float damage) {
         if (_aliveState == LifeState.Alive)
         {
-            Health -= damage;
-            if (Health < 0)
-                Health = 0;
+            _health -= damage;
+            if (_health < 0)
+                _health = 0;
         }
     }
 
@@ -156,8 +174,8 @@ public class UnitShell : NetworkBehaviour
 
         GameManager.Instance.unitManager.KillUnit(this);
 
-        if (OnKillCallback != null)
-            OnKillCallback();
+        if (_clientEventHandle.OnKill != null)
+            _clientEventHandle.OnKill();
 
         RpcOnKill();
         StartCoroutine(Die());
@@ -204,6 +222,21 @@ public class UnitShell : NetworkBehaviour
         GameManager.Instance.unitManager.RemoveUnit(this);
     }
 
-    public delegate void OnKillDelegate();
-    public OnKillDelegate OnKillCallback;
+    private void OnTeamChanged(Team newTeam) {
+        _team = newTeam;
+        if(_clientEventHandle.OnTeamChanged != null)
+            _clientEventHandle.OnTeamChanged(_team);
+    }
+
+    private void OnLifeStateChanged(LifeState newState) {
+        _aliveState = newState;
+        if (_clientEventHandle.OnLifeStateChanged != null)
+            _clientEventHandle.OnLifeStateChanged(_aliveState);
+    }
+
+    private void OnHealthChanged(float health) {
+        _health = health;
+        if (_clientEventHandle.OnHealthChanged != null)
+            _clientEventHandle.OnHealthChanged(_health);
+    }
 }

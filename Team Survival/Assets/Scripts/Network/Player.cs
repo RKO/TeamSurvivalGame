@@ -26,7 +26,7 @@ public class Player : NetworkBehaviour {
         _abilities = gameObject.GetComponent<AbilityList>();
         _shell = gameObject.GetComponent<UnitShell>();
 
-        _shell.OnKillCallback += OnKill;
+        _shell.EventHandle.OnKill += OnKill;
 
         if (isServer)
         {
@@ -36,6 +36,7 @@ public class Player : NetworkBehaviour {
 
     private void OnKill()
     {
+        _shell.EventHandle.OnKill -= OnKill;
         Debug.LogError("Player died!");
     }
 
