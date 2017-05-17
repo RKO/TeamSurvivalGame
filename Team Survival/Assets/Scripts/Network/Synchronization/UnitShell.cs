@@ -10,7 +10,7 @@ public class UnitShell : NetworkBehaviour
 
     private AnimationSync _animationSync;
 
-    private UnitEventHandle _clientEventHandle;
+    private UnitEventHandle _eventHandle;
 
     public IMotor Motor { get; protected set; }
 
@@ -26,7 +26,7 @@ public class UnitShell : NetworkBehaviour
 
     public float DefaultMoveSpeed { get { return _unitData.MoveSpeed; } }
 
-    public UnitEventHandle EventHandle { get { return _clientEventHandle; } }
+    public UnitEventHandle EventHandle { get { return _eventHandle; } }
 
     public string UnitId { get { return _unitID; } }
     public float Health { get { return _health; } }
@@ -67,10 +67,12 @@ public class UnitShell : NetworkBehaviour
         _unitID = _unitData.UnitID;
     }
 
-    // Use this for initialization
-    void Start() {
-        _clientEventHandle = new UnitEventHandle();
+    private void Awake() {
+        _eventHandle = new UnitEventHandle();
+    }
 
+    // Use this for initialization
+    private void Start() {
         _animationSync = GetComponent<AnimationSync>();
         Abilities = GetComponent<AbilityList>();
 
@@ -99,10 +101,14 @@ public class UnitShell : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Hooks are not called for the initial value the NetworkBehaviour receives, so we do it manually.
+    /// </summary>
     [Client]
     private void TriggerHooks() {
         OnTeamChanged(_team);
         OnLifeStateChanged(_aliveState);
+        OnHealthChanged(_health);
     }
 
     [Server]
@@ -174,8 +180,8 @@ public class UnitShell : NetworkBehaviour
 
         GameManager.Instance.unitManager.KillUnit(this);
 
-        if (_clientEventHandle.OnKill != null)
-            _clientEventHandle.OnKill();
+        if (_eventHandle.OnKill != null)
+            _eventHandle.OnKill();
 
         RpcOnKill();
         StartCoroutine(Die());
@@ -220,23 +226,24 @@ public class UnitShell : NetworkBehaviour
 
     private void OnDestroy() {
         GameManager.Instance.unitManager.RemoveUnit(this);
+        _eventHandle.ClearAll();
     }
 
     private void OnTeamChanged(Team newTeam) {
         _team = newTeam;
-        if(_clientEventHandle.OnTeamChanged != null)
-            _clientEventHandle.OnTeamChanged(_team);
+        if(_eventHandle.OnTeamChanged != null)
+            _eventHandle.OnTeamChanged(_team);
     }
 
     private void OnLifeStateChanged(LifeState newState) {
         _aliveState = newState;
-        if (_clientEventHandle.OnLifeStateChanged != null)
-            _clientEventHandle.OnLifeStateChanged(_aliveState);
+        if (_eventHandle.OnLifeStateChanged != null)
+            _eventHandle.OnLifeStateChanged(_aliveState);
     }
 
     private void OnHealthChanged(float health) {
         _health = health;
-        if (_clientEventHandle.OnHealthChanged != null)
-            _clientEventHandle.OnHealthChanged(_health);
+        if (_eventHandle.OnHealthChanged != null)
+            _eventHandle.OnHealthChanged(_health);
     }
 }
