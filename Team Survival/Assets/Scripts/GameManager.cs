@@ -21,10 +21,8 @@ public class GameManager : NetworkBehaviour {
         SpawnManager = gameObject.AddComponent<SpawnManager>();
         UnitManager = new UnitManager();
 
-        //if(isClient) {
-            _unitDecorator = gameObject.GetComponentInChildren<UnitDecorator>();
-            _unitDecorator.Initialize(UnitManager);
-        //}
+        _unitDecorator = gameObject.GetComponentInChildren<UnitDecorator>();
+        _unitDecorator.Initialize(UnitManager);
 
         EffectManager = GetComponent<EffectSync>();
         UnitRegistry = GetComponent<UnitRegistry>();
