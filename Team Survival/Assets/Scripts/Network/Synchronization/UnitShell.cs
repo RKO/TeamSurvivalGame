@@ -34,9 +34,11 @@ public class UnitShell : NetworkBehaviour
 
     [SerializeField]
     private Transform Head;
+    public Transform HeadTransform { get { return Head; } }
 
     [SerializeField]
     private Transform Body;
+    public Transform BodyTransform { get { return Body; } }
 
     [SerializeField]
     private Transform abilityRootTransform;
@@ -58,8 +60,6 @@ public class UnitShell : NetworkBehaviour
     private Team _team;
     #endregion
 
-    [SerializeField]
-    private GameObject HealthBarPrefab;
 
     [Server]
     public void Initialize(UnitData data) {
@@ -81,7 +81,7 @@ public class UnitShell : NetworkBehaviour
             ServerSideSetup(_unitData);
         }
 
-        GameManager.Instance.unitManager.AddUnit(this);
+        GameManager.Instance.UnitManager.AddUnit(this);
 
         if (this.isClient) {
             _unitData = UnitRegistry.GetUnitData(_unitID);
@@ -89,12 +89,6 @@ public class UnitShell : NetworkBehaviour
             {
                 var model = Instantiate(_unitData.Model);
                 model.transform.SetParent(Body, false);
-            }
-
-            if (HealthBarPrefab != null)
-            {
-                var obj = Instantiate(HealthBarPrefab, transform, false) as GameObject;
-                obj.transform.localPosition = Head.localPosition + Vector3.up * 0.5f;
             }
 
             TriggerHooks();
@@ -178,7 +172,7 @@ public class UnitShell : NetworkBehaviour
 
         Motor.Stop();
 
-        GameManager.Instance.unitManager.KillUnit(this);
+        GameManager.Instance.UnitManager.KillUnit(this);
 
         if (_eventHandle.OnKill != null)
             _eventHandle.OnKill();
@@ -196,7 +190,7 @@ public class UnitShell : NetworkBehaviour
         GetComponent<Collider>().enabled = false;
         
         if(!isServer)
-            GameManager.Instance.unitManager.KillUnit(this);
+            GameManager.Instance.UnitManager.KillUnit(this);
     }
 
     [Server]
@@ -225,7 +219,7 @@ public class UnitShell : NetworkBehaviour
     }
 
     private void OnDestroy() {
-        GameManager.Instance.unitManager.RemoveUnit(this);
+        GameManager.Instance.UnitManager.RemoveUnit(this);
         _eventHandle.ClearAll();
     }
 

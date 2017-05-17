@@ -17,6 +17,13 @@ public class UnitManager {
     public void AddUnit(UnitShell unit)
     {
         _unitsByTeam[unit.CurrentTeam].Add(unit);
+        if (OnUnitAdded != null)
+            OnUnitAdded(unit);
+    }
+
+    public void KillUnit(UnitShell unit)
+    {
+        RemoveUnit(unit);
     }
 
     public void RemoveUnit(UnitShell unit)
@@ -24,11 +31,6 @@ public class UnitManager {
         List<UnitShell> teamList = _unitsByTeam[unit.CurrentTeam];
         if (teamList.Contains(unit))
             teamList.Remove(unit);
-    }
-
-    public void KillUnit(UnitShell unit)
-    {
-        RemoveUnit(unit);
     }
 
     public List<UnitShell> GetUnits(Team team) {
@@ -39,4 +41,7 @@ public class UnitManager {
     {
         return _unitsByTeam[team].Count;
     }
+
+    public delegate void UnitAddedDelegate(UnitShell unit);
+    public UnitAddedDelegate OnUnitAdded;
 }

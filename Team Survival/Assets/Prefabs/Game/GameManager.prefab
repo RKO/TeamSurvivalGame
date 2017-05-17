@@ -30,7 +30,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
+  m_Children:
+  - {fileID: 4000011340820062}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!114 &11458344
@@ -44,8 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c19a7b32e05c9ae409e991b6326db30f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnManager: {fileID: 0}
-  goal: {fileID: 0}
 --- !u!114 &11472038
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -89,6 +88,48 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 144098}
   m_IsPrefabParent: 1
+--- !u!1 &1000012619521882
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000011340820062}
+  - 114: {fileID: 114000010577274850}
+  m_Layer: 0
+  m_Name: UnitDecorator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4000011340820062
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012619521882}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 426400}
+  m_RootOrder: 0
+--- !u!114 &114000010577274850
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012619521882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bf4800218b552b4690026f1349f33d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarPrefab: {fileID: 1000010656295530, guid: 9addbe9681a7f12428bc993846415159,
+    type: 2}
 --- !u!114 &114000011150942974
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102,10 +143,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AbilitySyncPrefab: {fileID: 1000011072882146, guid: e9beaaa1eb437bd43a65227bd220c038,
     type: 2}
-  RegisteredAbilities:
-  - {fileID: 11400000, guid: a2fcdd23bb281cd4688fd9a551f1f04a, type: 2}
-  - {fileID: 11400000, guid: 798fcdafd5568d74b927a45c4b083733, type: 2}
-  - {fileID: 11400000, guid: 76bee376c2440394499d027031d7f963, type: 2}
   AbilityPrefabs:
   - {fileID: 1000014124346546, guid: ae10c12cce3bfe04f940fc4bf4b0ea35, type: 2}
   - {fileID: 1000013510317228, guid: 7a9ea52f2215b3c469ae62eaa28d3055, type: 2}

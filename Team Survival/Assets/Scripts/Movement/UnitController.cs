@@ -115,7 +115,7 @@ public class UnitController : MonoBehaviour {
     }
 
     private void CheckForEnemyTargets() {
-        var enemies = GameManager.Instance.unitManager.GetUnits(_enemyTeam);
+        var enemies = GameManager.Instance.UnitManager.GetUnits(_enemyTeam);
 
         foreach (var potentialEnemy in enemies)
         {

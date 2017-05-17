@@ -15,13 +15,13 @@ public class TestUI : MonoBehaviour {
         if (_spawnManager == null)
         {
             _gameManager = GameManager.Instance;
-            _spawnManager = _gameManager.spawnManager;
+            _spawnManager = _gameManager.SpawnManager;
         }
 
         int wave = Mathf.Min(_spawnManager.CurrentWave + 1, _spawnManager.WaveCount);
 
         _waveText.text = "Wave " + wave + "/" + _spawnManager.WaveCount;
 
-        _enemiesLeftText.text = "Enemies Left: " + _gameManager.unitManager.GetUnitCount(Team.Enemies);
+        _enemiesLeftText.text = "Enemies Left: " + _gameManager.UnitManager.GetUnitCount(Team.Enemies);
     }
 }

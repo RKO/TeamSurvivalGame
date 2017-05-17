@@ -4,20 +4,27 @@ using UnityEngine.Networking;
 public class GameManager : NetworkBehaviour {
     public static GameManager Instance { get; private set; }
 
-    public SpawnManager spawnManager;
-    public Transform goal;
-    public UnitManager unitManager;
+    public SpawnManager SpawnManager { get; private set; }
+    public Transform Goal { get; private set; }
+    public UnitManager UnitManager { get; private set; }
     public bool IsGUIOpen { get; set; }
 
     public EffectSync EffectManager { get; private set; }
     public UnitRegistry UnitRegistry { get; private set; }
 
+    private UnitDecorator _unitDecorator;
+
     // Use this for initialization
     void Awake () {
         Instance = this;
 
-        spawnManager = gameObject.AddComponent<SpawnManager>();
-        unitManager = new UnitManager();
+        SpawnManager = gameObject.AddComponent<SpawnManager>();
+        UnitManager = new UnitManager();
+
+        //if(isClient) {
+            _unitDecorator = gameObject.GetComponentInChildren<UnitDecorator>();
+            _unitDecorator.Initialize(UnitManager);
+        //}
 
         EffectManager = GetComponent<EffectSync>();
         UnitRegistry = GetComponent<UnitRegistry>();
@@ -25,9 +32,9 @@ public class GameManager : NetworkBehaviour {
     }
 
     public override void OnStartServer() {
-        goal = FindObjectOfType<GoalZone>().transform;
+        Goal = FindObjectOfType<GoalZone>().transform;
 
-        spawnManager.StartSpawning();
+        SpawnManager.StartSpawning();
     }
 
     public void DisplayGlobalMessage(string message) {
