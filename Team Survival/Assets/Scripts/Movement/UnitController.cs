@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class UnitController : MonoBehaviour {
     private const float AttackRange = 2f;
@@ -16,6 +15,8 @@ public class UnitController : MonoBehaviour {
     [SerializeField]
     private GameObject NavigatorPrefab;
     private NavMeshAgent _navAgent;
+
+    private const int AgroRadius = 5;
 
     private void Start () {
         _shell = GetComponent<UnitShell>();
@@ -69,6 +70,10 @@ public class UnitController : MonoBehaviour {
         if (_enemyTarget == null)
         {
             CheckForEnemyTargets();
+        }
+        else if (Vector3.Distance(transform.position, _enemyTarget.transform.position) > AgroRadius)
+        {
+            _enemyTarget = null;
         }
 
         UpdateNavigation();
