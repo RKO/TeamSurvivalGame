@@ -91,6 +91,11 @@ public class PlayerController : MonoBehaviour {
         {
             _player.CmdActivateAbilitySlot(AbilitySlot.Attack1);
         }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            _player.CmdActivateAbilitySlot(AbilitySlot.Attack2);
+        }
     }
 
     void OnGUI() {

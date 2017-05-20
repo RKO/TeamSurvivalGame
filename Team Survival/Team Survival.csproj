@@ -102,6 +102,7 @@
     <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
     <Compile Include="Assets\Artwork\L_FG_Assets_Pack_Lite\Standard Assets\Effects\ImageEffects\Scripts\Vortex.cs" />
     <Compile Include="Assets\GameData\Abilities\AbilityBasicAttack.cs" />
+    <Compile Include="Assets\GameData\Abilities\AbilityConversion.cs" />
     <Compile Include="Assets\GameData\Abilities\AbilityJump.cs" />
     <Compile Include="Assets\GameData\Abilities\AbilitySweepingStrike.cs" />
     <Compile Include="Assets\Scripts\Abilities\AbilityList.cs" />

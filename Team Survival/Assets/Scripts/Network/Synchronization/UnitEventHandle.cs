@@ -12,6 +12,17 @@
     public delegate void OnHealthChangedDelegate(float health);
     public OnHealthChangedDelegate OnHealthChanged;
 
+    public void CallOnTeamChanged(Team team) {
+        if (OnTeamChanged != null)
+            OnTeamChanged(team);
+    }
+
+    public void CallOnKill()
+    {
+        if (OnKill != null)
+            OnKill();
+    }
+
     public void ClearAll() {
         OnTeamChanged = null;
         OnKill = null;

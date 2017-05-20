@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class UnitController : MonoBehaviour {
     private const float AttackRange = 2f;
@@ -22,10 +23,11 @@ public class UnitController : MonoBehaviour {
         //Disable this component on clients.
         if (!_shell.isServer)
         {
-            this.enabled = false;
+            enabled = false;
             return;
         }
 
+        _shell.EventHandle.OnTeamChanged += OnTeamChangedCallback;
         _shell.EventHandle.OnKill += OnUnitKill;
         _motor = _shell.Motor;
 
@@ -35,6 +37,11 @@ public class UnitController : MonoBehaviour {
         _navAgent.enabled = true;
         ResetNavigator();
 
+        SetEnemyTargetTeam();
+    }
+
+    private void SetEnemyTargetTeam()
+    {
         if (_shell.CurrentTeam == Team.Enemies)
             _enemyTeam = Team.Players;
         else
@@ -177,6 +184,12 @@ public class UnitController : MonoBehaviour {
                 ResetNavigator();
             }
         }
+    }
+
+    private void OnTeamChangedCallback(Team team)
+    {
+        _enemyTarget = null;
+        SetEnemyTargetTeam();
     }
 
     private void ResetNavigator() {

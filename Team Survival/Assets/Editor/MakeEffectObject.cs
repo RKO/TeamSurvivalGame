@@ -8,7 +8,7 @@ public class EffectObjectCreator
     {
         Effect asset = ScriptableObject.CreateInstance<Effect>();
 
-        AssetDatabase.CreateAsset(asset, "Assets/Artwork/Effects/NewEffect.asset");
+        AssetDatabase.CreateAsset(asset, "Assets/GameData/Effects/NewEffect.asset");
         AssetDatabase.SaveAssets();
 
         EditorUtility.FocusProjectWindow();

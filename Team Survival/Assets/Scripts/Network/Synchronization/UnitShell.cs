@@ -162,8 +162,7 @@ public class UnitShell : NetworkBehaviour
 
         GameManager.Instance.UnitManager.KillUnit(this);
 
-        if (_eventHandle.OnKill != null)
-            _eventHandle.OnKill();
+        _eventHandle.CallOnKill();
 
         RpcOnKill();
         StartCoroutine(Die());
@@ -206,26 +205,40 @@ public class UnitShell : NetworkBehaviour
         Motor.Initialize(this.transform, _unitData.MoveSpeed);
     }
 
+    [Server]
+    public void SetNewTeam(Team newTeam) {
+        Team oldTeam = _team;
+
+        _team = newTeam;
+        GameManager.Instance.UnitManager.ChangeUnitTeam(this, oldTeam);
+
+        _eventHandle.CallOnTeamChanged(newTeam);
+    }
+
     private void OnDestroy() {
         GameManager.Instance.UnitManager.RemoveUnit(this);
         _eventHandle.ClearAll();
     }
 
+    #region SyncVar Hooks
+    [Client]
     private void OnTeamChanged(Team newTeam) {
         _team = newTeam;
-        if(_eventHandle.OnTeamChanged != null)
-            _eventHandle.OnTeamChanged(_team);
+        _eventHandle.CallOnTeamChanged(newTeam);
     }
 
+    [Client]
     private void OnLifeStateChanged(LifeState newState) {
         _aliveState = newState;
         if (_eventHandle.OnLifeStateChanged != null)
             _eventHandle.OnLifeStateChanged(_aliveState);
     }
 
+    [Client]
     private void OnHealthChanged(float health) {
         _health = health;
         if (_eventHandle.OnHealthChanged != null)
             _eventHandle.OnHealthChanged(_health);
     }
+    #endregion
 }

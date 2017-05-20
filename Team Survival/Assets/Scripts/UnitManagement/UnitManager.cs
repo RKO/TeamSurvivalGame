@@ -21,6 +21,12 @@ public class UnitManager {
             OnUnitAdded(unit);
     }
 
+    public void ChangeUnitTeam(UnitShell unit, Team oldTeam)
+    {
+        _unitsByTeam[oldTeam].Remove(unit);
+        _unitsByTeam[unit.CurrentTeam].Add(unit);
+    }
+
     public void KillUnit(UnitShell unit)
     {
         RemoveUnit(unit);
