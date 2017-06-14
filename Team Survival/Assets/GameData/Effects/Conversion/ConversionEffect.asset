@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 358131fce57969f43957c96ace00e5ff, type: 3}
-  m_Name: NewEffect
+  m_Name: ConversionEffect
   m_EditorClassIdentifier: 
-  id: 0
-  particle: {fileID: 0}
+  id: 1
+  particle: {fileID: 1000012679651394, guid: f56614a553a1ea54ca88dd5889efbb3e, type: 2}

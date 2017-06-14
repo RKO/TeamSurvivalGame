@@ -106,6 +106,7 @@ MonoBehaviour:
   - {fileID: 1000014124346546, guid: ae10c12cce3bfe04f940fc4bf4b0ea35, type: 2}
   - {fileID: 1000013510317228, guid: 7a9ea52f2215b3c469ae62eaa28d3055, type: 2}
   - {fileID: 1000012916428592, guid: 0393f45d124ef4648b8523aebba7d393, type: 2}
+  - {fileID: 1000011592790822, guid: e67ccac4ae84d05478ee153592351adc, type: 2}
 --- !u!114 &114000011626696032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,3 +134,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RegisteredEffects:
   - {fileID: 11400000, guid: 41342e354238368488478dfe9470a107, type: 2}
+  - {fileID: 11400000, guid: 97c2380eec9f5c4428927bddbf9c8575, type: 2}
