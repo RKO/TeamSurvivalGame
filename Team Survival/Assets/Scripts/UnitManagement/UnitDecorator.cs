@@ -25,7 +25,7 @@ public class UnitDecorator : MonoBehaviour
     private void AddHealthBar(UnitShell unit)
     {
         var obj = Instantiate(HealthBarPrefab, unit.transform, false) as GameObject;
-        obj.transform.localPosition = unit.HeadTransform.localPosition + Vector3.up * 0.5f;
+        obj.transform.localPosition = unit.HeadTransform.localPosition;
     }
 
     private void AddTeamIndicator(UnitShell unit)
