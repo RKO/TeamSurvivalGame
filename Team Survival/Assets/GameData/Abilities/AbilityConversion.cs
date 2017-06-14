@@ -46,10 +46,7 @@ public class AbilityConversion : BaseAbility
     {
         if (target.CurrentTeam != _unit.CurrentTeam)
         {
-            if (impact == Vector3.zero)
-                impact = target.transform.position + Vector3.up;
-
-            GameManager.Instance.EffectManager.TriggerEffect(Effect.EffectId.Conversion, impact);
+            GameManager.Instance.EffectManager.TriggerEffectOnTarget(Effect.EffectId.Conversion, Vector3.zero, target.gameObject);
             target.SetNewTeam(_unit.CurrentTeam);
         }
     }

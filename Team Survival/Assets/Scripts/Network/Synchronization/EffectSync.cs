@@ -28,4 +28,20 @@ public class EffectSync : NetworkBehaviour {
 
         Instantiate(e.particle, position, Quaternion.identity);
     }
+
+    [Server]
+    public void TriggerEffectOnTarget(Effect.EffectId effect, Vector3 localPosition, GameObject target)
+    {
+        RpcTriggerEffectOnTarget(effect, localPosition, target);
+    }
+
+    [ClientRpc]
+    private void RpcTriggerEffectOnTarget(Effect.EffectId effectId, Vector3 localPosition, GameObject target)
+    {
+        Effect e = _effectMap[effectId];
+
+        GameObject particle = Instantiate(e.particle, target.transform, false) as GameObject;
+        particle.transform.localPosition = localPosition;
+
+    }
 }
