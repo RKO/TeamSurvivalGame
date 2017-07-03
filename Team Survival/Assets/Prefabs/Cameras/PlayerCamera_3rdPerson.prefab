@@ -27,6 +27,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 419078}
+  - 114: {fileID: 114000011615074030}
   m_Layer: 0
   m_Name: PlayerCamera_3rdPerson
   m_TagString: Untagged
@@ -43,6 +44,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 461312}
   m_Father: {fileID: 0}
@@ -56,6 +58,7 @@ Transform:
   m_LocalRotation: {x: 0.19080903, y: 0, z: 0, w: 0.9816272}
   m_LocalPosition: {x: 0, y: 1.5, z: -2.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 419078}
   m_RootOrder: 0
@@ -125,3 +128,15 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 175286}
   m_IsPrefabParent: 1
+--- !u!114 &114000011615074030
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 175286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb85a213b3e7b94e8abd064711ff9d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraTrans: {fileID: 461312}

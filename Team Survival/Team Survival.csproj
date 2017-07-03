@@ -112,6 +112,7 @@
     <Compile Include="Assets\Scripts\Enums.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Movement\BaseMotor.cs" />
+    <Compile Include="Assets\Scripts\Movement\CameraClippingController.cs" />
     <Compile Include="Assets\Scripts\Movement\GroundChecker.cs" />
     <Compile Include="Assets\Scripts\Movement\IMotor.cs" />
     <Compile Include="Assets\Scripts\Movement\PlayerController.cs" />
