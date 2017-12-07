@@ -154,7 +154,7 @@ public class UnitShell : NetworkBehaviour
 
         _animationSync.SetNewAnimation(UnitAnimation.Dying);
         GetComponent<Collider>().enabled = false;
-        var obstacle = GetComponent<NavMeshObstacle>();
+        var obstacle = GetComponent<UnityEngine.AI.NavMeshObstacle>();
         if (obstacle != null)
             obstacle.enabled = false;
 

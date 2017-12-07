@@ -14,7 +14,7 @@ public class UnitController : MonoBehaviour {
 
     [SerializeField]
     private GameObject NavigatorPrefab;
-    private NavMeshAgent _navAgent;
+    private UnityEngine.AI.NavMeshAgent _navAgent;
 
     private const int AgroRadius = 5;
 
@@ -33,7 +33,7 @@ public class UnitController : MonoBehaviour {
         _motor = _shell.Motor;
 
         GameObject navGo = Instantiate(NavigatorPrefab);
-        _navAgent = navGo.GetComponent<NavMeshAgent>();
+        _navAgent = navGo.GetComponent<UnityEngine.AI.NavMeshAgent>();
         _navAgent.transform.SetParent(transform.parent);
         _navAgent.enabled = true;
         ResetNavigator();

@@ -33,8 +33,8 @@ public class PlayerController : MonoBehaviour {
         _mouseLook.axes = SmoothMouseLook.RotationAxes.MouseX;
         _mouseLook.sensitivityX = 7;
 
-        Body = transform.FindChild("Body");
-        Head = transform.FindChild("Head");
+        Body = transform.Find("Body");
+        Head = transform.Find("Head");
 
         _initialized = true;
     }
